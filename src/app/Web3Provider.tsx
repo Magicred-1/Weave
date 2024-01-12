@@ -5,12 +5,16 @@ import { APP_NAME } from '@/lib/consts'
 import { FC, PropsWithChildren } from 'react'
 import { WagmiConfig, createConfig } from 'wagmi'
 import { ConnectKitProvider, SIWEConfig, SIWEProvider, getDefaultConfig } from 'connectkit'
+import { sepolia } from "wagmi/chains";
+
+const chains = [sepolia]
 
 const config = createConfig(
 	getDefaultConfig({
 		appName: APP_NAME,
 		infuraId: process.env.NEXT_PUBLIC_INFURA_ID,
 		walletConnectProjectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!,
+		chains,
 	})
 )
 
@@ -29,7 +33,7 @@ const siweConfig = {
 			version: '1',
 			uri: window.location.origin,
 			domain: window.location.host,
-			statement: 'Sign In With Ethereum to prove you control this wallet.',
+			statement: 'Sign In With Ethereum to prove you control this wallet to use Weave.',
 		}).prepareMessage()
 	},
 	verifyMessage: ({ message, signature }) => {
