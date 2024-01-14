@@ -1,3 +1,10 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Create Event",
+};
+
+
 const CreateEventPage = () => {
     return (
         <div>

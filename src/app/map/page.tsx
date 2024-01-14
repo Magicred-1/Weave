@@ -1,6 +1,9 @@
-'use client'
+import { Metadata } from 'next';
+import DynamicMap from '@/components/Map/DynamicMap';
 
-import DynamicMap from '@/components/Map/MapContainer'
+export const metadata: Metadata = {
+    title: "Map",
+};    
 
 const MapPage = () => {
     return (
