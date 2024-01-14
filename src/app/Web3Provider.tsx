@@ -12,7 +12,7 @@ const chains = [mainnet, sepolia]
 const config = createConfig(
 	getDefaultConfig({
 		appName: APP_NAME,
-		appDescription: 'Connecting Web3, One Thread at a Time.',
+		appDescription: 'Connecting Web3, One Thread at a Time!',
 		appUrl: "https://weave-three.vercel.app/",
 		appIcon: '/icon_logo.png',
 		infuraId: process.env.NEXT_PUBLIC_INFURA_ID,
@@ -23,7 +23,7 @@ const config = createConfig(
 
 const siweConfig = {
 	getNonce: async () => {
-		const res = await fetch(`/siwe`, { method: 'PUT' })
+		const res = await fetch(`/api/siwe`, { method: 'PUT' })
 		if (!res.ok) throw new Error('Failed to fetch SIWE nonce')
 
 		return res.text()

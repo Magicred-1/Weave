@@ -2,10 +2,12 @@
 
 import DynamicMap from '@/components/Map/MapContainer'
 
-const Home = () => {
+const MapPage = () => {
     return (
-        <DynamicMap />
+        <div>
+            <DynamicMap />
+        </div>
     )
 }
 
-export default Home
+export default MapPage;

@@ -12,8 +12,7 @@ export const metadata: Metadata = {
 			sizes: '512x512',
 		}
 	],
-	description: 'Connecting Web3, One Thread at a Time.',
-		
+	description: 'Connecting Web3, One Thread at a Time!',		
 }
 
 const RootLayout: FC<PropsWithChildren<{}>> = ({ children }) => {

@@ -7,11 +7,11 @@ const DynamicMap = () => {
         { 
             loading: () => <p>A map is loading</p>,
             ssr: false
-        }
-        ), [])
-
+        }), []
+    );
+    
     return <div>
-    <Map />
+        <Map />
     </div>
 }
 

@@ -13,3 +13,26 @@ body {
 	height: 100vh;
 	width: 100vw;
 }
+
+.user-marker {
+	border-radius: 50%;
+	border: 3px solid #ff0000;
+}
+
+.user-marker:hover {
+	border: 2px solid rgb(90, 28, 28)000;
+}
+
+.user-marker:checked {
+	border: 2px solid #000;
+}
+
+.event-marker {
+	border-radius: 50%;
+	border: 2px solid #fff;
+}
+
+.visitor-marker {
+	border-radius: 50%;
+	border: 2px solid #fff;
+}
