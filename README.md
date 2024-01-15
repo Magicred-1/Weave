@@ -23,3 +23,11 @@ To generate a random session secret, you can use openssl
 ```bash
 openssl rand -base64 32
 ```
+
+## Stack
+
+- [Next.js](https://nextjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Leaflet](https://leafletjs.com/)
+- [React Leaflet](https://react-leaflet.js.org/)
+- [Wagmi](https://wagmi.io/)
