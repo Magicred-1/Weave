@@ -9,9 +9,9 @@ interface Cardsprops {
 	description: any
 	place: any
 	tags: any
-	fees: any
+	cashprize: any
 }
-const Cards: React.FC<Cardsprops> = ({ title, description, place, tags, fees }) => {
+const Cards: React.FC<Cardsprops> = ({ title, description, place, tags, cashprize }) => {
 	return (
 		<Card
 			className=" w-80 px-4 bg-gray-800 rounded-3xl bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-50 border-2 border-teal-600
@@ -51,7 +51,7 @@ const Cards: React.FC<Cardsprops> = ({ title, description, place, tags, fees }) 
 					href="#"
 					className=" hover:bg-teal-600 hover:text-white inline-flex justify-center text-teal-600 items-center py-2 px-10 h-full w-fit rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-teal-600"
 				>
-					{fees}
+					{cashprize}
 				</a>
 			</div>
 		</Card>

@@ -2,7 +2,6 @@
 import Navbar from './components/Navbar'
 import background from '@/app/assets/bg.jpg'
 import background2 from '@/app/assets/bg2.jpg'
-import { ConnectKitButton } from 'connectkit'
 import Hero from './components/Hero'
 import Cards from './components/Cards'
 import reward from "@/app/assets/reward.svg"
@@ -17,23 +16,23 @@ const Home = () => {
 		{
 			title:"Hacking Dao",
 			place: "Paris, France",
-			description: "Welcome to the Hackin’Dau event located in Paris...",
+			description: "Welcome to the Hackin’Dau eventlocated in Paris...",
 			tags:["ZK","students","Green", "IT", "solidity"],
-			fees:"5000€",
+			cashprize:"5000€",
 		},
 				{
 		title:"Hacking Dao",
 			place:  "Paris, France",
-			description: "Welcome to the Hackin’Dau event located in Paris...",
+			description: "Welcome to the Hackin’Dau eventlocated in Paris...",
 			tags:["ZK","students","Green" ,"IT", "solidity"],
-			fees:"5000€"
+			cashprize:"5000€"
 		},
 		{
 		title:"Hacking Dao",
 			place:  "Paris, France",
-			description: "Welcome to the Hackin’Dau event located in Paris...",
+			description: "Welcome to the Hackin’Dau eventlocated in Paris...",
 			tags:["ZK","students","Green" ,"IT", "solidity"],
-			fees:"5000€"
+			cashprize:"5000€"
 		},
 	],
 			section3data: {
@@ -73,8 +72,8 @@ const Home = () => {
 				<Hero/>
 			</div>
 			<section className='bg-black w-100vw flex justify-center py-12 gap-12'>
-			{staticData?.cardData.map((item,key)=>{
-					return <Cards title={item.title} description={item.description} place={item.place} tags={item.tags} fees={item.fees}/>
+			{staticData?.cardData.map((item,key)=>{key
+					return <Cards key={key} title={item.title} description={item.description} place={item.place} tags={item.tags} cashprize={item.cashprize}/>
 			})} 
 				</section>
 		 <section style={{
