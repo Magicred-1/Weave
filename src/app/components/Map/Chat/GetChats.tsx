@@ -20,7 +20,7 @@ export interface Chats {
 }
 
 const Chats = () => {
-    const [chats, setChats] = useState([]);
+    const [chats, setChats] = useState<Chats[]>([]);
     const { address } = useAccount();
 
     async function getAllChats() {
@@ -31,7 +31,7 @@ const Chats = () => {
             .eq('recipient', address)
             .eq('sender', address);
 
-        setChats(chatIds || []);
+        setChats(chatIds as Chats[]);
     }
 
     useEffect(() => {
