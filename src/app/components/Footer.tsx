@@ -5,7 +5,9 @@ const Footer = () => {
 		<footer className="h-full w-full bg-gray-900  bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border-t border-gray-100">
 			<div className="w-full ">
 				<div className="sm:flex sm:items-center sm:justify-between px-20 py-4">
-					<span className="self-center text-3xl font-bold whitespace-nowrap dark:text-white">Weave</span>
+					<span className="self-center text-3xl font-bold whitespace-nowrap dark:text-white">
+						<a href='/'>Weave</a>
+					</span>
 					<span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
 						© 2023{' '}
 						<a href="/" className="hover:underline">

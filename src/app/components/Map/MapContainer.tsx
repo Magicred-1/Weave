@@ -35,13 +35,13 @@ export const MapContainerComponent = () => {
                 attribution='Weave &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
+            <Marker position={position} icon={defaultIcon} riseOnHover={true}>
+                <Popup>
+                    A pretty CSS3 popup. <br /> Easily customizable.
+                </Popup>
+            </Marker>
         
             <MarkerClusterGroup>
-                <Marker position={position} icon={defaultIcon}>
-                    <Popup>
-                        A pretty CSS3 popup. <br /> Easily customizable.
-                    </Popup>
-                </Marker>
                 <Marker position={[48.8566, 2.3522]} icon={userIcon('0x8A90ca40372dAEF77532D1C3538E68715Ba36fD7')}>
                     <Tooltip>Me!</Tooltip>
                 </Marker>

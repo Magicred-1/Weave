@@ -5,18 +5,14 @@ const DynamicMap = () => {
     const Map = useMemo(
         () => dynamic(
             () => import('../../components/Map/MapContainer'),
-            { 
+            {
                 loading: () => (
-                    <div style={{ 
-                        display: 'flex', 
-                        justifyContent: 'center', 
-                        alignItems: 'center', 
-                        height: '300px'
-                    }}>
-                        <div>
+                    <div className="flex justify-center items-center h-300px">
+                        <div className="bg-white p-6 rounded-lg shadow-md">
                             <div className="spinner-border text-primary" role="status">
                                 <span className="sr-only">Loading...</span>
                             </div>
+                            <p className="mt-4 text-sm text-gray-600">Loading...</p>
                         </div>
                     </div>
                 ),
@@ -25,10 +21,12 @@ const DynamicMap = () => {
         ),
         []
     );
-    
-    return <div>
-        <Map />
-    </div>
+
+    return (
+        <div>
+            <Map />
+        </div>
+    );
 }
 
 export default DynamicMap;
