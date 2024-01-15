@@ -25,3 +25,11 @@ export const visitorIcon = (address: `0x${string}`) => new Icon ({
     popupAnchor: [0, -41],
     className: 'visitor-marker'
 })
+
+export const eventIcon = (IPFSCID: string) => new Icon ({
+    iconUrl: `https://ipfs.io/ipfs/${IPFSCID}`,
+    iconSize: [40, 40],
+    iconAnchor: [12.5, 41],
+    popupAnchor: [0, -41],
+    className: 'event-marker'
+})

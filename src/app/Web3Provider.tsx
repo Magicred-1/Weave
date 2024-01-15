@@ -5,9 +5,9 @@ import { APP_NAME } from '@/lib/consts'
 import { FC, PropsWithChildren } from 'react'
 import { WagmiConfig, createConfig } from 'wagmi'
 import { ConnectKitProvider, SIWEConfig, SIWEProvider, getDefaultConfig } from 'connectkit'
-import { mainnet, sepolia } from "wagmi/chains";
+import { sepolia } from "wagmi/chains";
 
-const chains = [mainnet, sepolia]
+const chains = [sepolia]
 
 const config = createConfig(
 	getDefaultConfig({

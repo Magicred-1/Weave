@@ -73,7 +73,7 @@ export const GetUsersPositions = () => {
         setConnectedUsers((prev) => {
           const userExists = prev.some((user) => user.personWalletAddress === data.payload.personWalletAddress);
           if (!userExists) {
-            console.log(`${data.payload.personWalletAddress} has joined the chat`);
+            console.log(`${data.payload.personWalletAddress} has joined Weave!`);
             return [...prev, data.payload];
           }
           return prev;

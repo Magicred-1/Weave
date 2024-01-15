@@ -1,7 +1,11 @@
 import React from 'react'
 import { ConnectKitButton } from 'connectkit'
+import { useAccount } from 'wagmi'
 
 const Navbar = () => {
+	const { isConnected } = useAccount()
+	const userIsEventOwner = true
+
 	return (
 		<nav className=" flex">
 			<div className="w-full flex flex-wrap items-center justify-between mx-auto p-4">
@@ -60,11 +64,13 @@ const Navbar = () => {
 								Add your own event
 							</a>
 						</li>
-						<li>
-							<a href="#" className="block py-1 px-5 text-white focus:rounded-full focus:bg-[#008770]">
-								Event Dashboard
-							</a>
-						</li>
+						{ isConnected && userIsEventOwner
+							? <li>
+								<a href="#" className="block py-1 px-5 text-white focus:rounded-full focus:bg-[#008770]">
+									Event Dashboard
+								</a>
+							</li> : null
+						}
 					</ul>
 				</div>
 			</div>
