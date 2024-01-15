@@ -8,10 +8,11 @@ import {
     TileLayer 
 } from 'react-leaflet';
 import { LatLngExpression } from 'leaflet';
-import { defaultIcon, userIcon, visitorIcon } from '../../../lib/markerIcons';
-import MarkerClusterGroup from '@changey/react-leaflet-markercluster';
-import Image from 'next/image';
-import { Button } from '@mui/material';
+import { defaultIcon } from '../../../lib/markerIcons';
+// import MarkerClusterGroup from '@changey/react-leaflet-markercluster';
+// import Image from 'next/image';
+// import { Button } from '@mui/material';
+import { MapComponents } from './MapComponents';
 
 export const MapContainerComponent = () => {
     const position: LatLngExpression = [48.8566, 2.3522]; // Paris
@@ -41,7 +42,7 @@ export const MapContainerComponent = () => {
                 </Popup>
             </Marker>
         
-            <MarkerClusterGroup>
+            {/* <MarkerClusterGroup>
                 <Marker position={[48.8566, 2.3522]} icon={userIcon('0x8A90ca40372dAEF77532D1C3538E68715Ba36fD7')}>
                     <Tooltip>Me!</Tooltip>
                 </Marker>
@@ -65,7 +66,8 @@ export const MapContainerComponent = () => {
                     </div>
                     </Popup>
                 </Marker>
-            </MarkerClusterGroup>
+            </MarkerClusterGroup> */}
+            <MapComponents />
         </MapContainer>
     )
 }
