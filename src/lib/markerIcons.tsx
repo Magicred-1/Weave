@@ -28,7 +28,7 @@ export const visitorIcon = (address: `0x${string}`) => new Icon ({
 
 export const eventIcon = (IPFSCID: string) => new Icon ({
     iconUrl: `https://emerald-impressive-salmon-919.mypinata.cloud/ipfs/QmeY8oXzqxxzzFxrV5S1Q46BEhufQsyXsw1vcSLJ2QYC6W`,
-    iconSize: [40, 40],
+    iconSize: [55, 55],
     iconAnchor: [12.5, 41],
     popupAnchor: [0, -41],
     className: 'event-marker'

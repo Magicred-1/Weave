@@ -23,41 +23,44 @@ export interface Events {
 // Pass the Events array as a prop to this component
 export const GetEvents = ({ events }: { events: Events[] }) => {
   const [userPosition, setUserPosition] = useState<LatLngExpression>([42, 18]);
-
-  const DEFAULT_RADIUS = 100; // in meters
+  
   const map = useMap();
 
   useEffect(() => {
     const handleLocationFound = (e: any) => {
-      setUserPosition([e.latlng.lat, e.latlng.lng]);
+        setUserPosition([e.latlng.lat, e.latlng.lng]);
     };
 
     const handleLocationError = (e: any) => {
-      console.log(
-        'You need to have your wallet connected and your location enabled to use this feature'
-      );
-      setUserPosition([0, 0]);
+        console.log(
+            'You need to have your wallet connected and your location enabled to use this feature'
+        );
+        setUserPosition([0, 0]);
     };
 
     const handleMapClick = (e: any) => {
-      console.log(e.latlng);
+        console.log(e.latlng);
     };
 
     map
-      .locate()
-      .on('locationfound', handleLocationFound)
-      .on('locationerror', handleLocationError)
-      .on('click', handleMapClick);
+        .locate()
+        .on('locationfound', handleLocationFound)
+        .on('locationerror', handleLocationError)
+        .on('click', handleMapClick);
 
     return () => {
-      // Clean up event listeners when component unmounts
-      map.off('locationfound', handleLocationFound);
-      map.off('locationerror', handleLocationError);
-      map.off('click', handleMapClick);
+        // Clean up event listeners when component unmounts
+        if (map) {
+            map.off('locationfound', handleLocationFound);
+            map.off('locationerror', handleLocationError);
+            map.off('click', handleMapClick);
+        }
     };
   }, [map]);
 
   return (
+    <>
+    {
     events.map((event: Events, index: number) => (
         <div key={index}>
             <Marker key={index} position={event.coordinates} icon={eventIcon("test")} riseOnHover={true}>
@@ -83,29 +86,30 @@ export const GetEvents = ({ events }: { events: Events[] }) => {
                         </div>
                         <div className="flex flex-row">
                             <p>
-                                {events[index].venueAddress}
+                                {"Address : " + events[index].venueAddress}
                             </p>
                         </div>
                         <div className="flex flex-row">
                             <p>
-                                {events[index].startDate + ' - ' + events[index].endDate}
+                                {"Dates : " + events[index].startDate + ' - ' + events[index].endDate}
                             </p>
                         </div>
                         <div className="flex flex-row">
                             <p>
-                                {events[index].maxParticipants}
+                                {"Max participants : " + events[index].maxParticipants}
                             </p>
                         </div>
                         <div className="flex flex-row">
                             {
                                 <Button 
-                                    color='success' 
+                                    color='success'
+                                    variant='contained'
                                     disabled={
                                         !isUserMarkerInsideMarkerRadius
                                         (
                                             userPosition, 
                                             event.coordinates, 
-                                            event.radius || DEFAULT_RADIUS
+                                            event.radius || 0
                                         )
                                     }>
                                     Claim Points
@@ -119,6 +123,7 @@ export const GetEvents = ({ events }: { events: Events[] }) => {
                 </Circle>
             </Marker>
         </div>
-    ))
-  );
+    ))}
+    </>
+    );
 };

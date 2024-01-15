@@ -77,19 +77,19 @@ const Home = () => {
 			})} 
 				</section>
 		 <section style={{
-      zIndex: -2,
-      position: 'relative',
-      height:"fit-content",
-      backgroundImage: `url(${background2.src})`,
-      backgroundSize: 'cover',
-    }}>
-     <div className="flex flex-col w-full items-center justify-center max-h-screen text-center pt-10">
-				<h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-6xl lg:text-6xl text-gray-200">{staticData.section3data.title}</h1>
-			<p className="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 xl:px-48">{staticData.section3data.description}</p>
-	 </div>
-	 <AlternateSection data={staticData.section3data.childs}/>
-	 <Footer/>
-    </section>
+			zIndex: -2,
+			position: 'relative',
+			height:"fit-content",
+			backgroundImage: `url(${background2.src})`,
+			backgroundSize: 'cover',
+		}}>
+			<div className="flex flex-col w-full items-center justify-center max-h-screen text-center pt-10">
+					<h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-6xl lg:text-6xl text-gray-200">{staticData.section3data.title}</h1>
+					<p className="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 xl:px-48">{staticData.section3data.description}</p>
+			</div>
+			<AlternateSection data={staticData.section3data.childs}/>
+			<Footer/>
+		</section>
 		</>
 	)
 }
