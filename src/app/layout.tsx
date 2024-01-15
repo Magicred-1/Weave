@@ -1,3 +1,4 @@
+import { holesky } from 'viem/chains'
 import './globals.css'
 import ClientLayout from './Web3Provider'
 import { FC, PropsWithChildren } from 'react'
