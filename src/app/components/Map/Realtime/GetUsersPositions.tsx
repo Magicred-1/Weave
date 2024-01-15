@@ -39,7 +39,6 @@ export const GetUsersPositions = () => {
             }
 
             const handleLocationError = (e: any) => {
-                console.log("You both need to have your wallet connected and your location enabled to be seen by other users.");
                 setVisiblePosition(false);
             };
 

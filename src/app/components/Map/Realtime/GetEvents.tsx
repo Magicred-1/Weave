@@ -33,7 +33,7 @@ export const GetEvents = ({ events }: { events: Events[] }) => {
 
     const handleLocationError = (e: any) => {
         console.log(
-            'You need to have your wallet connected and your location enabled to use this feature'
+            'You need to have your wallet connected and your location enabled to use the map.'
         );
         setUserPosition([0, 0]);
     };
@@ -67,7 +67,7 @@ export const GetEvents = ({ events }: { events: Events[] }) => {
                 <Popup>
                     <div className="flex flex-col">
                         <div className="flex flex-row">
-                            <img src={events[index].image} alt="Event" />
+                            <img src={events[index].image} alt={events[index].name} />
                         </div>
                         <div className="flex flex-row">
                             <p>

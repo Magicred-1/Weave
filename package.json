@@ -17,6 +17,7 @@
 		"@material-tailwind/react": "^2.1.8",
 		"@mui/icons-material": "^5.15.4",
 		"@mui/material": "^5.15.4",
+		"@pinata/sdk": "^2.1.0",
 		"@supabase/supabase-js": "^2.39.3",
 		"@types/leaflet.markercluster": "^1.5.4",
 		"@types/node": "20.1.4",

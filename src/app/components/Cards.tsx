@@ -4,6 +4,7 @@ import { Chip, Stack } from '@mui/material'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import { Card, CardHeader, CardBody } from '@material-tailwind/react'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
+
 interface Cardsprops {
 	title: any
 	description: any
@@ -11,6 +12,7 @@ interface Cardsprops {
 	tags: any
 	cashprize: any
 }
+
 const Cards: React.FC<Cardsprops> = ({ title, description, place, tags, cashprize }) => {
 	return (
 		<Card
