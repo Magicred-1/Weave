@@ -48,25 +48,37 @@ const Navbar = () => {
 						<li>
 							<a
 								href="/map"
-								className="block py-1 px-5 text-white focus:rounded-full focus:bg-[#008770]"
+								className="block py-1 px-5 text-white hover:rounded-full hover:bg-[#008790]
+									focus:rounded-full focus:bg-[#008770]"
 								aria-current="page"
 							>
 								Map
 							</a>
 						</li>
 						<li>
-							<a href="#" className="block py-1 px-5 text-white focus:rounded-full focus:bg-[#008770]">
+							<a 
+								href="#" 
+								className="block py-1 px-5 text-white hover:rounded-full hover:bg-[#008790]
+									focus:rounded-full focus:bg-[#008770]"
+							>
 								Leaderboard
 							</a>
 						</li>
 						<li>
-							<a href="#" className="block py-1 px-5 text-white focus:rounded-full focus:bg-[#008770]">
+							<a 	
+								href="#" 
+								className="block py-1 px-5 text-white hover:rounded-full hover:bg-[#008790]
+								focus:rounded-full focus:bg-[#008770]"
+							>
 								Add your own event
 							</a>
 						</li>
 						{ isConnected && userIsEventOwner
 							? <li>
-								<a href="#" className="block py-1 px-5 text-white focus:rounded-full focus:bg-[#008770]">
+								<a href="#" 
+									className="block py-1 px-5 text-white hover:rounded-full hover:bg-[#008790]
+										focus:rounded-full focus:bg-[#008770]"
+								>
 									Event Dashboard
 								</a>
 							</li> : null

@@ -36,38 +36,9 @@ export const MapContainerComponent = () => {
                 attribution='Weave &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Marker position={position} icon={defaultIcon} riseOnHover={true}>
-                <Popup>
-                    A pretty CSS3 popup. <br /> Easily customizable.
-                </Popup>
-            </Marker>
-        
-            {/* <MarkerClusterGroup>
-                <Marker position={[48.8566, 2.3522]} icon={userIcon('0x8A90ca40372dAEF77532D1C3538E68715Ba36fD7')}>
-                    <Tooltip>Me!</Tooltip>
-                </Marker>
-                <Marker position={[52.5200, 13.4050]} icon={visitorIcon('0x8A90ca40372dAEF77532D1C3538E68715Ba36fD7')}>
-                    <Popup>
-                    <div className="flex flex-col">
-                        <div className="flex flex-row">
-                            <p className="rounded-full">
-                                <Image src={connectedUsers[0].image} alt="user image" width={50} height={50} />
-                            </p>
-                        </div>
-                        <div className="flex flex-row">
-                            <p>Wallet Address : {connectedUsers[0].personWalletAddress}</p>
-                        </div>
-                        <div className="flex flex-row">
-                            <p>Last Connection : {connectedUsers[0].lastConnection}</p>
-                        </div>
-                        <div className="flex flex-row">
-                            <Button variant="contained" color="primary">Send Message</Button>
-                        </div>
-                    </div>
-                    </Popup>
-                </Marker>
-            </MarkerClusterGroup> */}
+
             <MapComponents />
+            
         </MapContainer>
     )
 }

@@ -5,7 +5,7 @@ const nounsIcon = (address: `0x${string}`) => `https://api.cloudnouns.com/v1/pfp
 export const defaultIcon = new Icon({
     iconUrl: '/images/default_marker.svg',
     iconSize: [55, 55],
-    iconAnchor: [12, 41],
+    iconAnchor: [23.5, 47],
     popupAnchor: [1, -34],
     tooltipAnchor: [16, -28]
 });
@@ -27,7 +27,7 @@ export const visitorIcon = (address: `0x${string}`) => new Icon ({
 })
 
 export const eventIcon = (IPFSCID: string) => new Icon ({
-    iconUrl: `https://ipfs.io/ipfs/${IPFSCID}`,
+    iconUrl: `https://emerald-impressive-salmon-919.mypinata.cloud/ipfs/QmeY8oXzqxxzzFxrV5S1Q46BEhufQsyXsw1vcSLJ2QYC6W`,
     iconSize: [40, 40],
     iconAnchor: [12.5, 41],
     popupAnchor: [0, -41],

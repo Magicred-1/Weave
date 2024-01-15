@@ -20,8 +20,8 @@ export interface Events {
     radiusColor: string;
 }
 
-
-export const GetEvents = (events: Events[]) => {
+// Pass the Events array as a prop to this component
+export const GetEvents = ({ events }: { events: Events[] }) => {
   const [userPosition, setUserPosition] = useState<LatLngExpression>([42, 18]);
 
   const DEFAULT_RADIUS = 100; // in meters
@@ -60,9 +60,12 @@ export const GetEvents = (events: Events[]) => {
   return (
     events.map((event: Events, index: number) => (
         <div key={index}>
-            <Marker key={index} position={event.coordinates} icon={defaultIcon} riseOnHover={true}>
+            <Marker key={index} position={event.coordinates} icon={eventIcon("test")} riseOnHover={true}>
                 <Popup>
                     <div className="flex flex-col">
+                        <div className="flex flex-row">
+                            <img src={events[index].image} alt="Event" />
+                        </div>
                         <div className="flex flex-row">
                             <p>
                                 {events[index].name}
