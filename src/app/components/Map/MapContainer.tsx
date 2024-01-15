@@ -8,9 +8,10 @@ import {
     TileLayer 
 } from 'react-leaflet';
 import { LatLngExpression } from 'leaflet';
-import { defaultIcon, userIcon, visitorIcon } from '../../lib/markerIcons';
+import { defaultIcon, userIcon, visitorIcon } from '../../../lib/markerIcons';
 import MarkerClusterGroup from '@changey/react-leaflet-markercluster';
 import Image from 'next/image';
+import { Button } from '@mui/material';
 
 export const MapContainerComponent = () => {
     const position: LatLngExpression = [48.8566, 2.3522]; // Paris
@@ -58,14 +59,9 @@ export const MapContainerComponent = () => {
                         <div className="flex flex-row">
                             <p>Last Connection : {connectedUsers[0].lastConnection}</p>
                         </div>
-                        {/* <div className="flex flex-row">
-                            <Button
-                                color="success"
-                                disabled={!isUserMarkerInsideMarkerRadius(userPosition, connectedUser.coordinates, USER_RADIUS)}
-                            >
-                                Send Message
-                            </Button>
-                        </div> */}
+                        <div className="flex flex-row">
+                            <Button variant="contained" color="primary">Send Message</Button>
+                        </div>
                     </div>
                     </Popup>
                 </Marker>

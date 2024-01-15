@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 const DynamicMap = () => {
     const Map = useMemo(
         () => dynamic(
-            () => import('@/components/Map/MapContainer'),
+            () => import('../../components/Map/MapContainer'),
             { 
                 loading: () => (
                     <div style={{ 

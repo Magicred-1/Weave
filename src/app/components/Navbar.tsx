@@ -43,7 +43,7 @@ const Navbar = () => {
 					<ul className="flex gap-12 h-full w-full bg-gray-600 rounded-3xl bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30 border p-5 border-gray-100">
 						<li>
 							<a
-								href="#"
+								href="/map"
 								className="block py-1 px-5 text-white focus:rounded-full focus:bg-[#008770]"
 								aria-current="page"
 							>
