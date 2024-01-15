@@ -1,0 +1,30 @@
+import React from 'react'
+
+const Footer = () => {
+	return (
+		<footer className="h-full w-full bg-gray-900  bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border-t border-gray-100">
+			<div className="w-full ">
+				<div className="sm:flex sm:items-center sm:justify-between px-20 py-4">
+					<span className="self-center text-3xl font-bold whitespace-nowrap dark:text-white">Weave</span>
+					<span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
+						© 2023{' '}
+						<a href="https://flowbite.com/" className="hover:underline">
+							Weave
+						</a>
+						. All Rights Reserved.
+					</span>
+					<ul className="flex flex-wrap items-center mb-6 text-lg font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
+						<li>
+							<a href="#" className="hover:underline me-4 md:me-6">
+								Github
+							</a>
+						</li>
+					</ul>
+				</div>
+			
+			</div>
+		</footer>
+	)
+}
+
+export default Footer
