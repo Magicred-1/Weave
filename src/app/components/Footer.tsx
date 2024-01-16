@@ -13,9 +13,8 @@ const Footer = () => {
 						<a href="/" className="hover:underline">
 							Weave
 						</a>
-						. All Rights Reserved.
 					</span>
-					<ul className="flex flex-wrap items-center mb-6 text-lg font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
+					<ul className="flex flex-wrap items-center mb-6 text-lg font-medium text-gray-200 sm:mb-0 ">
 						<li>
 							<a href="https://github.com/Magicred-1/Weave" target='_blank' className="hover:underline me-4 md:me-6">
 								Github

@@ -10,7 +10,7 @@ const Navbar = () => {
 	const userIsEventOwner = true
 
 	return (
-		<nav className="flex">
+		<nav className="flex border-b border-gray-200 pb-4">
 			<div className="w-full flex flex-wrap items-center justify-between mx-auto p-4">
 				<a className="flex items-center space-x-3 rtl:space-x-reverse" href='/'>
 					<Image src="/icon_logo.png" alt="Weave Logo" width={50} height={50} />
@@ -47,7 +47,7 @@ const Navbar = () => {
 					className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
 					id="navbar-sticky"
 				>
-					<ul className="flex gap-12 h-full w-full bg-gray-600 rounded-3xl bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30 border p-5 border-gray-100">
+					<ul className="flex gap-12 h-full w-full bg-gray-600 rounded-3xl bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30 border p-5 border-gray-100 ">
 						<li>
 							<a
 								href="/map"
@@ -68,11 +68,7 @@ const Navbar = () => {
 							</a>
 						</li>
 						<li>
-							<a 	
-								href="#" 
-								className="block py-1 px-5 text-white hover:rounded-full hover:bg-[#008790]
-								focus:rounded-full focus:bg-[#008770]"
-							>
+							<a href="/create" className="block py-1 px-5 text-white focus:rounded-full focus:bg-[#008770]">
 								Add your own event
 							</a>
 						</li>
