@@ -3,7 +3,7 @@ import Form from "./components/Form";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import background from '@/app/assets/bg.jpg'
-import MapComponent from "./components/MapComponent";
+import DynamicPreviewMap from "./components/DynamicPreviewMap";
 export const metadata: Metadata = {
     title: "Create Event",
 };
@@ -27,7 +27,7 @@ const CreateEventPage = () => {
 			<div className="flex flex-col md:flex-row justify-between">
 				{' '}
 				<Form />
-				{/* <MapComponent/> */}
+				<DynamicPreviewMap />
 			</div>
 			<Footer />
 		</div>

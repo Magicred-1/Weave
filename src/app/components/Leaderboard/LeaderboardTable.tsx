@@ -3,6 +3,7 @@ import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import LeaderboardData from './LeaderboardData';
+import { useAccount } from 'wagmi';
 
 interface LeaderboardTableProps {
   data: LeaderboardData[];

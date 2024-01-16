@@ -22,24 +22,8 @@ export default function ProfileComponent({ address }: ProfileComponentProps) {
       </div>
       <Badge className="items-center">
         <UserIcon className="h-5 w-5 mr-2" />
-        User Score: 85
+        User Score: 85 / Events Attended: 85
       </Badge>
-      <Badge className="items-center">
-        <UserIcon className="h-5 w-5 mr-2" />
-        Events Attended: 85
-      </Badge>
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>Met Wallet Addresses</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ul className="list-disc list-inside space-y-2">
-            <li>wallet_address_1</li>
-            <li>wallet_address_2</li>
-            <li>wallet_address_3</li>
-          </ul>
-        </CardContent>
-      </Card>
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>Events Attended</CardTitle>
