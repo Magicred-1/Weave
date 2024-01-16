@@ -14,6 +14,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ data }) => {
     const profileIcon = (address: string) => {
         return `https://api.cloudnouns.com/v1/pfp?text=${address}`;
     };
+    const { address } = useAccount();
 
   return (
     <Table>
@@ -50,9 +51,13 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ data }) => {
             <TableCell>{item.eventsAttended}</TableCell>
             <TableCell>{item.peopleMet}</TableCell>
             <TableCell>
-                <Button className="mr-2">
-                    Claim Rewards
-                </Button>
+                {
+                  address === item.address ? (
+                    <Button className="mr-2">
+                      Claim Rewards
+                    </Button>
+                  ) : null
+                }
                 <Button
                     onClick={() => {
                     router.push(
