@@ -11,7 +11,7 @@ const MapPage = () => {
     return (
         <>
             <Navbar />
-            {/* <DynamicMap /> */}
+            <DynamicMap />
             <Footer />
         </>
     )
