@@ -3,8 +3,6 @@ import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import LeaderboardData from './LeaderboardData';
-import { useEnsResolver } from 'wagmi';
-import { normalize } from 'viem/ens';
 
 interface LeaderboardTableProps {
   data: LeaderboardData[];
@@ -49,13 +47,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ data }) => {
             <TableCell>{item.peopleMet}</TableCell>
             <TableCell>
                 <>
-                    <Button className="mr-2"
-                        onClick={() => {
-                        router.push(
-                            `/leaderboard/${item.address}`
-                        );
-                        }}
-                    >
+                    <Button className="mr-2">
                         Claim Rewards
                     </Button>
                     <Button
