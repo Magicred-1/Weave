@@ -3,7 +3,7 @@ import { LatLngExpression } from 'leaflet';
 import { Marker, Popup, Circle, Tooltip, useMap } from 'react-leaflet';
 import { Button } from '@mui/material';
 import { isUserMarkerInsideMarkerRadius } from '../isUserInsideMarkerRadius';
-import { defaultIcon, eventIcon } from '../../../../lib/markerIcons';
+import { eventIcon } from '../../../../lib/markerIcons';
 
 export interface Events {
     id: string;
@@ -60,8 +60,7 @@ export const GetEvents = ({ events }: { events: Events[] }) => {
 
   return (
     <>
-    {
-    events.map((event: Events, index: number) => (
+    {events.map((event: Events, index: number) => (
         <div key={index}>
             <Marker key={index} position={event.coordinates} icon={eventIcon("test")} riseOnHover={true}>
                 <Popup>
@@ -109,7 +108,7 @@ export const GetEvents = ({ events }: { events: Events[] }) => {
                                         (
                                             userPosition, 
                                             event.coordinates, 
-                                            event.radius || 0
+                                            event.radius || 400
                                         )
                                     }>
                                     Claim Points

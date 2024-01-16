@@ -9,11 +9,11 @@ interface Cardsprops {
 	title: any
 	description: any
 	place: any
-	tags: any
-	cashprize: any
+	// tags: any
+	buttonText: any
 }
 
-const Cards: React.FC<Cardsprops> = ({ title, description, place, tags, cashprize }) => {
+const Cards: React.FC<Cardsprops> = ({ title, description, place, buttonText }) => {
 	return (
 		<Card
 			className=" w-80 px-4 bg-gray-800 rounded-3xl bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-50 border-2 border-teal-600
@@ -29,11 +29,11 @@ const Cards: React.FC<Cardsprops> = ({ title, description, place, tags, cashpriz
 				<p className="text-gray-400 font-normal mb-2 text-sm">{description}</p>
 				<p className="text-teal-600 font-semibold">
 					<span>
-						<LocationOnIcon className="  mr-1" />
+						<LocationOnIcon className="mr-1" />
 					</span>
 					{place}
 				</p>
-				<Stack direction="row" spacing={1} className="mt-4 w-full flex flex-wrap gap-1">
+				{/* <Stack direction="row" spacing={1} className="mt-4 w-full flex flex-wrap gap-1">
 					{tags?.map((item:any, key:any) => {
 						return (
 							<Chip
@@ -46,14 +46,14 @@ const Cards: React.FC<Cardsprops> = ({ title, description, place, tags, cashpriz
 							/>
 						)
 					})}
-				</Stack>
+				</Stack> */}
 			</CardBody>
 			<div className="flex flex-col space-y-4 py-5 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
 				<a
 					href="#"
 					className=" hover:bg-teal-600 hover:text-white inline-flex justify-center text-teal-600 items-center py-2 px-10 h-full w-fit rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-teal-600"
 				>
-					{cashprize}
+					{buttonText}
 				</a>
 			</div>
 		</Card>

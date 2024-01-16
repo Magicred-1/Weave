@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 const CreateEventPage = () => {
     return (
         <div>
-        <h1>Event Page</h1>
+            <h1>Create Event Page</h1>
         </div>
     );
 }

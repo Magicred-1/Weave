@@ -19,7 +19,7 @@ interface ConnectedUser {
     online?: boolean;
 }
 
-const USER_RADIUS = 100; // in meters
+const USER_RADIUS = 10000; // in meters
 const CHANNEL_NAME = 'Weave'; // for Supabase Realtime channel
 
 export const GetUsersPositions = () => {
