@@ -3,6 +3,8 @@ import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import LeaderboardData from './LeaderboardData';
+import { useEnsResolver } from 'wagmi';
+import { normalize } from 'viem/ens';
 
 interface LeaderboardTableProps {
   data: LeaderboardData[];
@@ -17,6 +19,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ data }) => {
         <TableRow>
           <TableHead className="w-[100px]">Rank</TableHead>
           <TableHead>Profile Image</TableHead>
+          <TableHead>Nickname</TableHead>
           <TableHead>Address or ENS Domain</TableHead>
           <TableHead>Events Attended</TableHead>
           <TableHead>People Met</TableHead>
@@ -41,18 +44,19 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ data }) => {
               />
             </TableCell>
             <TableCell>{item.address}</TableCell>
+            <TableCell>{item.nickname}</TableCell>
             <TableCell>{item.eventsAttended}</TableCell>
             <TableCell>{item.peopleMet}</TableCell>
             <TableCell>
                 <>
-                    <Button
+                    <Button className="mr-2"
                         onClick={() => {
                         router.push(
                             `/leaderboard/${item.address}`
                         );
                         }}
                     >
-                        View Profile
+                        Claim Rewards
                     </Button>
                     <Button
                         onClick={() => {
@@ -71,5 +75,5 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ data }) => {
     </Table>
   );
 };
-
 export default LeaderboardTable;
+

@@ -1,3 +1,5 @@
+'use client';
+
 import Navbar from '@/app/components/Navbar'
 import ProfileComponent from '../../components/Profile/ProfileComponent'
 import Footer from '@/app/components/Footer'
@@ -12,9 +14,9 @@ interface Props {
 const Profile = ({ params }: Props) => {
   return (
     <>
+        <Navbar />
         <main>
-            {/* <Navbar /> */}
-            <div className='mx-auto flex'>
+            <div className='mx-auto flex bg-gray-900'>
                 <div className='w-full mb-10 lg:mb-0 rounded-lg overflow-hidden'>
                     <ProfileComponent { ...params } />
                 </div>

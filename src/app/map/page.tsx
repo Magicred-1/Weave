@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import DynamicMap from '../components/Map/DynamicMap';
 import Footer from '../components/Footer';
-// import Navbar from '../components/Navbar';
+import Navbar from '../components/Navbar';
 
 export const metadata: Metadata = {
     title: "Map",
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 const MapPage = () => {
     return (
         <>
-            {/* <Navbar /> */}
+            <Navbar />
             <DynamicMap />
             <Footer />
         </>

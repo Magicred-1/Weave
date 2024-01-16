@@ -16,9 +16,9 @@ export default function ProfileComponent({ address }: ProfileComponentProps) {
         <AvatarImage alt="user-profile" src={profileIcon} />
         <AvatarFallback>Loading ..</AvatarFallback>
       </Avatar>
-      <div className="text-center">
+      <div className="text-center text-white-500">
         <h2 className="font-medium text-lg">Nickname</h2>
-        <p className="text-gray-500">{address}</p>
+        <p className="text-white-500">{address}</p>
       </div>
       <Badge className="items-center">
         <UserIcon className="h-5 w-5 mr-2" />

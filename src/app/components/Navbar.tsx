@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react'
 import { ConnectKitButton } from 'connectkit'
 import { useAccount } from 'wagmi'
@@ -8,7 +10,7 @@ const Navbar = () => {
 	const userIsEventOwner = true
 
 	return (
-		<nav className=" flex">
+		<nav className="flex">
 			<div className="w-full flex flex-wrap items-center justify-between mx-auto p-4">
 				<a className="flex items-center space-x-3 rtl:space-x-reverse" href='/'>
 					<Image src="/icon_logo.png" alt="Weave Logo" width={50} height={50} />

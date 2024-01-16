@@ -1,4 +1,8 @@
-import { GetUsersPositions, GetEvents, Events } from "./Realtime";
+import { 
+    GetUsersPositions,
+    GetEvents,
+    Events
+} from "./Realtime";
 
 const sampleEvents: Events[] = [
     {
