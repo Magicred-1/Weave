@@ -14,10 +14,10 @@ interface Cardsprops {
 const Cards: React.FC<Cardsprops> = ({ title, description, place, tags, cashprize }) => {
 	return (
 		<Card
-			className=" w-80 px-4 bg-gray-800 rounded-3xl bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-50 border-2 border-teal-600
+			className=" w-72 md:w-80 px-4 mx-auto bg-gray-800 rounded-3xl bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-50 border-2 border-teal-600
 "
 		>
-			<CardHeader shadow={false} floated={false} className=" h-48 py-3  rounded-lg bg-transparent ">
+			<CardHeader shadow={false} floated={false} className="h-28 md:h-48 py-3  rounded-lg bg-transparent ">
 				<Image src={event} alt="card-image" className="h-full w-full object-cover rounded-xl" />
 			</CardHeader>
 			<CardBody>
@@ -46,7 +46,7 @@ const Cards: React.FC<Cardsprops> = ({ title, description, place, tags, cashpriz
 					})}
 				</Stack>
 			</CardBody>
-			<div className="flex flex-col space-y-4 py-5 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
+			<div className="flex space-y-4 py-5 flex-row justify-center sm:space-y-0 sm:space-x-4">
 				<a
 					href="#"
 					className=" hover:bg-teal-600 hover:text-white inline-flex justify-center text-teal-600 items-center py-2 px-10 h-full w-fit rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-teal-600"

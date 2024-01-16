@@ -10,7 +10,7 @@ const Navbar = () => {
 					<span className="self-center text-2xl font-semibold whitespace-nowrap text-white">Weave</span>
 				</a>
 				<div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-					<ConnectKitButton />
+					{/* <ConnectKitButton /> */}
 					<button
 						data-collapse-toggle="navbar-sticky"
 						type="button"
@@ -40,7 +40,7 @@ const Navbar = () => {
 					className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
 					id="navbar-sticky"
 				>
-					<ul className="flex gap-12 h-full w-full bg-gray-600 rounded-3xl bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30 border p-5 border-gray-100">
+					<ul className="flex gap-12 h-full w-full bg-gray-600 rounded-3xl bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30 border p-5 border-gray-100 ">
 						<li>
 							<a
 								href="#"
@@ -56,12 +56,12 @@ const Navbar = () => {
 							</a>
 						</li>
 						<li>
-							<a href="#" className="block py-1 px-5 text-white focus:rounded-full focus:bg-[#008770]">
+							<a href="/create" className="block py-1 px-5 text-white focus:rounded-full focus:bg-[#008770]">
 								Add your own event
 							</a>
 						</li>
 						<li>
-							<a href="#" className="block py-1 px-5 text-white focus:rounded-full focus:bg-[#008770]">
+							<a href="/event" className="block py-1 px-5 text-white focus:rounded-full focus:bg-[#008770]">
 								Event Dashboard
 							</a>
 						</li>
