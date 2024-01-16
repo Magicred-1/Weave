@@ -1,11 +1,13 @@
 import React from 'react'
 import Image from 'next/image'
+
 interface AlternateSectionProps {
 	data: Array<{
 		image: any
 		description: any
 	}>
 }
+
 const AlternateSection: React.FC<AlternateSectionProps> = ({ data }) => {
 	return (
 		<div className="flex flex-col items-center justify-center px-20 py-10">

@@ -1,4 +1,5 @@
 'use client'
+import Image from 'next/image'
 import Hero from './components/Hero'
 import Cards from './components/Cards'
 import gps from '@/app/assets/gps.svg'
@@ -6,36 +7,38 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import background from '@/app/assets/bg.jpg'
 import reward from '@/app/assets/reward.svg'
-import quality from '@/app/assets/quality.svg'
 import background2 from '@/app/assets/bg2.jpg'
+import quality from '@/app/assets/quality.svg'
 import spoofing from '@/app/assets/spoofing.svg'
 import AlternateSection from './components/AlternateSection'
+
 const Home = () => {
 	const staticData = {
 		cardData: [
 			{
-				title: 'Hacking Dao',
+				title: "Hacking'Dau",
 				place: 'Paris, France',
-				description: 'Welcome to the Hackin’Dau eventlocated in Paris...',
-				tags: ['ZK', 'students', 'Green', 'IT', 'solidity'],
-				cashprize: '5000€',
+				description: "Welcome to the Hackin'Dau eventlocated in Paris...",
+				// tags: ["ZK", "students", "Green", "IT", "solidity"],
+				buttonText: 'Click to see more',
 			},
 			{
-				title: 'Hacking Dao',
+				title: "Hacking'Dau",
 				place: 'Paris, France',
-				description: 'Welcome to the Hackin’Dau eventlocated in Paris...',
-				tags: ['ZK', 'students', 'Green', 'IT', 'solidity'],
-				cashprize: '5000€',
+				description: "Welcome to the Hackin'Dau eventlocated in Paris...",
+				// tags: ["ZK", "students", "Green", "IT", "solidity"],
+				buttonText: 'Click to see more',
 			},
 			{
-				title: 'Hacking Dao',
+				title: "Hacking'Dau",
 				place: 'Paris, France',
-				description: 'Welcome to the Hackin’Dau eventlocated in Paris...',
-				tags: ['ZK', 'students', 'Green', 'IT', 'solidity'],
-				cashprize: '5000€',
+				description: "Welcome to the Hackin'Dau eventlocated in Paris...",
+				// tags: ["ZK", "students", "Green", "IT", "solidity"],
+				buttonText: 'Click to see more',
 			},
 		],
 		section3data: {
+			logoImage: '/icon_logo.png',
 			title: 'What is Weave?',
 			description:
 				'At the heart of Weave is the idea that participants at physical events can earn rewards through an interactive platform. ',
@@ -77,7 +80,7 @@ const Home = () => {
 				<Navbar />
 				<Hero />
 			</div>
-			<section className="bg-black w-full flex justify-center flex-col md:flex-row mx-auto  py-12 gap-12">
+			<section className="bg-black w-100vw flex justify-center py-12 gap-12">
 				{staticData?.cardData.map((item, key) => {
 					key
 					return (
@@ -86,8 +89,8 @@ const Home = () => {
 							title={item.title}
 							description={item.description}
 							place={item.place}
-							tags={item.tags}
-							cashprize={item.cashprize}
+							//   tags={item.tags}
+							buttonText={item.buttonText}
 						/>
 					)
 				})}
@@ -102,10 +105,11 @@ const Home = () => {
 				}}
 			>
 				<div className="flex flex-col w-full items-center justify-center max-h-screen text-center pt-10">
-					<h1 className="mb-4 text-3xl font-extrabold tracking-tight leading-none md:text-6xl lg:text-6xl text-gray-200">
+					<Image src={staticData.section3data.logoImage} alt="logo" width={100} height={100} />
+					<h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-6xl lg:text-6xl text-gray-200">
 						{staticData.section3data.title}
 					</h1>
-					<p className="mb-8 text-lg font-normal text-gray-300 lg:text-xl px-5 md:px-48">
+					<p className="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 xl:px-48">
 						{staticData.section3data.description}
 					</p>
 				</div>

@@ -1,12 +1,19 @@
+'use client';
+
 import React from 'react'
 import { ConnectKitButton } from 'connectkit'
+import { useAccount } from 'wagmi'
+import Image from 'next/image'
 
 const Navbar = () => {
+	const { isConnected } = useAccount()
+	const userIsEventOwner = true
+
 	return (
-		<nav className=" flex">
+		<nav className="flex">
 			<div className="w-full flex flex-wrap items-center justify-between mx-auto p-4">
-				<a className="flex items-center space-x-3 rtl:space-x-reverse">
-					Logo
+				<a className="flex items-center space-x-3 rtl:space-x-reverse" href='/'>
+					<Image src="/icon_logo.png" alt="Weave Logo" width={50} height={50} />
 					<span className="self-center text-2xl font-semibold whitespace-nowrap text-white">Weave</span>
 				</a>
 				<div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
@@ -43,15 +50,20 @@ const Navbar = () => {
 					<ul className="flex gap-12 h-full w-full bg-gray-600 rounded-3xl bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30 border p-5 border-gray-100 ">
 						<li>
 							<a
-								href="#"
-								className="block py-1 px-5 text-white focus:rounded-full focus:bg-[#008770]"
+								href="/map"
+								className="block py-1 px-5 text-white hover:rounded-full hover:bg-[#008790]
+									focus:rounded-full focus:bg-[#008770]"
 								aria-current="page"
 							>
 								Map
 							</a>
 						</li>
 						<li>
-							<a href="#" className="block py-1 px-5 text-white focus:rounded-full focus:bg-[#008770]">
+							<a 
+								href="/leaderboard" 
+								className="block py-1 px-5 text-white hover:rounded-full hover:bg-[#008790]
+									focus:rounded-full focus:bg-[#008770]"
+							>
 								Leaderboard
 							</a>
 						</li>
@@ -60,11 +72,16 @@ const Navbar = () => {
 								Add your own event
 							</a>
 						</li>
-						<li>
-							<a href="/event" className="block py-1 px-5 text-white focus:rounded-full focus:bg-[#008770]">
-								Event Dashboard
-							</a>
-						</li>
+						{ isConnected && userIsEventOwner
+							? <li>
+								<a href="#" 
+									className="block py-1 px-5 text-white hover:rounded-full hover:bg-[#008790]
+										focus:rounded-full focus:bg-[#008770]"
+								>
+									Event Dashboard
+								</a>
+							</li> : null
+						}
 					</ul>
 				</div>
 			</div>
