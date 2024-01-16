@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import GHO from '@/app/assets/GHO.svg'
 import ETH from '@/app/assets/ETH.svg'
 import Radio from '@mui/material/Radio'
@@ -15,6 +15,9 @@ import { SelectChangeEvent } from '@mui/material/Select'
 import TextareaAutosize from '@mui/material/TextareaAutosize'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import { Card, CardContent, ThemeProvider, createTheme, useMediaQuery } from '@mui/material'
+import DynamicPreviewMap from './DynamicPreviewMap'
+import { LatLngExpression } from 'leaflet'
+
 interface RadioCardProps {
 	value: string
 	label: string
@@ -22,6 +25,9 @@ interface RadioCardProps {
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 	image: any
 }
+
+type AcceptedCurrency = "GHO" | "ETH" | "USDC" | "EURS";
+type CercleColor = "red" | "blue" | "green" | "yellow" | "purple" | "orange" | "grey";
 
 const Form = () => {
 	const theme = createTheme({
@@ -52,30 +58,74 @@ const Form = () => {
 			},
 		},
 	})
-	const [formData, setFormData] = useState({
-		file: '',
-		eventName: '',
-		eventDescription: '',
-		startDate: '',
-		endDate: '',
-		eventWebsite: '',
-		maxParticipants: '',
-		paymentMethod: '',
-		venueAddress: '',
-		eventRadius: '',
-		color: '',
-	})
-	const handleChange = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement> | SelectChangeEvent<string>
-	) => {
-		const { name, value } = e.target
-		setFormData(prevData => ({ ...prevData, [name]: value }))
+
+	const [price, setPrice] = useState<number>();
+	const [startDate, setStartDate] = useState<number>();
+	const [endDate, setEndDate] = useState<number>();
+	const [currency, setCurrency] = useState<AcceptedCurrency>("GHO");
+	const [address, setAddress] = useState<string>("");
+	const [mapPosition, setMapPosition] = useState<[number, number]>([51.505, -0.09]);
+	const [description, setDescription] = useState<string>("");
+	const [website, setWebsite] = useState<string>("");
+	const [event, setEvent] = useState<string>("");
+	const [logo, setLogo] = useState<File>();
+	const [radius, setRadius] = useState<number>(200);
+	const [color, setColor] = useState<CercleColor>("red");
+
+	const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+		setCurrency(e.target.value as AcceptedCurrency);
+	}
+
+	const onChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.files && e.target.files[0]) {
+			setLogo(e.target.files[0]);
+		}
 	}
 
 	const handleSubmit = (e: React.FormEvent) => {
-		e.preventDefault()
-		console.log('Form submitted with data:', formData)
+		e.preventDefault();
+		console.log('Form submitted with data:', {
+			price,
+			startDate,
+			endDate,
+			currency,
+			address,
+			mapPosition,
+			description,
+			website,
+			event,
+			logo,
+			radius,
+			color,
+		});
+	};
+
+	const convertDateToUnix = (date: Date) => {
+		return Math.round(date.getTime() / 1000);
 	}
+
+	const getLatLng = async (eventAddress: string) => {
+		console.log(eventAddress);
+		if (!eventAddress) {
+		  return;
+		}
+	
+		try {
+			const response = await fetch(
+				`https://geocode.maps.co/search?q=${encodeURIComponent(eventAddress)}`
+			);
+			const data = await response.json();
+		
+			console.log(data);
+			const lat = data[0].lat;
+			const lng = data[0].lon;
+			setMapPosition([lat, lng]);
+			return [lat, lng];
+		} catch (error) {
+			console.error("Error fetching coordinates:", error);
+		}
+	};
+
 	const CustomRadioCard: React.FC<RadioCardProps> = ({ value, label, checked, onChange, image }) => (
 		<Card
 			variant="outlined"
@@ -96,6 +146,7 @@ const Form = () => {
 		</Card>
 	)
 	return (
+		<>
 		<form
 			onSubmit={handleSubmit}
 			className="max-w-4xl mx-4 mb-10 md:mx-0 px-8 py-6 md:ml-20 text-gray-200 bg-white-600 rounded-3xl bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-100 border border-gray-100"
@@ -109,7 +160,9 @@ const Form = () => {
 					type="file"
 					id="file"
 					name="file"
-					onChange={handleChange}
+					accept='image/png, image/jpeg, image/jpg, image/gif'
+					size={1000000}
+					onChange={onChangeFile}
 					className="mt-1 p-2 border rounded-md w-full"
 				/>
 			</div>
@@ -118,7 +171,12 @@ const Form = () => {
 				<label htmlFor="file" className="block text-sm font-medium ">
 					Event Name
 				</label>
-				<TextField name="eventName" value={formData.eventName} onChange={handleChange} fullWidth required />
+				<TextField 
+					name="eventName"
+					onChange={e => setEvent(e.target.value)} 
+					fullWidth 
+					required 
+				/>
 			</ThemeProvider>
 			{/*Event Description  */}
 			<label htmlFor="file" className="block text-sm font-medium ">
@@ -127,8 +185,7 @@ const Form = () => {
 			<TextareaAutosize
 				minRows={2}
 				name="eventDescription"
-				value={formData.eventDescription}
-				onChange={handleChange}
+				onChange={e => setDescription(e.target.value)}
 				className="mt-3 p-2 border rounded-md w-full text-gray-200 bg-transparent"
 			/>
 			<div className=" flex flex-col md:flex-row md:gap-4 text-gray-200">
@@ -140,8 +197,7 @@ const Form = () => {
 					<TextField
 						type="date"
 						name="startDate"
-						value={formData.startDate}
-						onChange={handleChange}
+						onChange={e => setStartDate(convertDateToUnix(new Date(e.target.value)))}
 						fullWidth
 						required
 						className="mt-3"
@@ -155,8 +211,7 @@ const Form = () => {
 					<TextField
 						type="date"
 						name="endDate"
-						value={formData.endDate}
-						onChange={handleChange}
+						onChange={e => setEndDate(convertDateToUnix(new Date(e.target.value)))}
 						fullWidth
 						required
 						className="mt-3"
@@ -170,8 +225,7 @@ const Form = () => {
 				</label>
 				<TextField
 					name="eventWebsite"
-					value={formData.eventWebsite}
-					onChange={handleChange}
+					onChange={e => setWebsite(e.target.value)}
 					fullWidth
 					required
 				/>
@@ -184,8 +238,7 @@ const Form = () => {
 				<TextField
 					type="number"
 					name="maxParticipants"
-					value={formData.maxParticipants}
-					onChange={handleChange}
+					onChange={e => setPrice(Number(e.target.value))}
 					fullWidth
 					required
 				/>
@@ -197,37 +250,36 @@ const Form = () => {
 			<RadioGroup
 				aria-label="Max Participants"
 				name="paymentMethod"
-				value={formData.paymentMethod}
-				onChange={handleChange}
+				onChange={(e: SelectChangeEvent) => setCurrency(e.target.value as AcceptedCurrency)}
 				className="w-full flex flex-col md:flex-row mt-2 gap-5"
 				// style={{ flexDirection: 'row' }}
 			>
 				<CustomRadioCard
 					value="GHO"
 					label="Pay with GHO"
-					checked={formData.paymentMethod === 'GHO'}
-					onChange={handleChange}
+					checked={currency === 'GHO'}
+					onChange={onChange}
 					image={GHO}
 				/>
 				<CustomRadioCard
 					value="ETH"
 					label="Pay with ETH"
-					checked={formData.paymentMethod === 'ETH'}
-					onChange={handleChange}
+					checked={currency === 'ETH'}
+					onChange={onChange}
 					image={ETH}
 				/>
 				<CustomRadioCard
 					value="USDC"
 					label="Pay with USDC"
-					checked={formData.paymentMethod === 'USDC'}
-					onChange={handleChange}
-					image={USDC}
+					checked={currency === 'USDC'}
+					onChange={onChange}
+					image={USDC}	
 				/>
 				<CustomRadioCard
 					value="EURS"
 					label="Pay with EURS"
-					checked={formData.paymentMethod === 'EURS'}
-					onChange={handleChange}
+					checked={currency === 'EURS'}
+					onChange={onChange}
 					image={EURS}
 				/>
 			</RadioGroup>
@@ -238,8 +290,8 @@ const Form = () => {
 			<TextareaAutosize
 				minRows={2}
 				name="venueAddress"
-				value={formData.venueAddress}
-				onChange={handleChange}
+				value={address}
+				onChange={handleSubmit}
 				className="mt-3 p-2 border rounded-md w-full text-gray-200 bg-transparent"
 			/>
 			<div className="flex flex-col md:flex-row md:gap-4">
@@ -250,8 +302,7 @@ const Form = () => {
 					</label>
 					<Select
 						name="eventRadius"
-						value={formData.eventRadius}
-						onChange={handleChange}
+						onChange={e => setRadius(Number(e.target.value))}
 						className="mt-1 border rounded-md w-full"
 					>
 						<MenuItem value={50}>50</MenuItem>
@@ -268,15 +319,16 @@ const Form = () => {
 					<Select
 						label="Color"
 						name="color"
-						value={formData.color}
-						onChange={handleChange}
+						onChange={e => setColor(e.target.value as CercleColor)}
 						className="mt-1 border rounded-md w-full"
 					>
 						<MenuItem value="red">Red</MenuItem>
+						<MenuItem value="blue">Blue</MenuItem>
 						<MenuItem value="green">Green</MenuItem>
 						<MenuItem value="yellow">Yellow</MenuItem>
-						<MenuItem value="blue">Blue</MenuItem>
 						<MenuItem value="purple">Purple</MenuItem>
+						<MenuItem value="orange">Orange</MenuItem>
+						<MenuItem value="grey">Grey</MenuItem>
 					</Select>
 				</div>
 			</div>
@@ -296,6 +348,17 @@ const Form = () => {
 				</Button>
 			</div>
 		</form>
+		<DynamicPreviewMap 
+			title={event}
+			position={mapPosition as LatLngExpression}
+			description={description}
+			website={website}
+			event={event}
+			radius={radius}
+			color={color}
+			showMap={true}
+		/>
+		</>
 	)
 }
 

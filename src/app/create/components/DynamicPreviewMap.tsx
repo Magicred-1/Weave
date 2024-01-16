@@ -1,8 +1,20 @@
 import { useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { ThreeDots } from 'react-loading-icons';
+import type { LatLngExpression } from 'leaflet';
 
-const DynamicPreviewMap = () => {
+interface PreviewComponentProps {
+    title: string;
+    position: LatLngExpression;
+    description: string;
+    website: string;
+    event: string;
+    radius: number;
+    color: string;
+    showMap: boolean;
+}
+
+const DynamicPreviewMap = ({ title, position, description, website, event, radius, color, showMap }: PreviewComponentProps) => {
     const PreviewMap = useMemo(
         () => dynamic(
             () => import('@/app/create/components/PreviewMap/PreviewComponent'),
@@ -28,19 +40,7 @@ const DynamicPreviewMap = () => {
 
     return (
         <div>
-            <PreviewMap {
-                // @ts-ignore
-                ...{
-                    position: [0, 0],
-                    title: 'Title',
-                    description: 'Description',
-                    website: 'Website',
-                    event: 'Event',
-                    radius: 400,
-                    color: 'red',
-                    showMap: true,
-                }
-            } />
+            <PreviewMap title={title} position={position} description={description} website={website} event={event} radius={radius} color={color} showMap={showMap} /> 
         </div>
     );
 }

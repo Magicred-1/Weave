@@ -1,6 +1,6 @@
 import React from 'react';
-import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
+import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from '../ui/table';
+import { Button } from '../ui/button';
 import { useRouter } from "next/navigation";
 import LeaderboardData from './LeaderboardData';
 import { useAccount } from 'wagmi';

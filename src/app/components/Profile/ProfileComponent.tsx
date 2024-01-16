@@ -1,6 +1,6 @@
-import { AvatarImage, AvatarFallback, Avatar } from "@/app/components/ui/avatar"
-import { CardTitle, CardHeader, CardContent, Card } from "@/app/components/ui/card"
-import { Badge } from "@/app/components/ui/badge"
+import { AvatarImage, AvatarFallback, Avatar } from "../ui/avatar";
+import { CardTitle, CardHeader, CardContent, Card } from "../ui/card";
+import { Badge } from "../ui/badge";
 
 type ProfileComponentProps = {
   address: `0x${string}`
