@@ -1,13 +1,15 @@
-// import supabaseClient from "../../../../lib/supabase";
+import supabaseClient from "../../../../lib/supabase";
 import type { LatLngExpression } from "leaflet";
 import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
-// import MarkerClusterGroup from '@changey/react-leaflet-markercluster';
+import MarkerClusterGroup from '@changey/react-leaflet-markercluster';
 import { Marker, Popup, Tooltip } from "react-leaflet";
-// import { isUserMarkerInsideMarkerRadius } from "../lib/isUserInsideMarkerRadius";
-// import { REALTIME_SUBSCRIBE_STATES } from "@supabase/supabase-js";
+import { isUserMarkerInsideMarkerRadius } from "../isUserInsideMarkerRadius";
+import { REALTIME_SUBSCRIBE_STATES } from "@supabase/supabase-js";
 import { Circle, useMap } from "react-leaflet";
 import { userIcon, visitorIcon } from "../../../../lib/markerIcons";
+import moment from "moment";
+import { Button } from '@mui/material';
 
 interface ConnectedUser {
     image?: string;
@@ -17,7 +19,7 @@ interface ConnectedUser {
     online?: boolean;
 }
 
-const USER_RADIUS = 100; // in meters
+const USER_RADIUS = 400; // in meters
 const CHANNEL_NAME = 'Weave'; // for Supabase Realtime channel
 
 export const GetUsersPositions = () => {
@@ -34,11 +36,9 @@ export const GetUsersPositions = () => {
             const handleLocationFound = (e: any) => {
                 setUserPosition([e.latlng.lat, e.latlng.lng]);
                 setVisiblePosition(true);
-                map.flyTo(e.latlng, map.getZoom());
             }
 
             const handleLocationError = (e: any) => {
-                console.log("You both need to have your wallet connected and your location enabled to be seen by other users.");
                 setVisiblePosition(false);
             };
 
@@ -67,4 +67,77 @@ export const GetUsersPositions = () => {
         </div>
       ) : null;
     };
-}
+
+    const handleBroadcast = (data: any) => {
+        setConnectedUsers((prev) => {
+          const userExists = prev.some((user) => user.personWalletAddress === data.payload.personWalletAddress);
+          if (!userExists) {
+            console.log(`${data.payload.personWalletAddress} has joined Weave!`);
+            return [...prev, data.payload];
+          }
+          return prev;
+        });
+      };
+    
+      useEffect(() => {
+        const myChannel = supabaseClient.channel(CHANNEL_NAME, {
+          config: { broadcast: { ack: true } },
+        });
+    
+        myChannel.on("broadcast", { event: "connectedUser" }, (payload: any) => handleBroadcast(payload));
+    
+        myChannel.subscribe((status: `${REALTIME_SUBSCRIBE_STATES}`) => {
+          if (status === REALTIME_SUBSCRIBE_STATES.SUBSCRIBED) {
+            if (isConnected && address) {         
+              myChannel.send({
+                type: "broadcast",
+                event: "connectedUser",
+                payload: {
+                  image: `https://api.cloudnouns.com/v1/pfp?text=${address}`,
+                  personWalletAddress: address,
+                  coordinates: userPosition,
+                  lastConnection: moment().format("MMMM Do YYYY, h:mm:ss a"),
+                },
+              });
+            }
+          }
+        });
+      }, [userPosition, isConnected, address]);
+
+      return (
+        <>
+          <MarkerClusterGroup>
+            {connectedUsers.map((connectedUser, index) => (
+              <Marker key={index} position={connectedUser.coordinates} icon={visitorIcon(connectedUser.personWalletAddress)}>
+                <Tooltip>{connectedUser.personWalletAddress}</Tooltip>
+                <Popup>
+                  <div className="flex flex-col">
+                    <div className="flex flex-row">
+                      <p className="rounded-full">
+                        <img src={connectedUsers[index].image} alt="user-profile" width={80} height={80} />
+                      </p>
+                    </div>
+                    <div className="flex flex-row">
+                      <p>Wallet Address : {connectedUsers[index].personWalletAddress}</p>
+                    </div>
+                    <div className="flex flex-row">
+                      <p>Last Connection : {connectedUsers[index].lastConnection}</p>
+                    </div>
+                    <div className="flex flex-row">
+                    <Button 
+                        variant="contained" 
+                        color="primary"
+                        disabled={!isUserMarkerInsideMarkerRadius(userPosition, connectedUser.coordinates, USER_RADIUS)}
+                      >
+                        Send Message
+                    </Button>
+                    </div>
+                  </div>
+                </Popup>
+              </Marker>
+            ))}
+          </MarkerClusterGroup>
+          <LocationMarker isConnected={isConnected} />
+        </>
+      );
+};

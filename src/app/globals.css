@@ -24,16 +24,19 @@ body {
 }
 
 .user-marker:hover {
-	border: 2px solid rgb(90, 28, 28)000;
-}
-
-.user-marker:checked {
-	border: 2px solid #000;
+	border: 3px solid rgb(41, 28, 90)000;
+	transition-duration: 0.5s;
+	transition-delay: 2s;
 }
 
 .event-marker {
 	border-radius: 50%;
-	border: 2px solid #fff;
+	border: 3px solid #fff;
+}
+
+.event-marker:hover {
+	border: 5px solid #5e1e1e;
+	transition: 0.5s;
 }
 
 .visitor-marker {
@@ -43,4 +46,5 @@ body {
 
 .visitor-marker:hover {
 	border: 2px solid #5e1e1e;
+	transition: 0.5s;
 }

@@ -3,17 +3,18 @@
 import { SiweMessage } from 'siwe'
 import { APP_NAME } from '@/lib/consts'
 import { FC, PropsWithChildren } from 'react'
+import { mainnet, sepolia } from 'wagmi/chains'
 import { WagmiConfig, createConfig } from 'wagmi'
 import { ConnectKitProvider, SIWEConfig, SIWEProvider, getDefaultConfig } from 'connectkit'
-import { mainnet, sepolia } from "wagmi/chains";
 
-const chains = [mainnet, sepolia]
+
+const chains = [sepolia]
 
 const config = createConfig(
 	getDefaultConfig({
 		appName: APP_NAME,
 		appDescription: 'Connecting Web3, One Thread at a Time!',
-		appUrl: "https://weave-three.vercel.app/",
+		appUrl: 'https://weave-three.vercel.app/',
 		appIcon: '/icon_logo.png',
 		infuraId: process.env.NEXT_PUBLIC_INFURA_ID,
 		walletConnectProjectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!,
@@ -59,7 +60,9 @@ const siweConfig = {
 const Web3Provider: FC<PropsWithChildren<{}>> = ({ children }) => (
 	<WagmiConfig config={config}>
 		<SIWEProvider {...siweConfig}>
-			<ConnectKitProvider theme='retro' mode='dark'>{children}</ConnectKitProvider>
+			<ConnectKitProvider theme="retro" mode="dark">
+				{children}
+			</ConnectKitProvider>
 		</SIWEProvider>
 	</WagmiConfig>
 )
