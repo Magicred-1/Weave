@@ -10,14 +10,14 @@ const Navbar = () => {
 	const userIsEventOwner = true
 
 	return (
-		<nav className="flex">
+		<nav className="flex border-b border-gray-200 pb-4">
 			<div className="w-full flex flex-wrap items-center justify-between mx-auto p-4">
 				<a className="flex items-center space-x-3 rtl:space-x-reverse" href='/'>
 					<Image src="/icon_logo.png" alt="Weave Logo" width={50} height={50} />
 					<span className="self-center text-2xl font-semibold whitespace-nowrap text-white">Weave</span>
 				</a>
 				<div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-					{/* <ConnectKitButton /> */}
+					<ConnectKitButton />
 					<button
 						data-collapse-toggle="navbar-sticky"
 						type="button"

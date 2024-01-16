@@ -6,7 +6,7 @@ import { FC, PropsWithChildren } from 'react'
 import { mainnet, sepolia } from 'wagmi/chains'
 import { WagmiConfig, createConfig } from 'wagmi'
 import { ConnectKitProvider, SIWEConfig, SIWEProvider, getDefaultConfig } from 'connectkit'
-import { sepolia } from "wagmi/chains";
+
 
 const chains = [sepolia]
 
