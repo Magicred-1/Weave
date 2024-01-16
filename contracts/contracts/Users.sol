@@ -54,4 +54,28 @@ contract Users {
         users[userAddress].points += points;
     }
 
+
+    // most Important
+    function claimRewards() public {
+        require(addressRegistered[msg.sender], "User not registered");
+        uint256 rewardPoints = users[msg.sender].points;
+
+        // Add logic to handle the reward claim, like transferring tokens
+
+        // Reset points after claiming
+        users[msg.sender].points = 0;
+    }
+
+    function participatedInEvent(address userAddress, address eventAddress) public view returns (bool) {
+        require(addressRegistered[userAddress], "User not registered");
+        for (uint i = 0; i < users[userAddress].listOfEventsParticipated.length; i++) {
+            if (users[userAddress].listOfEventsParticipated[i] == eventAddress) {
+                return true;
+            }
+        }
+        return false;
+    }   
+
+
+
 }
