@@ -124,13 +124,22 @@ export const GetUsersPositions = () => {
                       <p>Last Connection : {connectedUsers[index].lastConnection}</p>
                     </div>
                     <div className="flex flex-row">
+                    {isUserMarkerInsideMarkerRadius(userPosition, connectedUser.coordinates, USER_RADIUS) ? (
+                      <Button 
+                      variant="contained" 
+                      color="primary"
+                    >
+                      Send Message
+                  </Button>): 
+                  (
                     <Button 
-                        variant="contained" 
-                        color="primary"
-                        disabled={!isUserMarkerInsideMarkerRadius(userPosition, connectedUser.coordinates, USER_RADIUS)}
-                      >
-                        Send Message
-                    </Button>
+                      variant="contained" 
+                      color="primary"
+                      disabled={!isUserMarkerInsideMarkerRadius(userPosition, connectedUser.coordinates, USER_RADIUS)}
+                    >
+                      You need to be closer to send a first message
+                  </Button>
+                  )}
                     </div>
                   </div>
                 </Popup>

@@ -46,9 +46,21 @@ export default function ProfileComponent({ address }: ProfileComponentProps) {
         </CardHeader>
         <CardContent>
           <ul className="list-disc list-inside space-y-2">
-            <li>Event 1</li>
-            <li>Event 2</li>
-            <li>Event 3</li>
+            <li>
+              <a href="/events/1">
+                Event 1
+              </a>
+            </li>
+            <li>
+              <a href="/events/2">
+                Event 2
+              </a>
+            </li>
+            <li>
+              <a href="/events/3">
+                Event 3
+              </a>
+            </li>
           </ul>
         </CardContent>
       </Card>
