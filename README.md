@@ -1,4 +1,4 @@
-<a href="https://weave-three.vercel.app"><img src ="public/banner" alt="Weave Banner" width="200"/></a>
+<a href="https://weave-three.vercel.app"><img src ="./public/banner.png" alt="Weave Logo" width="100%"/></a>
 
 # [Weave](#) - Connecting Web3, One Thread at a Time. ! 
 ## Powered by <img src="https://www.mtpelerin.com/images/rate-calculator/flag-gho.svg" alt="GHO Logo" width="35"/> GHO Token.
