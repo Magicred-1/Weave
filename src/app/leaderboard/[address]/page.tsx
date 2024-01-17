@@ -1,8 +1,11 @@
-'use client';
+import Navbar from '@/app/components/Navbar';
+import ProfileComponent from '@/app/components/Profile/ProfileComponent';
+import Footer from '@/app/components/Footer';
+import { Metadata } from 'next';
 
-import Navbar from '@/app/components/Navbar'
-import ProfileComponent from '../../components/Profile/ProfileComponent'
-import Footer from '@/app/components/Footer'
+export const metadata: Metadata = {
+  title: "Profile",
+};
 
 interface Props {
   params: {
@@ -11,7 +14,7 @@ interface Props {
   }
 }
 
-const Profile = ({ params }: Props) => {
+const ProfileComponentPage = ({ params }: Props) => {
   return (
     <>
         <Navbar />
@@ -27,4 +30,4 @@ const Profile = ({ params }: Props) => {
   )
 }
 
-export default Profile;
+export default ProfileComponentPage;

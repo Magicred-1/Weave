@@ -1,6 +1,6 @@
-import { AvatarImage, AvatarFallback, Avatar } from "@/app/components/ui/avatar"
-import { CardTitle, CardHeader, CardContent, Card } from "@/app/components/ui/card"
-import { Badge } from "@/app/components/ui/badge"
+import { AvatarImage, AvatarFallback, Avatar } from "../ui/avatar";
+import { CardTitle, CardHeader, CardContent, Card } from "../ui/card";
+import { Badge } from "../ui/badge";
 
 type ProfileComponentProps = {
   address: `0x${string}`
@@ -22,33 +22,29 @@ export default function ProfileComponent({ address }: ProfileComponentProps) {
       </div>
       <Badge className="items-center">
         <UserIcon className="h-5 w-5 mr-2" />
-        User Score: 85
+        User Score: 85 / Events Attended: 85
       </Badge>
-      <Badge className="items-center">
-        <UserIcon className="h-5 w-5 mr-2" />
-        Events Attended: 85
-      </Badge>
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>Met Wallet Addresses</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ul className="list-disc list-inside space-y-2">
-            <li>wallet_address_1</li>
-            <li>wallet_address_2</li>
-            <li>wallet_address_3</li>
-          </ul>
-        </CardContent>
-      </Card>
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>Events Attended</CardTitle>
         </CardHeader>
         <CardContent>
           <ul className="list-disc list-inside space-y-2">
-            <li>Event 1</li>
-            <li>Event 2</li>
-            <li>Event 3</li>
+            <li>
+              <a href="/events/1">
+                Event 1
+              </a>
+            </li>
+            <li>
+              <a href="/events/2">
+                Event 2
+              </a>
+            </li>
+            <li>
+              <a href="/events/3">
+                Event 3
+              </a>
+            </li>
           </ul>
         </CardContent>
       </Card>

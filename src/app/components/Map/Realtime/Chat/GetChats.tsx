@@ -1,6 +1,6 @@
-import supabaseClient from "../../../../lib/supabase";
-import { useAccount } from "wagmi";
+import supabaseClient from "../../../../../lib/supabase";
 import { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
 
 /*
  Chats:

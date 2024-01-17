@@ -13,7 +13,6 @@ const nextConfig = {
           {
             protocol: 'https',
             hostname: 'emerald-impressive-salmon-919.mypinata.cloud',
-            pathname: '/ipfs/',
           }
         ],
         dangerouslyAllowSVG: true,
