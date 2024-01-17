@@ -5,7 +5,6 @@ export const metadata: Metadata = {
     title: "Leaderboard",
 };
 
-
 const LeaderboardPage = () => {
     return (
         <LeaderboardComponent />
