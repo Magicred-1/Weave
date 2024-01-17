@@ -24,6 +24,11 @@ contract Event {
     uint256 public immutable REWARDPOOL;
     address[] public immutable MANAGERS;
     address public immutable OWNER;
+    
+    uint256 public constant MAX_POINTS = 100;
+    uint256 public constant MIN_POINTS = 1;
+    uint256 public constant TOTAL_EXPECTED_ATTENDEES = 100; // Set this based on your expectation
+    uint256 public attendeeCount = 0;
 
     address[] public hackersRegistered;
     address[] public hackersAttended;
@@ -62,11 +67,12 @@ contract Event {
     EventStatus public status;
 
 
-    constructor(string memory _eventName, uint256 _rewardPool, address[] memory _managers, address userContractAddress , address _owner) {
+    constructor(uint256 expected_attendies , string memory _eventName, uint256 _rewardPool, address[] memory _managers, address userContractAddress , address _owner) {
         OWNER= msg.sender;
         EVENTNAME = _eventName;
         REWARDPOOL = _rewardPool;
         MANAGERS = _managers;
+        TOTAL_EXPECTED_ATTENDEES = expected_attendies;
         users  = Users(userContractAddress);
         status = EventStatus.Upcoming;
     }
@@ -84,24 +90,51 @@ contract Event {
         hackersRegistered.push(hackerAddress);
     }
 
-
-    /**
+     /**
      * @notice Marks attendance of a hacker for the event.
      * @param hackerAddress The address of the hacker whose attendance is being recorded.
+     * @param attestationId Unique identifier for the attendance proof.
      */
-    function markAttendance(address hackerAddress, uint256 attestationId , uint256 _points) external onlyManagers {
+    function markAttendance(address hackerAddress, uint256 attestationId) external onlyManagers {
         require(addressRegistered[hackerAddress], "Hacker not registered");
         require(!hasAttended[hackerAddress], "Attendance already marked");
         require(attendanceAttestation[hackerAddress] == 0, "Attestation ID already assigned");
 
+        // Increment the attendee count as a new attendee is being marked
+        attendeeCount++;
+
+        // Calculate points for the attendee based on their order of arrival
+        uint256 pointsForAttendee = calculatePointsForAttendee(attendeeCount);
+
         hasAttended[hackerAddress] = true;
         attendanceAttestation[hackerAddress] = attestationId;
 
-        users.addEventParticipated(userAddress, address(this));
-        users.updatePoints(userAddress, _points);
+        // Add the hacker to the event's participation list and update their points in the Users contract
+        users.addEventParticipated(hackerAddress, address(this));
+        users.updatePoints(hackerAddress, pointsForAttendee);
 
         hackersAttended.push(hackerAddress);
     }
+
+    /**
+     * @notice Calculates points for the attendee based on their order of arrival with linear decay.
+     * @param order The order number of the attendee.
+     * @return Points for the attendee.
+     */
+    function calculatePointsForAttendee(uint256 order) internal view returns (uint256) {
+        if (order == 1) {
+            return MAX_POINTS;
+        }
+
+        // Calculate the decay rate per attendee
+        uint256 decayRate = (MAX_POINTS - MIN_POINTS) / (TOTAL_EXPECTED_ATTENDEES - 1);
+
+        // Calculate the points based on the order, ensuring it doesn't fall below MIN_POINTS
+        uint256 points = MAX_POINTS - (decayRate * (order - 1));
+        
+        return points < MIN_POINTS ? MIN_POINTS : points;
+    }
+
 
 
     function updateEventName(string memory newName) public onlyOwner {
