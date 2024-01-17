@@ -77,7 +77,6 @@ const DynamicMap = () => {
 
 	return (
 		<>
-			{' '}
 			<ThemeProvider theme={theme}>
 				<Modal
 					open={open}
@@ -109,9 +108,7 @@ const DynamicMap = () => {
 			</ThemeProvider>
 			{showMap && (
 				<>
-					<div className="max-w-[1200px] mx-auto my-10  px-8 py-6  text-gray-200 bg-white-700 rounded-3xl bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-100 border-4 border-teal-600 ">
-						<Map />
-					</div>
+					<Map />
 					<Footer />
 				</>
 			)}
