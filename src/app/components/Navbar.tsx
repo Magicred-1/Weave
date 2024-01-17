@@ -76,7 +76,7 @@ const Navbar = () => {
 						</li>
 						{ isConnected && userIsEventOwner
 							? <li>
-								<a href="#" 
+								<a href="/events/dashboard" 
 									className="block py-1 px-5 text-white hover:rounded-full hover:bg-[#008790]
 										focus:rounded-full focus:bg-[#008770]"
 								>
