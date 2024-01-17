@@ -36,7 +36,7 @@ const EventsDashboardTable: React.FC<EventsDashboardTableProps> = ({ data }) => 
                 <a href={`/leaderboard/${item.eventOwnerAddress}`}>
                     <img
                         alt="Avatar"
-                        className="rounded-full"
+                        className="rounded-full justify-center"
                         height="32"
                         src={profileIcon(item.eventOwnerAddress)}
                         style={{

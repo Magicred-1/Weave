@@ -100,7 +100,7 @@ const DynamicMap = () => {
 							/>
 							<div className="w-full flex justify-center ">
 								<button type="submit" className=" mt-4 px-8 py-2 text-white rounded-full bg-[#008770]">
-									submit
+									Enter
 								</button>
 							</div>
 						</form>
