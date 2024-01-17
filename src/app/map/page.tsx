@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 }
 
 const MapPage = () => {
+
 	return (
 		<>
 			<div
@@ -25,6 +26,7 @@ const MapPage = () => {
 			</div>
 		</>
 	)
+
 }
 
 export default MapPage
