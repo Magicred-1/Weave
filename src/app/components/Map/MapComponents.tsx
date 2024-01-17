@@ -1,3 +1,4 @@
+import { defaultIcon } from "@/lib/markerIcons";
 import { 
     GetUsersPositions,
     GetEvents,
@@ -8,14 +9,14 @@ const sampleEvents: Events[] = [
     {
         id: '1',
         name: 'ETH Global Paris',
-        image: 'https://pbs.twimg.com/media/E7l1w6tXoA0K5q3?format=jpg&name=large',
+        image: defaultIcon.options.iconUrl,
         description: 'ETHGlobal is the largest Ethereum hackathon & developer ecosystem. We run hackathons, workshops, and events for the Ethereum community.',
         startDate: '2021-10-01',
         endDate: '2021-10-03',
         website: 'https://ethglobal.co/',
         maxParticipants: 100,
         venueAddress: 'Paris, France',
-        coordinates: [48.8566, 2.3522],
+        coordinates: [48.82356887012824, 2.4122929573059086],
         radius: 5000,
         radiusColor: 'red'
     },
