@@ -9,11 +9,11 @@ export const metadata: Metadata = {
 
 const MapPage = () => {
     return (
-        <>
+        <div className=" bg-gray-900">
             <Navbar />
             <DynamicMap />
             <Footer />
-        </>
+        </div>
     )
 }
 
