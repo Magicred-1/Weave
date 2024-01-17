@@ -59,7 +59,7 @@ const Form = () => {
 		},
 	})
 
-	const [price, setPrice] = useState<number>();
+	const [price, setPrice] = useState<number>(0);
 	const [startDate, setStartDate] = useState<number>();
 	const [endDate, setEndDate] = useState<number>();
 	const [currency, setCurrency] = useState<AcceptedCurrency>("GHO");
@@ -76,7 +76,29 @@ const Form = () => {
 		setCurrency(e.target.value as AcceptedCurrency);
 	}
 
-	const onChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+	// Price* = ((basePrice + dailyRate) * _numberOfDays) + (Date difference (Today - Start of event))
+	const calculatePrice = (_endDate: number, _startDate: number) => {
+		if (!_endDate || !_startDate) {
+			return;
+		}
+
+		if (_endDate < _startDate) {
+			return;
+		}
+
+		if (_endDate === _startDate) {
+			return;
+		}
+
+		const basePrice = 5;
+		const dailyRate = 7;
+		const numberOfDays = (_endDate - _startDate) / 86400;
+		const dateDifference = (_startDate - Math.round(new Date().getTime() / 1000)) / 86400;
+		const price = ((basePrice + dailyRate) * numberOfDays) + dateDifference;
+		setPrice(price);
+	}
+
+	const onChangeLogo = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files && e.target.files[0]) {
 			setLogo(e.target.files[0]);
 		}
@@ -84,6 +106,13 @@ const Form = () => {
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
+
+		try {
+			getLatLng(address);
+		} catch (error) {
+			console.error("Error submitting form:", error);
+		}
+		
 		console.log('Form submitted with data:', {
 			price,
 			startDate,
@@ -98,6 +127,7 @@ const Form = () => {
 			radius,
 			color,
 		});
+		calculatePrice(endDate as number, startDate as number);
 	};
 
 	const convertDateToUnix = (date: Date) => {
@@ -107,24 +137,34 @@ const Form = () => {
 	const getLatLng = async (eventAddress: string) => {
 		console.log(eventAddress);
 		if (!eventAddress) {
-		  return;
+			return;
 		}
-	
+
 		try {
 			const response = await fetch(
-				`https://geocode.maps.co/search?q=${encodeURIComponent(eventAddress)}`
+			`https://geocode.maps.co/search?q=${encodeURIComponent(eventAddress)}`
 			);
+
+			if (!response.ok) {
+			throw new Error(`Failed to fetch coordinates. Status: ${response.status}`);
+			}
+
 			const data = await response.json();
-		
-			console.log(data);
+
+			if (!data || data.length === 0) {
+			throw new Error(`No coordinates found for address: ${eventAddress}`);
+			}
+
 			const lat = data[0].lat;
 			const lng = data[0].lon;
+
 			setMapPosition([lat, lng]);
 			return [lat, lng];
 		} catch (error) {
 			console.error("Error fetching coordinates:", error);
 		}
 	};
+
 
 	const CustomRadioCard: React.FC<RadioCardProps> = ({ value, label, checked, onChange, image }) => (
 		<Card
@@ -151,7 +191,7 @@ const Form = () => {
 			onSubmit={handleSubmit}
 			className="max-w-4xl mx-4 mb-10 md:mx-0 px-8 py-6 md:ml-20 text-gray-200 bg-white-600 rounded-3xl bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-100 border border-gray-100"
 		>
-			{/* File Input */}
+			{/* text Input */}
 			<div className="mb-4">
 				<label htmlFor="file" className="block text-sm font-medium ">
 					Event Logo
@@ -162,13 +202,13 @@ const Form = () => {
 					name="file"
 					accept='image/png, image/jpeg, image/jpg, image/gif'
 					size={1000000}
-					onChange={onChangeFile}
+					onChange={onChangeLogo}
 					className="mt-1 p-2 border rounded-md w-full"
 				/>
 			</div>
 			{/* Event Name */}
 			<ThemeProvider theme={theme}>
-				<label htmlFor="file" className="block text-sm font-medium ">
+				<label htmlFor="text" className="block text-sm font-medium ">
 					Event Name
 				</label>
 				<TextField 
@@ -179,7 +219,7 @@ const Form = () => {
 				/>
 			</ThemeProvider>
 			{/*Event Description  */}
-			<label htmlFor="file" className="block text-sm font-medium ">
+			<label htmlFor="text" className="block text-sm font-medium ">
 				Event Description
 			</label>
 			<TextareaAutosize
@@ -191,7 +231,7 @@ const Form = () => {
 			<div className=" flex flex-col md:flex-row md:gap-4 text-gray-200">
 				{/* Start Date */}
 				<ThemeProvider theme={theme}>
-					<label htmlFor="file" className="block text-sm font-medium mt-4">
+					<label htmlFor="text" className="block text-sm font-medium mt-4">
 						Start Date
 					</label>
 					<TextField
@@ -205,7 +245,7 @@ const Form = () => {
 				</ThemeProvider>
 				{/* End Date */}
 				<ThemeProvider theme={theme}>
-					<label htmlFor="file" className="block text-sm font-medium mt-4">
+					<label htmlFor="text" className="block text-sm font-medium mt-4">
 						End Date
 					</label>
 					<TextField
@@ -220,7 +260,7 @@ const Form = () => {
 			</div>
 			{/* Event Website */}
 			<ThemeProvider theme={theme}>
-				<label htmlFor="file" className="block text-sm font-medium mt-3">
+				<label htmlFor="text" className="block text-sm font-medium mt-3">
 					Event Website
 				</label>
 				<TextField
@@ -230,9 +270,9 @@ const Form = () => {
 					required
 				/>
 			</ThemeProvider>
-			{/* Max Participants */}
+			{/* Max Participtexfiletants */}
 			<ThemeProvider theme={theme}>
-				<label htmlFor="file" className="block text-sm font-medium mt-3">
+				<label htmlFor="text" className="block text-sm font-medium mt-3">
 					Max Participants
 				</label>
 				<TextField
@@ -244,7 +284,7 @@ const Form = () => {
 				/>
 			</ThemeProvider>
 			{/* Payment Method */}
-			<label htmlFor="file" className="block text-sm font-medium mt-3">
+			<label htmlFor="text" className="block text-sm font-medium mt-3">
 				Payment Method
 			</label>
 			<RadioGroup
@@ -284,26 +324,25 @@ const Form = () => {
 				/>
 			</RadioGroup>
 			{/* Event Venue Address */}
-			<label htmlFor="file" className="block text-sm font-medium mt-3 ">
+			<label htmlFor="text" className="block text-sm font-medium mt-3 ">
 				Event Venue Address
 			</label>
 			<TextareaAutosize
 				minRows={2}
-				name="venueAddress"
-				value={address}
-				onChange={handleSubmit}
+				name="eventDescription"
+				onChange={e => setAddress(e.target.value)}
 				className="mt-3 p-2 border rounded-md w-full text-gray-200 bg-transparent"
 			/>
 			<div className="flex flex-col md:flex-row md:gap-4">
 				{/* Event Radius */}
 				<div className="w-full flex flex-col mt-3">
-					<label htmlFor="file" className="block text-sm font-medium ">
+					<label htmlFor="text" className="block text-sm font-medium ">
 						Event Radius
 					</label>
 					<Select
 						name="eventRadius"
 						onChange={e => setRadius(Number(e.target.value))}
-						className="mt-1 border rounded-md w-full"
+						className="mt-1 border rounded-md w-full text-gray-200"
 					>
 						<MenuItem value={50}>50</MenuItem>
 						<MenuItem value={100}>100</MenuItem>
@@ -313,14 +352,14 @@ const Form = () => {
 				</div>
 				{/* Color */}
 				<div className="w-full flex flex-col mt-3">
-					<label htmlFor="file" className="block text-sm font-medium ">
+					<label htmlFor="text" className="block text-sm font-medium text-gray-200">
 						Color
 					</label>
 					<Select
 						label="Color"
 						name="color"
 						onChange={e => setColor(e.target.value as CercleColor)}
-						className="mt-1 border rounded-md w-full"
+						className="mt-1 border rounded-md w-full text-gray-200"
 					>
 						<MenuItem value="red">Red</MenuItem>
 						<MenuItem value="blue">Blue</MenuItem>
@@ -333,9 +372,11 @@ const Form = () => {
 				</div>
 			</div>
 
-			<h3 className="w-full flex justify-center mt-3 text-gray-200 text-md font-bold ">
-				Estimated cost for event : 60$ GHO
-			</h3>
+			{ price > 0 ? (
+				<h3 className="w-full flex justify-center mt-3 text-gray-200 text-md font-bold ">
+				Estimated cost for event :  {price} {currency}
+			</h3> ) : null }
+			
 			{/* Submit Button */}
 			<div className="w-full flex justify-center ">
 				<Button
