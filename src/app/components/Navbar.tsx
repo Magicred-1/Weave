@@ -1,12 +1,9 @@
 'use client';
 
-import React from 'react';
-import { ConnectKitButton } from 'connectkit';
-import { useAccount } from 'wagmi';
-import Image from 'next/image';
-import localfont from 'next/font/local';
-
-const PressStart2P = localfont({src: './../assets/fonts/PressStart2P.ttf'});
+import React from 'react'
+import { ConnectKitButton } from 'connectkit'
+import { useAccount } from 'wagmi'
+import Image from 'next/image'
 
 const Navbar = () => {
 	const { isConnected } = useAccount()
@@ -17,7 +14,7 @@ const Navbar = () => {
 			<div className="w-full flex flex-wrap items-center justify-between mx-auto p-4">
 				<a className="flex items-center space-x-3 rtl:space-x-reverse" href='/'>
 					<Image src="/icon_logo.png" alt="Weave Logo" width={50} height={50} />
-					<span className={`${PressStart2P.className} self-center text-2xl font-semibold whitespace-nowrap text-white`}>Weave</span>
+					<span className="self-center text-2xl font-semibold whitespace-nowrap text-white">Weave</span>
 				</a>
 				<div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
 					<ConnectKitButton />
@@ -77,7 +74,7 @@ const Navbar = () => {
 						</li>
 						{ isConnected && userIsEventOwner
 							? <li>
-								<a href="/events/dashboard" 
+								<a href="#" 
 									className="block py-1 px-5 text-white hover:rounded-full hover:bg-[#008790]
 										focus:rounded-full focus:bg-[#008770]"
 								>

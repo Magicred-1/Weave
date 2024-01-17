@@ -1,34 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 
-import "../interfaces/IVault.sol";
-
 contract Users {
-
-
-    IVault public vaultContract;
-    address public rewardToken;  // Address of the token used as a reward
-
-
-    event RewardsClaimed(address indexed user, uint256 points, uint256 tokenAmount);
-
-    // Reentrancy guard state variable
-    bool private locked;
-
-    // Constructor to set initial vault contract and reward token
-    constructor(address _vaultAddress, address _rewardToken) {
-        vaultContract = IVault(_vaultAddress);
-        rewardToken = _rewardToken;
-        locked = false;
-    }
-
-    modifier noReentrancy() {
-        require(!locked, "No reentrancy");
-        locked = true;
-        _;
-        locked = false;
-    }
-
     struct User {
         address userAddress;
         string nickName;
@@ -102,29 +75,6 @@ contract Users {
         }
         return false;
     }   
-
-    function claimRewards(address eventAddress) public noReentrancy {
-        require(addressRegistered[msg.sender], "User not registered");
-        require(users[msg.sender].points > 0, "No reward points");
-
-        uint256 tokenAmount = vaultContract.getPoolAmount(eventAddress);  // Get the token amount from the pool for the event
-
-        // Check if the pool has enough tokens to cover the reward
-        require(tokenAmount > 0, "Insufficient tokens in the pool");
-
-        // Reset points before transferring to prevent reentrancy issues
-        uint256 claimedPoints = users[msg.sender].points;
-        users[msg.sender].points = 0;
-
-        // Withdraw tokens from the pool for the event
-        vaultContract.withdrawFromPool(rewardToken, eventAddress);
-
-        // Transfer tokens to the user
-        IERC20(rewardToken).transfer(msg.sender, tokenAmount);
-
-        emit RewardsClaimed(msg.sender, claimedPoints, tokenAmount);
-    }
-}
 
 
 

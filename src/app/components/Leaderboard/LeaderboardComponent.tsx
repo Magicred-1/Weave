@@ -1,11 +1,8 @@
 'use client';
-
 import { Card } from "../ui/card";
-import LeaderboardTable from './LeaderboardTable';
+import background from '@/app/assets/bg.jpg'
 import LeaderboardData from './LeaderboardData';
-import Footer from "../Footer";
-import Navbar from "../Navbar";
-
+import LeaderboardTable from './LeaderboardTable';
 export const LeaderboardComponent = () => {
   const sampleLeaderboardData: LeaderboardData[] = [
     { 
@@ -53,17 +50,13 @@ export const LeaderboardComponent = () => {
   ];
 
   return (
-    <div className="flex flex-col h-screen bg-gray-900">
-      <Navbar />
-      <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-10">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4"></div>
-        <div>
-          <Card>
-            <LeaderboardTable data={sampleLeaderboardData} />
-          </Card>
-        </div>
-      </main>
-      <Footer />
-    </div>
-  );
+		<main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-10">
+			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4"></div>
+			<div>
+				<Card>
+					<LeaderboardTable data={sampleLeaderboardData} />
+				</Card>
+			</div>
+		</main>
+  )
 };
