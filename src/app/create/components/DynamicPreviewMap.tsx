@@ -26,15 +26,32 @@ const DynamicPreviewMap = ({
   color,
   showMap,
 }: PreviewComponentProps) => {
-  const PreviewComponent = useMemo(
-    () =>
-      dynamic(() => import('@/app/create/components/PreviewMap/PreviewComponent')),
+  const Map = useMemo(
+    () => dynamic(
+        () => import('./PreviewMap/PreviewComponent'),
+        {
+            loading: () => (
+                <div className="flex justify-center items-center h-screen">
+                    <div className="bg-white p-6 rounded-lg shadow-md max-h-96">
+                        <div className="spinner-border text-primary" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </div>
+                        <p className="mt-4 text-sm text-black-600 text-center">
+                            <ThreeDots stroke="#000" />
+                            Loading...
+                        </p>
+                    </div>
+                </div>
+            ),
+            ssr: false
+        }
+    ),
     []
-  );
+);
 
   return (
     <div>
-      <PreviewComponent
+      <Map
         title={title}
         position={position}
         description={description}
