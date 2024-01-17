@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 
-import "./Hackathon.sol";
+import "./Events.sol";
 
 contract EventFactory {
 
@@ -24,13 +24,5 @@ contract EventFactory {
     function getAllEvents() public view returns (Event[] memory) {
         return events;
     }
-
-
-
-
-
-
-
-
 
 }
