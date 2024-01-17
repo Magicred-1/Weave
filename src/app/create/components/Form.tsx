@@ -67,6 +67,7 @@ const Form = () => {
 	const [mapPosition, setMapPosition] = useState<[number, number]>([51.505, -0.09]);
 	const [description, setDescription] = useState<string>("");
 	const [website, setWebsite] = useState<string>("");
+	const [maxParticipants, setMaxParticipants] = useState<number>(0);
 	const [event, setEvent] = useState<string>("");
 	const [logo, setLogo] = useState<File>();
 	const [radius, setRadius] = useState<number>(200);
@@ -122,6 +123,7 @@ const Form = () => {
 			mapPosition,
 			description,
 			website,
+			maxParticipants,
 			event,
 			logo,
 			radius,
@@ -290,7 +292,7 @@ const Form = () => {
 			<RadioGroup
 				aria-label="Max Participants"
 				name="paymentMethod"
-				onChange={(e: SelectChangeEvent) => setCurrency(e.target.value as AcceptedCurrency)}
+				onChange={(e: SelectChangeEvent) => setMaxParticipants(Number(e.target.value))}
 				className="w-full flex flex-col md:flex-row mt-2 gap-5"
 				// style={{ flexDirection: 'row' }}
 			>
