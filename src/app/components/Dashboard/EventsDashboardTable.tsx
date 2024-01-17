@@ -50,8 +50,9 @@ const EventsDashboardTable: React.FC<EventsDashboardTableProps> = ({ data }) => 
             </TableCell>
             {
                 <ul>
+                    {/* Add the key */}
                     {item.eventManagers.map((manager) => (
-                        <a href={`/leaderboard/${manager.address}`}>
+                              <a href={`/leaderboard/${manager.address}`} key={manager.address}>
                             <li key={manager.address}>
                                 <img
                                     alt="Avatar"
