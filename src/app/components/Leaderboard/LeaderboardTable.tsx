@@ -32,8 +32,10 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ data }) => {
       <TableBody>
         {data.map((item) => (
           <TableRow key={item.rank}>
-            <TableCell className="font-medium">{item.rank}</TableCell>
-            <TableCell>
+            <TableCell className="font-medium">
+              {item.rank}
+            </TableCell>
+            <TableCell className='flex justify-center'>
               <img
                 alt="Avatar"
                 className="rounded-full"
@@ -47,7 +49,11 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ data }) => {
               />
             </TableCell>
             <TableCell>{item.address}</TableCell>
-            <TableCell>{item.nickname}</TableCell>
+            <TableCell>
+              <a href={`/leaderboard/${item.address}`}>
+                {item.nickname}
+              </a>
+            </TableCell>
             <TableCell>{item.eventsAttended}</TableCell>
             <TableCell>{item.peopleMet}</TableCell>
             <TableCell>
