@@ -3,12 +3,14 @@ pragma solidity ^0.8.9;
 
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./Users.sol";
+import "./Weave.sol";
+import "../interfaces/IEAS.sol";
 
 
 contract Event {
 
     Users users;
+    IEAS public easContract; 
 
     struct Coordinates {
         uint256 latitude;
@@ -31,7 +33,7 @@ contract Event {
     // mapping of address who were registered for the event
     mapping(address => bool) public addressRegistered;
     mapping(address => bool) public hasAttended;
-    mapping(address => uint256) public attendanceAttestation;
+    mapping(address => bytes32) public attendanceAttestation;
 
 
     // Modifiers
@@ -62,13 +64,14 @@ contract Event {
     EventStatus public status;
 
 
-    constructor(string memory _eventName, uint256 _rewardPool, address[] memory _managers, address userContractAddress , address _owner) {
+    contructor(string memory _eventName, uint256 _rewardPool, address[] memory _managers, address userContractAddress , address _owner,  address _easAddress ) {
         OWNER= msg.sender;
         EVENTNAME = _eventName;
         REWARDPOOL = _rewardPool;
         MANAGERS = _managers;
         users  = Users(userContractAddress);
         status = EventStatus.Upcoming;
+        easContract = IEAS(_easAddress);
     }
 
 
@@ -89,7 +92,7 @@ contract Event {
      * @notice Marks attendance of a hacker for the event.
      * @param hackerAddress The address of the hacker whose attendance is being recorded.
      */
-    function markAttendance(address hackerAddress, uint256 attestationId , uint256 _points) external onlyManagers {
+    function markAttendance(address hackerAddress, bytes32 attestationId , uint256 _points) external onlyManagers {
         require(addressRegistered[hackerAddress], "Hacker not registered");
         require(!hasAttended[hackerAddress], "Attendance already marked");
         require(attendanceAttestation[hackerAddress] == 0, "Attestation ID already assigned");
@@ -172,6 +175,16 @@ contract Event {
     function getAttendanceRate() public view returns (uint256) {
         if (hackersRegistered.length == 0) return 0;
         return (hackersAttended.length * 100) / hackersRegistered.length;
+    }
+
+
+      /**
+     * @notice Checks the attestation details for a given UID.
+     * @param attestationUID The UID of the attestation to check.
+     * @return The attestation details.
+     */
+    function checkAttestation(address user) public view returns (Common.Attestation memory) {
+        return easContract.getAttestation(attendanceAttestation[user]);
     }
 
     
