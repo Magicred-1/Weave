@@ -21,7 +21,7 @@ const EventsDashboardTable: React.FC<EventsDashboardTableProps> = ({ data }) => 
       <TableHeader>
         <TableRow>
             <TableHead className="w-[100px]">Event Name</TableHead>
-            <TableHead>Contract Address</TableHead>
+            <TableHead>Event Contract Address</TableHead>
             <TableHead>Event Owner</TableHead>
             <TableHead>Event Managers</TableHead>
             <TableHead>Actions</TableHead>

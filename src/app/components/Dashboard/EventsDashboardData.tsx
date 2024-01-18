@@ -1,5 +1,6 @@
 interface EventsDashboardData {
     eventName: string;
+    eventContractAddress: `0x${string}`;
     eventOwnerAddress: `0x${string}`,
     eventOwnerNickname?: string,
     eventManagers: eventManagers[];
