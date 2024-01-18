@@ -24,7 +24,7 @@ export const NotFoundComponent = () => {
       </p>
       <Link
         className="mt-8 inline-flex items-center justify-center px-5 py-3 border border-gray-200 border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 dark:border-gray-800"
-        href="#"
+        href="/"
       >
         Go to homepage
       </Link>
