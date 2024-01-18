@@ -10,7 +10,6 @@ import { Circle, useMap } from "react-leaflet";
 import { userIcon, visitorIcon } from "../../../../lib/markerIcons";
 import moment from "moment";
 import { Button } from '@mui/material';
-import { getAllChats } from "./Chat/GetChats";
 
 interface ConnectedUser {
     image?: string;
@@ -130,7 +129,7 @@ export const GetUsersPositions = () => {
                       <Button 
                       variant="contained" 
                       color="primary"
-                      onClick={() => console.log(getAllChats(address as `0x${string}`))}
+                      onClick={() => console.log("Send message")}
                     >
                       Send Message
                   </Button>): 
