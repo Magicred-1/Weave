@@ -1,24 +1,22 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+
+pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "./ILeaderboard.sol";
 
-interface IVault is ILeaderboard, IERC20, Ownable {
-    event PoolCreated(address indexed token, uint256 amount, uint256 poolAmount);
-
-    function depositToVault(address _token, uint256 _amount) external;
-
-    function createPool(address _token, address eventAddress, uint256 _amount) external;
-
-    function withdrawFromVault(address _token, uint256 _amount, address eventAddress) external;
-
-    function withdrawFromPool(address _token, address eventAddress) external;
-
-    function getPoolAmount(address eventAddress) external view returns (uint256);
-
-    function getAllPools() external view returns (address[] memory);
-
-    function addPaymentToken(IERC20 _token) external;
+interface IVault {
+    function setGHOAddress(address _tokenAddress) external;
+    function setAAVEPoolAddress(address _poolAddress) external;
+    function setWithdrawAllowed(bool _withdrawAllowed) external;
+    function addCollateral(address _token, uint256 _amount) external;
+    function addCollateralToAAVEPool(uint256 _amount, address _tokenAddress) external;
+    function exchangePointsForGHO(uint256 _amount) external;
+    // function depositETH() external payable;
+    function withdrawGHOFromContract(uint256 _amount) external;
+    function getGHOBalance() external view returns (uint256);
+    function getWETHBalance() external view returns (uint256);
+    function getAAVEPoolAddress() external view returns (address);
+    function getUserBalance(address _user) external view returns (uint256);
+    function getGHOAddress() external view returns (address);
 }
+
