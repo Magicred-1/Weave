@@ -1,11 +1,15 @@
 import React from 'react'
+import localfont from 'next/font/local';
+import { FaGithub } from "react-icons/fa";
+
+const PressStart2P = localfont({src: './../assets/fonts/PressStart2P.ttf'});
 
 const Footer = () => {
 	return (
 		<footer className=" w-full h-full bg-gray-900  bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border-t border-gray-100">
 			<div className="w-full ">
 				<div className="sm:flex sm:items-center sm:justify-between px-20 py-4">
-					<span className="self-center text-3xl font-bold whitespace-nowrap dark:text-white">
+					<span className={`${PressStart2P.className} self-center text-3xl font-bold whitespace-nowrap dark:text-white`}>
 						<a href='/'>Weave</a>
 					</span>
 					<span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
@@ -16,8 +20,7 @@ const Footer = () => {
 					</span>
 					<ul className="flex flex-wrap items-center mb-6 text-lg font-medium text-gray-200 sm:mb-0 ">
 						<li>
-							<a href="https://github.com/Magicred-1/Weave" target='_blank' className="hover:underline me-4 md:me-6">
-								Github
+							<a href="https://github.com/Magicred-1/Weave" target='_blank' className="hover:underline me-4 md:me-6 "><FaGithub /> Github
 							</a>
 						</li>
 					</ul>

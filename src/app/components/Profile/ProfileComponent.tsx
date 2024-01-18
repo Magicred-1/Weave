@@ -11,6 +11,7 @@ export default function ProfileComponent({ address }: ProfileComponentProps) {
   const profileIcon = `https://api.cloudnouns.com/v1/pfp?text=${address}`
 
   return (
+
 		<div className="flex flex-col items-center space-y-6 p-6">
 			<div className=" h-fit w-fit p-4 border-4 rounded-full border-teal-600">
 				<Avatar className="h-24 w-24">
@@ -45,6 +46,7 @@ export default function ProfileComponent({ address }: ProfileComponentProps) {
 				</CardContent>
 			</Card>
 		</div>
+
   )
 }
 
