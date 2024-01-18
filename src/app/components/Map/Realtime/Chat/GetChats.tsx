@@ -6,8 +6,8 @@ import { useAccount } from "wagmi";
  Chats:
     - id: string
     - messages: string,
-    - recipient: string,
-    - sender: string,
+    - recipient: `0x${string}`,
+    - sender: `0x${string}`,
     - created_at: timestampz
 */
 
@@ -19,28 +19,33 @@ export interface Chats {
     created_at: string;
 }
 
+export const getAllChats = async (address: `0x${string}`,) => {
+    // get all chats where the current user is a member
+    const { data: chatIds } = await supabaseClient
+        .from('chats')
+        .select('id, messages, recipient, sender, created_at')
+        .eq('recipient', address)
+        .eq('sender', address);
+
+    return chatIds as Chats[];
+};
+
 const Chats = () => {
     const [chats, setChats] = useState<Chats[]>([]);
     const { address } = useAccount();
 
-    async function getAllChats() {
-        // get all chats where the current user is a member
-        const { data: chatIds } = await supabaseClient
-            .from('chats')
-            .select('messages, recipient, sender, created_at')
-            .eq('recipient', address)
-            .eq('sender', address);
-
-        setChats(chatIds as Chats[]);
-    }
-
     useEffect(() => {
-        getAllChats();
-    }, []);
+        const fetchChats = async () => {
+            const allChats = await getAllChats(address as `0x${string}`);
+            setChats(allChats);
+        };
+
+        fetchChats();
+    }, [address]);
 
     return (
         <>
-            {chats.map((chat: any) => (
+            {chats.map((chat: Chats) => (
                 <div key={chat.id}>
                     <p>{chat.messages}</p>
                     <p>{chat.recipient}</p>
@@ -50,4 +55,6 @@ const Chats = () => {
             ))}
         </>
     );
-}
+};
+
+export default Chats;
