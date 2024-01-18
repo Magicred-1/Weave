@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+``// SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.9;
 
@@ -6,6 +6,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "https://github.com/aave/aave-v3-core/blob/master/contracts/interfaces/IPool.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./interfaces/IVault.sol";
+import "./interfaces/IWETHGateway.sol";
+
 
 contract Vault is Ownable, IVault {
     address public GHO_TOKEN_ADDRESS = 0xc4bF5CbDaBE595361438F8c6a187bDc330539c60;
@@ -18,6 +20,8 @@ contract Vault is Ownable, IVault {
 
     IPool internal constant aaveV3Pool = IPool(0x6Ae43d3271ff6888e7Fc43Fd7321a503ff738951);
 
+    IWETHGateway public wethGateway;
+
     mapping(address => uint256) public pointsBalances;
 
     boolean public withdrawAllowed = false;
@@ -28,12 +32,14 @@ contract Vault is Ownable, IVault {
         address _USDC_TOKEN_ADDRESS,
         address _EURS_TOKEN_ADDRESS,
         address _LINK_TOKEN_ADDRESS,
-        address _WETH_TOKEN_ADDRESS
+        address _WETH_TOKEN_ADDRESS,
+        address _wethGatewayAddress
     ) Ownable(msg.sender) {
         listOfAllowedTokens.push(_USDC_TOKEN_ADDRESS);
         listOfAllowedTokens.push(_EURS_TOKEN_ADDRESS);
         listOfAllowedTokens.push(_LINK_TOKEN_ADDRESS);
         listOfAllowedTokens.push(_WETH_TOKEN_ADDRESS);
+        wethGateway = IWETHGateway(_wethGatewayAddress);
     }
 
     function setGHOAddress(address _tokenAddress) external onlyOwner {
@@ -115,4 +121,9 @@ contract Vault is Ownable, IVault {
         }
         return false;
     }
+
+    function depositETH() external payable {
+        wethGateway.depositETH{value: msg.value}(address(this), 0);
+    }
+
 }
