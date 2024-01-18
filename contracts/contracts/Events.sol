@@ -184,6 +184,7 @@ contract Event {
      * @return The attestation details.
      */
     function checkAttestation(address user) public view returns (Common.Attestation memory) {
+        require(attendanceAttestation[user],"Attestation is not done");
         return easContract.getAttestation(attendanceAttestation[user]);
     }
 
