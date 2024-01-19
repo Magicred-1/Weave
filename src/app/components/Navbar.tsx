@@ -77,7 +77,7 @@ const Navbar = () => {
 						{isConnected ? (
 							<li>
 								<a
-									href="/profile"
+									href={`/leaderboard/${useAccount().address}`}
 									className="block py-1 px-5 text-white hover:bg-[#008790] rounded-full focus:bg-[#008770]"
 								>
 									Profile
