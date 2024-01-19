@@ -10,7 +10,7 @@ import { Button, Drawer, List, ListItem, Toolbar, IconButton, Menu, MenuItem } f
 const PressStart2P = localfont({ src: './../assets/fonts/PressStart2P.ttf' })
 
 const Navbar = () => {
-	const { isConnected } = useAccount()
+	const { isConnected, address } = useAccount()
 	const userIsEventOwner = true
 	const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null)
 
@@ -77,7 +77,7 @@ const Navbar = () => {
 						{isConnected ? (
 							<li>
 								<a
-									href={`/leaderboard/${useAccount().address}`}
+									href={`/leaderboard/${address}`}
 									className="block py-1 px-5 text-white hover:bg-[#008790] rounded-full focus:bg-[#008770]"
 								>
 									Profile
