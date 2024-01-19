@@ -13,6 +13,7 @@ import { Button } from '@mui/material';
 
 interface ConnectedUser {
     image?: string;
+    username?: string;
     personWalletAddress: `0x${string}`;
     coordinates: LatLngExpression;
     lastConnection?: string;
@@ -27,6 +28,7 @@ export const GetUsersPositions = () => {
     const [connectedUsers, setConnectedUsers] = useState<ConnectedUser[]>([]);
     const [userPosition, setUserPosition] = useState<LatLngExpression>([42, 18]);
     const [visiblePosition, setVisiblePosition] = useState<boolean>(false);
+    const [userNickname, setUserNickname] = useState<string>("Anonymous");
 
     const { address, isConnected } = useAccount();
 
@@ -95,6 +97,7 @@ export const GetUsersPositions = () => {
                 event: "connectedUser",
                 payload: {
                   image: `https://api.cloudnouns.com/v1/pfp?text=${address}`,
+                  username: userNickname,
                   personWalletAddress: address,
                   coordinates: userPosition,
                   lastConnection: moment().format("MMMM Do YYYY, h:mm:ss a"),

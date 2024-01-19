@@ -61,11 +61,13 @@ contract Vault is Ownable {
         borrowAaveGHO(_tokenAddress, _amount);
     }
 
-    function exchangePointsForGHO(uint256 _points, address _user) external onlyLeaderboardContract {
+    function exchangePointsForGHO(uint256 _points, address _user) external onlyLeaderboardContract returns (bool) {
+        require(_points > 0, "Points must be greater than 0");
         uint256 _amount = calculateGHOAmount(_points);
         IERC20(GHO_TOKEN_ADDRESS).transfer(_user, _amount);
 
         emit Exchange(_user, _amount);
+        return true;
     }
 
     function calculateGHOAmount(uint256 _points) internal pure returns (uint256) {
