@@ -1,6 +1,6 @@
+import { Badge } from "../ui/badge";
 import { AvatarImage, AvatarFallback, Avatar } from "../ui/avatar";
 import { CardTitle, CardHeader, CardContent, Card } from "../ui/card";
-import { Badge } from "../ui/badge";
 
 type ProfileComponentProps = {
   address: `0x${string}`
@@ -11,44 +11,42 @@ export default function ProfileComponent({ address }: ProfileComponentProps) {
   const profileIcon = `https://api.cloudnouns.com/v1/pfp?text=${address}`
 
   return (
-    <div className="flex flex-col items-center space-y-6 p-6">
-      <Avatar className="h-24 w-24">
-        <AvatarImage alt="user-profile" src={profileIcon} />
-        <AvatarFallback>Loading ..</AvatarFallback>
-      </Avatar>
-      <div className="text-center text-white">
-        <h2 className="font-medium text-lg">Nickname</h2>
-        <p>{address}</p>
-      </div>
-      <Badge className="items-center">
-        <UserIcon className="h-5 w-5 mr-2" />
-        User Score: 85 / Events Attended: 85
-      </Badge>
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>Events Attended</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ul className="list-disc list-inside space-y-2">
-            <li>
-              <a href="/events/1">
-                Event 1
-              </a>
-            </li>
-            <li>
-              <a href="/events/2">
-                Event 2
-              </a>
-            </li>
-            <li>
-              <a href="/events/3">
-                Event 3
-              </a>
-            </li>
-          </ul>
-        </CardContent>
-      </Card>
-    </div>
+
+		<div className="flex flex-col items-center space-y-6 p-6">
+			<div className=" h-fit w-fit p-4 border-4 rounded-full border-teal-600">
+				<Avatar className="h-24 w-24">
+					<AvatarImage alt="user-profile" src={profileIcon} />
+					<AvatarFallback className="text-gray-200">Loading ..</AvatarFallback>
+				</Avatar>
+			</div>
+			<div className="text-center text-gray-200">
+				<h2 className="text-3xl font-bold">Nickname</h2>
+				<p className="text-sm font-semibold mt-2">{address}</p>
+			</div>
+			<Badge className="items-center">
+				<UserIcon className="h-5 w-5 mr-2" />
+				User Score: 85 / Events Attended: 85
+			</Badge>
+			<Card className="w-full max-w-md border-4 border-teal-600">
+				<CardHeader>
+					<CardTitle>Events Attended</CardTitle>
+				</CardHeader>
+				<CardContent>
+					<ul className="list-disc list-inside space-y-2">
+						<li>
+							<a href="/events/1">Event 1</a>
+						</li>
+						<li>
+							<a href="/events/2">Event 2</a>
+						</li>
+						<li>
+							<a href="/events/3">Event 3</a>
+						</li>
+					</ul>
+				</CardContent>
+			</Card>
+		</div>
+
   )
 }
 
