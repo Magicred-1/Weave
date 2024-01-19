@@ -15,7 +15,8 @@ body {
 
 .leaflet-container {
 	height: 92vh;
-	border-radius: 2%;
+	margin: 10px 0px;
+	/* border-radius: 2%; */
 }
 
 .user-marker {
