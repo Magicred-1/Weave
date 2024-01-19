@@ -11,13 +11,15 @@ interface ILeaderboard {
 
     event LeaderboardUpdated(address indexed user, uint256 points);
 
-    function updateLeaderboard(address _user, uint256 _points) external;
+    function updateLeaderboard(address _userAddress) external;
 
     function getLeaderboard() external view returns (address[] memory, uint256[] memory);
+    
+    function claimRewards() external;
 
-    function getLeaderboardLength() external view returns (uint256);
+    function getEventsAttended(address _userAddress) external view returns (address[] memory);
 
-    function getUserRank(address _user) external view returns (uint256);
+    function getPoints(address _userAddress) external view returns (uint256);
 }
 
 // ILeaderboard.sol

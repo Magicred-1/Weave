@@ -10,9 +10,11 @@ import { Circle, useMap } from "react-leaflet";
 import { userIcon, visitorIcon } from "../../../../lib/markerIcons";
 import moment from "moment";
 import { Button } from '@mui/material';
+import { getAddress } from "ethers";
 
 interface ConnectedUser {
     image?: string;
+    username?: string;
     personWalletAddress: `0x${string}`;
     coordinates: LatLngExpression;
     lastConnection?: string;
@@ -95,6 +97,7 @@ export const GetUsersPositions = () => {
                 event: "connectedUser",
                 payload: {
                   image: `https://api.cloudnouns.com/v1/pfp?text=${address}`,
+                  username: "Anonymous", // TODO: get username from contract
                   personWalletAddress: address,
                   coordinates: userPosition,
                   lastConnection: moment().format("MMMM Do YYYY, h:mm:ss a"),
@@ -113,6 +116,9 @@ export const GetUsersPositions = () => {
                 <Tooltip>{connectedUser.personWalletAddress}</Tooltip>
                 <Popup>
                   <div className="flex flex-col">
+                    <div className="flex flex-row">
+                      <h2>{connectedUsers[index].username}</h2>
+                    </div>
                     <div className="flex flex-row">
                       <p className="rounded-full">
                         <img src={connectedUsers[index].image} alt="user-profile" width={80} height={80} />

@@ -27,14 +27,17 @@ contract Vault is Ownable {
     IPool internal constant aaveV3Pool = IPool(0x6Ae43d3271ff6888e7Fc43Fd7321a503ff738951);
     IWETHGateway internal constant wETHGateway = IWETHGateway(0x387d311e47e80b498169e6fb51d3193167d89F7D);
 
-    mapping(address => uint256) public pointsBalances;
+    bool public withdrawAllowed = false;
+
+    event Deposit(address indexed user, uint256 amount);
+    event Withdraw(address indexed user, uint256 amount);
+    event Exchange(address indexed user, uint256 amount);
+    event Borrow(address indexed user, address indexed asset, uint256 amount);
 
     modifier onlyLeaderboardContract() {
         require(msg.sender == leaderboardContractAddress, "Caller is not leaderboard contract");
         _;
     }
-
-    bool public withdrawAllowed = false;
 
     constructor(
         address _leaderboardContractAddress
@@ -52,33 +55,59 @@ contract Vault is Ownable {
     }
 
     function addCollateral(address _tokenAddress, uint256 _amount) external {
-       aaveV3Pool.deposit(_token, _amount, address(this), 0);
-    }
-
-    // Todo: Use WETHGateway to send non weth tokens to AAVE
-    function addCollateralToAAVEPool(uint256 _amount, address _tokenAddress) external {
         require(_amount > 0, "Amount must be greater than 0");
+        require(IERC20(_tokenAddress).balanceOf(msg.sender) >= _amount, "Not enough balance");
 
-        aaveV3Pool.deposit(_tokenAddress, _amount, address(this), 0);
+        borrowAaveGHO(_tokenAddress, _amount);
     }
 
-    function exchangePointsForGHO(uint256 _amount) external onlyLeaderboardContract {
-        require(pointsBalances[msg.sender] >= _amount, "Not enough points");
-        pointsBalances[msg.sender] -= _amount;
-        IERC20(GHO_TOKEN_ADDRESS).transfer(msg.sender, _amount);
+    function exchangePointsForGHO(uint256 _points, address _user) external onlyLeaderboardContract returns (bool) {
+        require(_points > 0, "Points must be greater than 0");
+        uint256 _amount = calculateGHOAmount(_points);
+        IERC20(GHO_TOKEN_ADDRESS).transfer(_user, _amount);
+
+        emit Exchange(_user, _amount);
+        return true;
     }
 
-    function depositETH() external payable {
+    function calculateGHOAmount(uint256 _points) internal pure returns (uint256) {
+        // points * 10 %
+        return _points * 10 / 100;
+    }
+
+    function deposit() external payable {
+        require(msg.value > 0, "Deposit value must be greater than 0");
+
+        emit Deposit(msg.sender, msg.value);
+    }
+
+    function depositETHtoPool() external payable {
         IWETHGateway(wETHGateway).depositETH{
             value: msg.value
         }(address(aaveV3Pool), address(this), 0);
+
+        emit Deposit(msg.sender, msg.value);
     }
 
     function borrowAaveGHO(
-            uint256 amount
-        ) internal {
-            // use interest rate as 1 for stable
-            aaveV3Pool.borrow(GHO_TOKEN_ADDRESS, amount, 1, 0, address(this));
+        address asset,
+        uint256 amount
+    ) internal {
+        // use interest rate as 1 for stable
+        aaveV3Pool.borrow(asset, amount, 1, 0, address(this));
+
+        emit Borrow(msg.sender, asset, amount);
+    }
+
+    function withdrawFundsFromPool(
+        address _tokenAddress,
+        uint256 _amount
+    ) external onlyOwner {
+        require(withdrawAllowed, "Withdraw not allowed");
+
+        aaveV3Pool.withdraw(_tokenAddress, _amount, address(this));
+
+        emit Withdraw(msg.sender, _amount);
     }
 
     function withdrawGHOFromContract(uint256 _amount) external onlyOwner {
@@ -86,6 +115,8 @@ contract Vault is Ownable {
         require(IERC20(GHO_TOKEN_ADDRESS).balanceOf(address(this)) >= _amount, "Not enough balance");
 
         IERC20(GHO_TOKEN_ADDRESS).transfer(msg.sender, _amount);
+
+        emit Withdraw(msg.sender, _amount);
     }
 
     function getGHOBalance() external view returns (uint256) {
@@ -94,10 +125,6 @@ contract Vault is Ownable {
 
     function getWETHBalance() external view returns (uint256) {
         return IERC20(WETH_TOKEN_ADDRESS).balanceOf(address(this));
-    }
-
-    function getUserBalance(address _user) external view returns (uint256) {
-        return pointsBalances[_user];
     }
 
     function getGHOAddress() external view returns (address) {
