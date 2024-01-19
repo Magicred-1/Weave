@@ -45,6 +45,7 @@ export default function ProfileComponent({ address }: ProfileComponentProps) {
 				</CardContent>
 			</Card>
 		</div>
+
   )
 }
 
