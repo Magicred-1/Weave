@@ -1,9 +1,12 @@
 'use client'
 import Footer from '../Footer'
+import Loading from '../Loading'
 import dynamic from 'next/dynamic'
-import { useMemo, useState } from 'react'
 import { ThreeDots } from 'react-loading-icons'
-import {  Box, Modal, TextField, ThemeProvider, createTheme } from '@mui/material'
+import { useEffect, useMemo, useState } from 'react'
+import { WeaveABI } from '@/app/components/abis/index'
+import { Box, Modal, TextField, ThemeProvider, createTheme } from '@mui/material'
+import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite } from 'wagmi'
 const style = {
 	position: 'absolute' as 'absolute',
 	top: '70%',
@@ -50,10 +53,33 @@ const DynamicMap = () => {
 	const handleOpen = () => setOpen(true)
 	const [nickName, setNickName] = useState<String>()
 	const handleClose = () => setOpen(false)
+
+	const { isConnected, address } = useAccount()
+
+	const {
+		data: onboardingData,
+		error,
+		isLoading: contractReadLoading,
+	} = useContractRead({
+		abi: WeaveABI,
+		functionName: 'isUserOnboarded',
+		address: '0x5f856baB0F63a833b311fC9d853a14c8762d583d',
+		args: address && [address],
+	})
+	console.log('Read contract data and error', onboardingData, error?.message)
+	const { config } = usePrepareContractWrite({
+		address: '0x5f856baB0F63a833b311fC9d853a14c8762d583d',
+		abi: WeaveABI,
+		functionName: 'setUsername',
+		args: nickName && [nickName?.toString()],
+	})
+	const { data: dataOnset, isLoading: contractWriteLoading, isSuccess, write } = useContractWrite(config)
 	const handleOnSubmit = () => {
+		write?.()
 		setOpen(false)
 		setShowMap(true)
 	}
+	console.log('Write contract data:', dataOnset)
 	const Map = useMemo(
 		() =>
 			dynamic(() => import('../../components/Map/MapContainer'), {
@@ -77,39 +103,57 @@ const DynamicMap = () => {
 
 	return (
 		<>
-			<ThemeProvider theme={theme}>
-				<Modal
-					open={open}
-					aria-labelledby="modal-modal-title"
-					aria-describedby="modal-modal-description"
-					className=" h-[80vh]"
-				>
-					<Box sx={style}>
-						<form onSubmit={handleOnSubmit}>
-							<p className="block text-center text-lg font-medium text-teal-600">Time to get Onboard!</p>
-							<label htmlFor="text" className="block text-center text-md mb-2 text-teal-600">
-								You need to set a Username first.
-							</label>
-							<TextField
-								name="eventName"
-								onChange={e => setNickName(e.target.value)}
-								fullWidth
-								required
-								className="mt-3 text-sm font-medium text-gray-200"
-							/>
-							<div className="w-full flex justify-center ">
-								<button type="submit" className=" mt-4 px-8 py-2 text-white rounded-full bg-[#008770]">
-									Enter
-								</button>
-							</div>
-						</form>
-					</Box>
-				</Modal>
-			</ThemeProvider>
-			{showMap && (
+			{isConnected ? (
 				<>
-					<Map />
-					<Footer />
+					{(contractReadLoading || contractWriteLoading) && <Loading />}
+					{!onboardingData && !contractReadLoading && (
+						<ThemeProvider theme={theme}>
+							<Modal
+								open={open}
+								aria-labelledby="modal-modal-title"
+								aria-describedby="modal-modal-description"
+								className=" h-[80vh]"
+							>
+								<Box sx={style}>
+									<form onSubmit={handleOnSubmit}>
+										<p className="block text-center text-lg font-medium text-teal-600">
+											Time to get Onboard!
+										</p>
+										<label htmlFor="text" className="block text-center text-md mb-2 text-teal-600">
+											You need to set a Username first.
+										</label>
+										<TextField
+											name="eventName"
+											onChange={e => setNickName(e.target.value)}
+											fullWidth
+											required
+											className="mt-3 text-sm font-medium text-gray-200"
+										/>
+										<div className="w-full flex justify-center ">
+											<button
+												type="submit"
+												className=" mt-4 px-8 py-2 text-white rounded-full bg-[#008770]"
+											>
+												Enter
+											</button>
+										</div>
+									</form>
+								</Box>
+							</Modal>
+						</ThemeProvider>
+					)}
+					{(onboardingData || isSuccess) && (
+						<>
+							<Map />
+							<Footer />
+						</>
+					)}
+				</>
+			) : (
+				<>
+					<h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none   text-white text-center py-6">
+						Please Connect your wallet!
+					</h1>
 				</>
 			)}
 		</>
