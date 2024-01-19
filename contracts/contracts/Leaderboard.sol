@@ -18,17 +18,13 @@ contract Leaderboard is ReentrancyGuard, Ownable {
     uint256 constant POINTS_PER_EVENT = 100;
 
     struct User {
-        string nickName;
+        string userNickname;
         uint256 points;
         uint256 eventsAttended;
     }
 
-    struct LeaderboardEntry {
-        mapping(address => User) users;
-        address[] userAddresses;
-    }
-
-    LeaderboardEntry public leaderboard;
+    mapping(address => User) public users;
+    address[] public userAddresses;
 
     modifier onlyEvent() {
         require(eventsFactory.isContractAnEvent(msg.sender), "Only event can call this function");
@@ -49,52 +45,82 @@ contract Leaderboard is ReentrancyGuard, Ownable {
     }
 
     function updateLeaderboard(address _userAddress, string memory _nickName) external onlyEvent {
-        if (leaderboard.users[_userAddress].points == 0) {
-            leaderboard.userAddresses.push(_userAddress);
+        if (users[_userAddress].points == 0) {
+            userAddresses.push(_userAddress);
         }
 
-        leaderboard.users[_userAddress].points += POINTS_PER_EVENT;
-        leaderboard.users[_userAddress].eventsAttended += 1;
-        leaderboard.users[_userAddress].nickName = _nickName;
+        users[_userAddress].points += POINTS_PER_EVENT;
+        users[_userAddress].eventsAttended += 1;
+        users[_userAddress].userNickname = _nickName;
 
         emit UpdateLeaderboard(_userAddress, POINTS_PER_EVENT);
     }
 
     function getLeaderboard() external view returns (address[] memory, string[] memory, uint256[] memory) {
-        return (leaderboard.userAddresses, nicksToArray(), pointsToArray());
+        return (userAddresses, nicksToArray(), pointsToArray());
     }
 
     function nicksToArray() internal view returns (string[] memory) {
-        string[] memory result = new string[](leaderboard.userAddresses.length);
-        for (uint256 i = 0; i < leaderboard.userAddresses.length; i++) {
-            result[i] = leaderboard.users[leaderboard.userAddresses[i]].nickName;
+        string[] memory result = new string[](userAddresses.length);
+        for (uint256 i = 0; i < userAddresses.length; i++) {
+            result[i] = users[userAddresses[i]].userNickname;
         }
         return result;
     }
 
     function pointsToArray() internal view returns (uint256[] memory) {
-        uint256[] memory result = new uint256[](leaderboard.userAddresses.length);
-        for (uint256 i = 0; i < leaderboard.userAddresses.length; i++) {
-            result[i] = leaderboard.users[leaderboard.userAddresses[i]].points;
+        uint256[] memory result = new uint256[](userAddresses.length);
+        for (uint256 i = 0; i < userAddresses.length; i++) {
+            result[i] = users[userAddresses[i]].points;
         }
         return result;
     }
 
     function claimRewards() external nonReentrant {
-        require(leaderboard.users[msg.sender].points > 0, "User has no points");
-        uint256 points = leaderboard.users[msg.sender].points;
+        require(users[msg.sender].points > 0, "User has no points");
+        uint256 points = users[msg.sender].points;
 
         vault.exchangePointsForGHO(msg.sender, points);
-        leaderboard.users[msg.sender].points = 0;
+        users[msg.sender].points = 0;
 
         emit ClaimRewards(msg.sender, points);
     }
 
     function getEventsAttended(address _userAddress) external view returns (uint256) {
-        return leaderboard.users[_userAddress].eventsAttended;
+        return users[_userAddress].eventsAttended;
     }
 
     function getPoints(address _userAddress) external view returns (uint256) {
-        return leaderboard.users[_userAddress].points;
+        return users[_userAddress].points;
+    }
+
+    function setEventsFactoryAddress(address _eventsFactoryAddress) external onlyOwner {
+        eventsFactory = IEventsFactory(_eventsFactoryAddress);
+    }
+
+    function setVaultAddress(address _vaultAddress) external onlyOwner {
+        vaultContractAddress = _vaultAddress;
+        vault = IVault(_vaultAddress);
+    }
+
+    function setWeaveAddress(address _weaveAddress) external onlyOwner {
+        weaveContractAddress = _weaveAddress;
+        weave = IWeave(_weaveAddress);
+    }
+
+    function getUserNickname(address _userAddress) external view returns (string memory) {
+        return users[_userAddress].userNickname;
+    }
+
+    function getUserPoints(address _userAddress) external view returns (uint256) {
+        return users[_userAddress].points;
+    }
+
+    function getUserEventsAttended(address _userAddress) external view returns (uint256) {
+        return users[_userAddress].eventsAttended;
+    }
+
+    function getUserAddresses() external view returns (address[] memory) {
+        return userAddresses;
     }
 }

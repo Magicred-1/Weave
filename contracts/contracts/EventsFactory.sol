@@ -45,7 +45,22 @@ contract EventFactory is Ownable {
 
         uint256 _price = calculatingPriceToCreate(_eventStartDate, _eventEndDate, _eventRadius);
         require(_eventToken.balanceOf(msg.sender) >= _price, "You don't have enough tokens to create an event");
-
+        /*
+                string memory _eventName,
+        string memory _eventDescription,
+        uint256 _eventStartDate,
+        uint256 _eventEndDate,
+        string memory _eventWebsite,
+        uint256 _eventMaxParticipants,
+        int256 _latitude,
+        int256 _longitude,
+        address[] memory _eventManagers,
+        uint256 _eventRadius,
+        string memory _eventRadiusColor,
+        address _weaveContractAddress,
+        address _vaultContractAddress,
+        address _leaderboardContractAddress
+        */
         Event newEvent = new Event(
             _eventName,
             _eventDescription,
@@ -58,7 +73,6 @@ contract EventFactory is Ownable {
             _eventManagers,
             _eventRadius,
             _eventRadiusColor,
-            msg.sender,
             _weaveContractAddress,
             _vaultContractAddress,
             _leaderboardContractAddress
@@ -76,7 +90,7 @@ contract EventFactory is Ownable {
         uint256 _eventStartDate,
         uint256 _eventEndDate,
         string memory _eventWebsite,
-        string memory _eventMaxParticipants,
+        uint256 _eventMaxParticipants,
         int256 _latitude,
         int256 _longitude,
         address[] memory _eventManagers,
@@ -103,8 +117,9 @@ contract EventFactory is Ownable {
             _eventManagers,
             _eventRadius,
             _eventRadiusColor,
-            msg.sender,
-            _eventManagers
+            weaveContractAddress,
+            vaultContractAddress,
+            leaderboardContractAddress
         );
 
         allEvents.push(address(newEvent));

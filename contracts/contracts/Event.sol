@@ -1,46 +1,48 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "./interfaces/IEvent.sol";
 import "./interfaces/IVault.sol";
-import "./interfaces/ILeaderboard.sol";
 import "./interfaces/IWeave.sol";
-import "@ethereum-attestation-service/eas-contracts/contracts/IEAS.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "./interfaces/ILeaderboard.sol";
 
-contract Event is IEvent {
+contract Event is Ownable {
     using SafeMath for uint256;
-    
+
+    struct EventDetails {
+        string eventName;
+        string eventDescription;
+    }
+
+    struct Location {
+        int256 latitude;
+        int256 longitude;
+    }
+
+    struct EventSettings {
+        uint256 eventStartDate;
+        uint256 eventEndDate;
+        string eventWebsite;
+        uint256 eventMaxParticipants;
+        uint256 eventRadius;
+        string eventRadiusColor;
+    }
+
     address public weaveContractAddress;
     address public leaderboardContractAddress;
     address private vaultContractAddress;
-    address private easContractAddress;
 
     IWeave public weave = IWeave(weaveContractAddress);
     IVault public vault = IVault(vaultContractAddress);
     ILeaderboard public leaderboard = ILeaderboard(leaderboardContractAddress);
-    
-    IEAS public eas;
-    bytes32 constant schema = 0x7fe79bf55dc0df94d72d713067bb6162828f6c7b66458ea3661b41d4d02fc40f;
 
+    EventDetails public eventDetails;
+    Location public location;
+    EventSettings public eventSettings;
 
-    string public eventName;
-    string public eventDescription;
-    uint256 public eventStartDate;
-    uint256 public eventEndDate;
-    string public eventWebsite;
-    uint256 public eventMaxParticipants;
-    int256 public latitude;
-    int256 public longitude;
     address[] public eventManagers;
-    uint256 public eventRadius;
-    string public eventRadiusColor;
-    address public eventOwner;
-
-    uint256 public rewardPool;
-
     address[] public registeredParticipants;
     address[] public attendedParticipants;
 
@@ -68,25 +70,9 @@ contract Event is IEvent {
     // Event emitted when a participant claims points
     event PointsClaimed(address indexed participant);
 
-    // Modifiers
-    modifier onlyOwner() {
-        require(msg.sender == eventOwner, "You are not owner");
-        _;
-    }
-
     modifier onlyManagers(){
          require(isManager(msg.sender), "Caller is not a manager");
         _;
-    }
-
-    // Helper function to check if an address is a manager
-    function isManager(address _user) internal view returns (bool) {
-        for (uint256 i = 0; i < eventManagers.length; i++) {
-            if (eventManagers[i] == _user) {
-                return true;
-            }
-        }
-        return false;
     }
 
     constructor(
@@ -101,28 +87,37 @@ contract Event is IEvent {
         address[] memory _eventManagers,
         uint256 _eventRadius,
         string memory _eventRadiusColor,
-        address _eventOwner,
         address _weaveContractAddress,
         address _vaultContractAddress,
         address _leaderboardContractAddress
-    ) {
-        eventName = _eventName;
-        eventDescription = _eventDescription;
-        eventStartDate = _eventStartDate;
-        eventEndDate = _eventEndDate;
-        eventWebsite = _eventWebsite;
-        eventMaxParticipants = _eventMaxParticipants;
-        latitude = _latitude;
-        longitude = _longitude;
+    ) Ownable(msg.sender) {
+        eventDetails = EventDetails(_eventName, _eventDescription);
+        location = Location(_latitude, _longitude);
+        eventSettings = EventSettings(
+            _eventStartDate,
+            _eventEndDate,
+            _eventWebsite,
+            _eventMaxParticipants,
+            _eventRadius,
+            _eventRadiusColor
+        );
+
         eventManagers = _eventManagers;
-        eventRadius = _eventRadius;
-        eventRadiusColor = _eventRadiusColor;
-        eventOwner = _eventOwner;
         weaveContractAddress = _weaveContractAddress;
         vaultContractAddress = _vaultContractAddress;
         leaderboardContractAddress = _leaderboardContractAddress;
     }
-    
+
+    // Helper function to check if an address is a manager
+    function isManager(address _user) internal view returns (bool) {
+        for (uint256 i = 0; i < eventManagers.length; i++) {
+            if (eventManagers[i] == _user) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     function createAttestation(address _participantAddress) external onlyManagers {
         require(isParticipantOnboarded(_participantAddress), "Participant not onboarded");
         require(!hasAttended[_participantAddress], "Participant already attended");
@@ -131,20 +126,13 @@ contract Event is IEvent {
         emit ParticipantAttended(_participantAddress);
     }
 
-    function updateEventName(string memory _newEventName) public onlyOwner returns (bool) {
-        eventName = _newEventName;
+    function updateEventName(string memory _newEventName) public onlyManagers returns (bool) {
+        eventDetails.eventName = _newEventName;
         emit EventNameUpdated(_newEventName);
         return true;
     }
 
-    function updateRewardPool(uint256 _newRewardPool) public onlyOwner returns (bool) {
-        require(_newRewardPool > rewardPool, "New Reward Pool Cannot Be Less than Previous Reward Pool");
-        rewardPool = _newRewardPool;
-        emit RewardPoolUpdated(_newRewardPool);
-        return true;
-    }
-
-    function updateManagers(address[] memory _newManagers) public onlyOwner returns (bool) {
+    function updateManagers(address[] memory _newManagers) public onlyManagers returns (bool) {
         require(_newManagers.length <= 5, "eventManagers must be less than or equal to 5");
         eventManagers = _newManagers;
         emit ManagersUpdated(_newManagers);
@@ -196,16 +184,5 @@ contract Event is IEvent {
 
     function getRegisteredParticipants() public view returns (address[] memory) {
         return registeredParticipants;
-    }
-
-    function getTotalParticipants() public view returns (uint256) {
-        return registeredParticipants.length;
-    }
-
-    function getAttendanceRate() public view returns (uint256) {
-        if (registeredParticipants.length == 0) {
-            return 0;
-        }
-        return (registeredParticipants.length.mul(100)) / registeredParticipants.length;
     }
 }
