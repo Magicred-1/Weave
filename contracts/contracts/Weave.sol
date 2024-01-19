@@ -5,26 +5,20 @@ contract Users {
     struct User {
         address userAddress;
         string nickName;
-        address[] listOfEventsParticipated;
-        address[] listofEventsAttended;
-        uint256 points;
     }
 
     mapping(address => User) public users;
 
      // Function to set a user's nickname
-    function setUsername(address userAddress, string memory newNickname) external {
-        require(addressRegistered[userAddress], "User not registered");
-        require(msg.sender == userAddress, "Only the user can set their nickname");
-
-        users[userAddress].nickName = newNickname;
+    function setUsername(string memory _nickname) external {
+        require(!users[msg.sender], "User already registered");
+        users[msg.sender].nickname = _nickname;
     }
 
     // Function to get a user's nickname
     function getUsername(address userAddress) external view returns (string memory) {
-        require(addressRegistered[userAddress], "User not registered");
-
-        return users[userAddress].nickName;
+        require(users[userAddress], "User not registered");
+        return users[userAddress].nickname;
     }  
 
     // Need to be added to the event contract
