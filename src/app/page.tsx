@@ -80,7 +80,7 @@ const Home = () => {
 				<Navbar />
 				<Hero />
 			</div>
-			<section className="bg-black w-100vw flex justify-center py-12 gap-12">
+			<section className="bg-black w-full md:w-100vw flex flex-col md:flex-row justify-center py-12 gap-12">
 				{staticData?.cardData.map((item, key) => {
 					key
 					return (
