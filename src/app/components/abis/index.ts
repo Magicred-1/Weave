@@ -634,14 +634,34 @@ export const EventABI = [
 				"type": "string"
 			},
 			{
-				"internalType": "uint256",
-				"name": "_rewardPool",
-				"type": "uint256"
+				"internalType": "string",
+				"name": "_eventDescription",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "_latitude",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "_longitude",
+				"type": "int256"
 			},
 			{
 				"internalType": "address[]",
-				"name": "_managers",
+				"name": "_eventManagers",
 				"type": "address[]"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_eventRadius",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_eventRadiusColor",
+				"type": "string"
 			},
 			{
 				"internalType": "address",
@@ -650,22 +670,34 @@ export const EventABI = [
 			},
 			{
 				"internalType": "address",
-				"name": "_vaultContractAddress",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_easContractAddress",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_leaderContractAddress",
+				"name": "_leaderboardContractAddress",
 				"type": "address"
 			}
 		],
 		"stateMutability": "nonpayable",
 		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			}
+		],
+		"name": "OwnableInvalidOwner",
+		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "OwnableUnauthorizedAccount",
+		"type": "error"
 	},
 	{
 		"anonymous": false,
@@ -717,6 +749,25 @@ export const EventABI = [
 			}
 		],
 		"name": "ManagersUpdated",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
 		"type": "event"
 	},
 	{
@@ -824,12 +875,12 @@ export const EventABI = [
 	},
 	{
 		"inputs": [],
-		"name": "eas",
+		"name": "eventDescription",
 		"outputs": [
 			{
-				"internalType": "contract IEAS",
+				"internalType": "string",
 				"name": "",
-				"type": "address"
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -869,12 +920,12 @@ export const EventABI = [
 	},
 	{
 		"inputs": [],
-		"name": "eventOwner",
+		"name": "eventRadius",
 		"outputs": [
 			{
-				"internalType": "address",
+				"internalType": "uint256",
 				"name": "",
-				"type": "address"
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -882,12 +933,25 @@ export const EventABI = [
 	},
 	{
 		"inputs": [],
-		"name": "getAttendanceRate",
+		"name": "eventRadiusColor",
 		"outputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "",
-				"type": "uint256"
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getManagers",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
 			}
 		],
 		"stateMutability": "view",
@@ -901,19 +965,6 @@ export const EventABI = [
 				"internalType": "address[]",
 				"name": "",
 				"type": "address[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getTotalParticipants",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -978,6 +1029,19 @@ export const EventABI = [
 	},
 	{
 		"inputs": [],
+		"name": "latitude",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "leaderboard",
 		"outputs": [
 			{
@@ -991,7 +1055,20 @@ export const EventABI = [
 	},
 	{
 		"inputs": [],
-		"name": "leaderboardContractAddress",
+		"name": "longitude",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
 		"outputs": [
 			{
 				"internalType": "address",
@@ -1036,15 +1113,22 @@ export const EventABI = [
 	},
 	{
 		"inputs": [],
-		"name": "rewardPool",
-		"outputs": [
+		"name": "renounceOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
 			}
 		],
-		"stateMutability": "view",
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -1067,33 +1151,223 @@ export const EventABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address[]",
-				"name": "_newManagers",
-				"type": "address[]"
-			}
-		],
-		"name": "updateManagers",
+		"inputs": [],
+		"name": "weave",
 		"outputs": [
 			{
-				"internalType": "bool",
+				"internalType": "contract IWeave",
 				"name": "",
-				"type": "bool"
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+] as const;
+
+export const EventsFactoryABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_vaultAddress",
+				"type": "address"
 			}
 		],
 		"stateMutability": "nonpayable",
-		"type": "function"
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			}
+		],
+		"name": "OwnableInvalidOwner",
+		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "OwnableUnauthorizedAccount",
+		"type": "error"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "eventAddress",
+				"type": "address"
+			}
+		],
+		"name": "EventCreated",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
 	},
 	{
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "_newRewardPool",
+				"name": "",
 				"type": "uint256"
 			}
 		],
-		"name": "updateRewardPool",
+		"name": "allEvents",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_eventName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_eventDescription",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "_latitude",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "_longitude",
+				"type": "int256"
+			},
+			{
+				"internalType": "address[]",
+				"name": "_eventManagers",
+				"type": "address[]"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_eventRadius",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_eventRadiusColor",
+				"type": "string"
+			},
+			{
+				"internalType": "contract IERC20",
+				"name": "_eventToken",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "createEvent",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_eventName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_eventDescription",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "_latitude",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "_longitude",
+				"type": "int256"
+			},
+			{
+				"internalType": "address[]",
+				"name": "_eventManagers",
+				"type": "address[]"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_eventRadius",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_eventRadiusColor",
+				"type": "string"
+			}
+		],
+		"name": "createEventWithNativeTokens",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAllEvents",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_eventAddress",
+				"type": "address"
+			}
+		],
+		"name": "isContractAnEvent",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -1101,15 +1375,34 @@ export const EventABI = [
 				"type": "bool"
 			}
 		],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			}
+		],
+		"name": "isUserHasAlreadyCreatedEvent",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
 		"inputs": [],
-		"name": "vault",
+		"name": "leaderboardContractAddress",
 		"outputs": [
 			{
-				"internalType": "contract IVault",
+				"internalType": "address",
 				"name": "",
 				"type": "address"
 			}
@@ -1119,10 +1412,56 @@ export const EventABI = [
 	},
 	{
 		"inputs": [],
-		"name": "weave",
+		"name": "owner",
 		"outputs": [
 			{
-				"internalType": "contract IWeave",
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_vaultAddress",
+				"type": "address"
+			}
+		],
+		"name": "setVaultAddress",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "vaultContractAddress",
+		"outputs": [
+			{
+				"internalType": "address",
 				"name": "",
 				"type": "address"
 			}
@@ -1144,8 +1483,3 @@ export const EventABI = [
 		"type": "function"
 	}
 ] as const;
-
-export const EventsFactoryABI = [
-    // Need to add EventsFactory ABI here
-] as const;
-
