@@ -12,7 +12,7 @@ const Hero = () => {
 				</p>
 				<div className="flex  mb-8 lg:mb-16 space-y-4 flex-row justify-center sm:space-y-0 sm:space-x-4">
 					<a
-						href="#"
+						href="/map"
 						className="inline-flex justify-center text-white items-center py-3 px-6 h-full w-fit rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100"
 					>
 						Get started

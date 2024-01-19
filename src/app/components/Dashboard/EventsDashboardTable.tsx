@@ -21,7 +21,7 @@ const EventsDashboardTable: React.FC<EventsDashboardTableProps> = ({ data }) => 
       <TableHeader>
         <TableRow>
             <TableHead className="w-[100px]">Event Name</TableHead>
-            <TableHead>Contract Address</TableHead>
+            <TableHead>Event Contract Address</TableHead>
             <TableHead>Event Owner</TableHead>
             <TableHead>Event Managers</TableHead>
             <TableHead>Actions</TableHead>
@@ -36,7 +36,7 @@ const EventsDashboardTable: React.FC<EventsDashboardTableProps> = ({ data }) => 
                 <a href={`/leaderboard/${item.eventOwnerAddress}`}>
                     <img
                         alt="Avatar"
-                        className="rounded-full"
+                        className="rounded-full justify-center"
                         height="32"
                         src={profileIcon(item.eventOwnerAddress)}
                         style={{
@@ -52,7 +52,7 @@ const EventsDashboardTable: React.FC<EventsDashboardTableProps> = ({ data }) => 
                 <ul>
                     {/* Add the key */}
                     {item.eventManagers.map((manager) => (
-                              <a href={`/leaderboard/${manager.address}`} key={manager.address}>
+                        <a href={`/leaderboard/${manager.address}`} key={manager.address}>
                             <li key={manager.address}>
                                 <img
                                     alt="Avatar"
@@ -74,7 +74,7 @@ const EventsDashboardTable: React.FC<EventsDashboardTableProps> = ({ data }) => 
             <TableCell>
                 {
                     isConnected &&
-                    address === item.eventOwnerAddress ? (
+                    (address === item.eventOwnerAddress || item.eventManagers.some(manager => address === manager.address)) ? (
                         <Button className="mr-2">
                             Generate Participation Attestation
                         </Button>

@@ -1,5 +1,7 @@
 import PinataClient, { PinataPinOptions } from "@pinata/sdk";
 
+const SampleFile = new File(["Hello, world!"], "hello.txt", { type: "text/plain" });
+
 const UploadInIPFS = async (file: File) => {
     const pinata = new PinataClient(process.env.REACT_APP_PINATA_KEY, process.env.REACT_APP_PINATA_SECRET);
 
@@ -17,5 +19,7 @@ const UploadInIPFS = async (file: File) => {
 
     return result;
 }
+
+console.log(UploadInIPFS(SampleFile));
 
 export default UploadInIPFS;

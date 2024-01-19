@@ -10,6 +10,7 @@ export const EventsDashboardComponent = () => {
   const sampleLeaderboardData: EventsDashboardData[] = [
     {
       eventName: "Event 1",
+      eventContractAddress: "0x9B45ca40372dAEF77532D1C3538E68715Ba36fD7",
       eventOwnerAddress: "0x8A90ca40372dAEF77532D1C3538E68715Ba36fD7",
       eventOwnerNickname: "M4GIC",
       eventManagers: [
@@ -27,12 +28,13 @@ export const EventsDashboardComponent = () => {
     },
     {
       eventName: "Event 2",
-      eventOwnerAddress: "0x8A90ca40372dAEF77532D1C3538E68715Ba36fD7",
-      eventOwnerNickname: "M4GIC",
+      eventContractAddress: "0xe8ffca40372dAEF77532D1C3538E68715Ba36fD7",
+      eventOwnerAddress: "0x4ffca40372dAEF77532D1C3538E68715Ba36fD7",
+      eventOwnerNickname: "Dhruv",
       eventManagers: [
         {
-          address: "0x8A90ca40372dAEF77532D1C3538E68715Ba36fD7",
-          nickname: "M4GIC",
+          address: "0x1A90ca40372dAEF77532D1C3538E68715Ba36fD7",
+          nickname: "Shaunak",
         },
         {
           address: "0x7A90ca40372dAEF77532D1C3538E68715Ba36fD7",

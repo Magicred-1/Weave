@@ -19,6 +19,7 @@ interface ConnectedUser {
     online?: boolean;
 }
 
+
 const USER_RADIUS = 400; // in meters
 const CHANNEL_NAME = 'Weave'; // for Supabase Realtime channel
 
@@ -27,7 +28,7 @@ export const GetUsersPositions = () => {
     const [userPosition, setUserPosition] = useState<LatLngExpression>([42, 18]);
     const [visiblePosition, setVisiblePosition] = useState<boolean>(false);
 
-    const { address, isConnected } = useAccount(); 
+    const { address, isConnected } = useAccount();
 
     const LocationMarker: React.FC<{isConnected: boolean}> = ({ isConnected }) => {
         const map = useMap();
@@ -128,6 +129,7 @@ export const GetUsersPositions = () => {
                       <Button 
                       variant="contained" 
                       color="primary"
+                      onClick={() => console.log("Send message")}
                     >
                       Send Message
                   </Button>): 
