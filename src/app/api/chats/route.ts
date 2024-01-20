@@ -60,7 +60,7 @@ export const POST = async (req: NextRequest): Promise<NextResponse> => {
         const { data, error } = await supabaseClient
             .from('chats')
             .insert([
-                { recipient: recipientAddress, sender: session.address, messages: messageContent },
+                { recipient: recipientAddress, sender: session.address, message: messageContent },
             ]);
 
         if (error) {

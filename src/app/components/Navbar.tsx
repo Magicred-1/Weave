@@ -5,7 +5,8 @@ import React, { useState } from 'react'
 import localfont from 'next/font/local'
 import { ConnectKitButton } from 'connectkit'
 import MenuIcon from '@mui/icons-material/Menu'
-import { Button, Drawer, List, ListItem, Toolbar, IconButton, Menu, MenuItem } from '@mui/material'
+import { IconButton, Menu, MenuItem } from '@mui/material'
+import ChatModule from './Chat/ChatModule'
 
 const PressStart2P = localfont({ src: './../assets/fonts/PressStart2P.ttf' })
 
@@ -75,6 +76,7 @@ const Navbar = () => {
 							</li>
 						) : null}
 						{isConnected ? (
+							<>
 							<li>
 								<a
 									href={`/leaderboard/${address}`}
@@ -83,6 +85,8 @@ const Navbar = () => {
 									Profile
 								</a>
 							</li>
+							<ChatModule />
+							</>
 						) : null}
 					</ul>
 				</div>
@@ -111,6 +115,7 @@ const Navbar = () => {
 								) : null}
 							</MenuItem>
 						))}
+						<ChatModule />
 					</Menu>
 				</div>
 			</div>
