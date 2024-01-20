@@ -5,12 +5,13 @@ import React, { useState } from 'react'
 import localfont from 'next/font/local'
 import { ConnectKitButton } from 'connectkit'
 import MenuIcon from '@mui/icons-material/Menu'
-import { Button, Drawer, List, ListItem, Toolbar, IconButton, Menu, MenuItem } from '@mui/material'
+import { IconButton, Menu, MenuItem } from '@mui/material'
+import ChatModule from './Chat/ChatModule'
 
 const PressStart2P = localfont({ src: './../assets/fonts/PressStart2P.ttf' })
 
 const Navbar = () => {
-	const { isConnected } = useAccount()
+	const { isConnected, address } = useAccount()
 	const userIsEventOwner = true
 	const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null)
 
@@ -75,14 +76,17 @@ const Navbar = () => {
 							</li>
 						) : null}
 						{isConnected ? (
+							<>
 							<li>
 								<a
-									href="/profile"
+									href={`/leaderboard/${address}`}
 									className="block py-1 px-5 text-white hover:bg-[#008790] rounded-full focus:bg-[#008770]"
 								>
 									Profile
 								</a>
 							</li>
+							<ChatModule />
+							</>
 						) : null}
 					</ul>
 				</div>
@@ -111,6 +115,7 @@ const Navbar = () => {
 								) : null}
 							</MenuItem>
 						))}
+						<ChatModule />
 					</Menu>
 				</div>
 			</div>

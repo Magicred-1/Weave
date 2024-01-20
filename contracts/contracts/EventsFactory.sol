@@ -4,6 +4,7 @@ pragma solidity ^0.8.9;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./Event.sol";
 import "./interfaces/IEventsFactory.sol";
+import "./interfaces/ILeaderboard.sol";
 import "./interfaces/IVault.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
@@ -11,136 +12,72 @@ contract EventFactory is Ownable {
     event EventCreated(address indexed eventAddress);
 
     address[] public allEvents;
-    address public vaultContractAddress;
-    address public weaveContractAddress;
-    address public leaderboardContractAddress;
-    address public easContractAddress;
 
-    constructor(address _vaultAddress) Ownable(msg.sender) {
-        vaultContractAddress = _vaultAddress;
+    IVault public vaultContractAddress;
+    IWeave public weaveContractAddress;
+    ILeaderboard public leaderboardContractAddress;
+
+    constructor(
+        address _vaultAddress,
+        address _weaveAddress,
+        address _leaderboardAddress
+    ) Ownable(msg.sender) {
+        vaultContractAddress = IVault(_vaultAddress);
+        weaveContractAddress = IWeave(_weaveAddress);
+        leaderboardContractAddress = ILeaderboard(_leaderboardAddress);
     }
 
-    // We use ERC20 token as a payment method for creating an event
     function createEvent(
         string memory _eventName,
         string memory _eventDescription,
         uint256 _eventStartDate,
         uint256 _eventEndDate,
-        string memory _eventWebsite,
-        uint256 _eventMaxParticipants,
         int256 _latitude,
         int256 _longitude,
         address[] memory _eventManagers,
         uint256 _eventRadius,
         string memory _eventRadiusColor,
-        IERC20 _eventToken,  // Include ERC20 token as a parameter
-        address _weaveContractAddress,
-        address _vaultContractAddress,
-        address _leaderboardContractAddress
+        IERC20 _eventToken,
+        uint256 _amount
     ) external {
-        require(_eventStartDate > block.timestamp, "Event start date must be in the future");
-        require(_eventEndDate > _eventStartDate, "Event end date must be after event start date");
-        require(_eventRadius > 0, "Event radius must be greater than 0");
-        require(_eventManagers.length <= 5, "Event managers must be less than or equal to 5");
+        require(_eventRadius > 0, "Radius must be greater than 0");
+        require(_eventManagers.length <= 5, "Max 5 managers");
+        require(_eventToken.allowance(msg.sender, address(this)) >= _amount, "Not enough allowance");
+        require(_eventToken.balanceOf(msg.sender) >= _amount, "Not enough balance");
 
-        uint256 _price = calculatingPriceToCreate(_eventStartDate, _eventEndDate, _eventRadius);
-        require(_eventToken.balanceOf(msg.sender) >= _price, "You don't have enough tokens to create an event");
-        /*
-                string memory _eventName,
-        string memory _eventDescription,
-        uint256 _eventStartDate,
-        uint256 _eventEndDate,
-        string memory _eventWebsite,
-        uint256 _eventMaxParticipants,
-        int256 _latitude,
-        int256 _longitude,
-        address[] memory _eventManagers,
-        uint256 _eventRadius,
-        string memory _eventRadiusColor,
-        address _weaveContractAddress,
-        address _vaultContractAddress,
-        address _leaderboardContractAddress
-        */
+        // Deploy the Event contract
         Event newEvent = new Event(
             _eventName,
             _eventDescription,
             _eventStartDate,
             _eventEndDate,
-            _eventWebsite,
-            _eventMaxParticipants,
             _latitude,
             _longitude,
             _eventManagers,
             _eventRadius,
             _eventRadiusColor,
-            _weaveContractAddress,
-            _vaultContractAddress,
-            _leaderboardContractAddress
-        );
-
-
-        allEvents.push(address(newEvent));
-        _eventToken.transferFrom(msg.sender, vaultContractAddress, _price); // Transfer tokens to the vault contract
-        emit EventCreated(address(newEvent));
-    }
-
-    function createEventWithNativeTokens(
-        string memory _eventName,
-        string memory _eventDescription,
-        uint256 _eventStartDate,
-        uint256 _eventEndDate,
-        string memory _eventWebsite,
-        uint256 _eventMaxParticipants,
-        int256 _latitude,
-        int256 _longitude,
-        address[] memory _eventManagers,
-        uint256 _eventRadius,
-        string memory _eventRadiusColor
-    ) external payable {
-        require(_eventStartDate > block.timestamp, "Event start date must be in the future");
-        require(_eventEndDate > _eventStartDate, "Event end date must be after event start date");
-        require(_eventRadius > 0, "Event radius must be greater than 0");
-        require(_eventManagers.length <= 5, "Event managers must be less than or equal to 5");
-
-        uint256 price = calculatingPriceToCreate(_eventStartDate, _eventEndDate, _eventRadius);
-        require(msg.value >= price, "Insufficient ETH sent to create an event");
-
-        Event newEvent = new Event(
-            _eventName,
-            _eventDescription,
-            _eventStartDate,
-            _eventEndDate,
-            _eventWebsite,
-            _eventMaxParticipants,
-            _latitude,
-            _longitude,
-            _eventManagers,
-            _eventRadius,
-            _eventRadiusColor,
-            weaveContractAddress,
-            vaultContractAddress,
-            leaderboardContractAddress
+            address(weaveContractAddress),
+            address(leaderboardContractAddress)
         );
 
         allEvents.push(address(newEvent));
-        payable(vaultContractAddress).transfer(msg.value); // Transfer ETH to the vault contract
+
+        // Transfer tokens to vault
+        _eventToken.transferFrom(msg.sender, address(vaultContractAddress), _amount);
+
         emit EventCreated(address(newEvent));
     }
 
     function isUserHasAlreadyCreatedEvent(address _user) external view returns (bool) {
         for (uint256 i = 0; i < allEvents.length; i++) {
-            if (allEvents[i] == _user) {
-                return true;
-            }
+            if (allEvents[i] == _user) return true;
         }
         return false;
     }
 
     function isContractAnEvent(address _eventAddress) external view returns (bool) {
         for (uint256 i = 0; i < allEvents.length; i++) {
-            if (allEvents[i] == _eventAddress) {
-                return true;
-            }
+            if (allEvents[i] == _eventAddress) return true;
         }
         return false;
     }
@@ -149,15 +86,40 @@ contract EventFactory is Ownable {
         return allEvents;
     }
 
-    function calculatingPriceToCreate(uint256 _eventStartDate, uint256 _eventEndDate, uint256 _eventRadius) internal pure returns (uint256) {
-        uint256 price = 0;
-        uint256 daysBetween = (_eventEndDate - _eventStartDate) / 86400;
-        price += daysBetween * 100;
-        price += _eventRadius / 100;
-        return price;
+    function getAllEventsDetails() external view returns (address[] memory, string[] memory, string[] memory, uint256[] memory, uint256[] memory, uint256[] memory, uint256[] memory) {
+        string[] memory eventNames = new string[](allEvents.length);
+        string[] memory eventDescriptions = new string[](allEvents.length);
+        uint256[] memory eventStartDates = new uint256[](allEvents.length);
+        uint256[] memory eventEndDates = new uint256[](allEvents.length);
+        uint256[] memory eventRadiuses = new uint256[](allEvents.length);
+        uint256[] memory eventParticipants = new uint256[](allEvents.length);
+
+        for (uint256 i = 0; i < allEvents.length; i++) {
+            Event eventContract = Event(allEvents[i]);
+            eventNames[i] = eventContract.eventName();
+            eventDescriptions[i] = eventContract.eventDescription();
+            eventStartDates[i] = eventContract.eventStartingDate();
+            eventEndDates[i] = eventContract.eventEndDate();
+            eventRadiuses[i] = eventContract.eventRadius();
+            eventParticipants[i] = eventContract.participantsCount();
+        }
+
+        return (allEvents, eventNames, eventDescriptions, eventStartDates, eventEndDates, eventRadiuses, eventParticipants);
     }
 
+    // function calculatingPriceToCreate(uint256 _eventStartDate, uint256 _eventEndDate, uint256 _eventRadius) internal pure returns (uint256) {
+    //     return ((_eventEndDate - _eventStartDate) / 86400 * 100) + (_eventRadius / 100);
+    // }
+
     function setVaultAddress(address _vaultAddress) external onlyOwner {
-        vaultContractAddress = _vaultAddress;
+        vaultContractAddress = IVault(_vaultAddress);
+    }
+
+    function setWeaveAddress(address _weaveAddress) external onlyOwner {
+        weaveContractAddress = IWeave(_weaveAddress);
+    }
+
+    function setLeaderboardAddress(address _leaderboardAddress) external onlyOwner {
+        leaderboardContractAddress = ILeaderboard(_leaderboardAddress);
     }
 }

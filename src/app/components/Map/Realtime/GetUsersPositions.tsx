@@ -10,7 +10,8 @@ import { Circle, useMap } from "react-leaflet";
 import { userIcon, visitorIcon } from "../../../../lib/markerIcons";
 import moment from "moment";
 import { Button } from '@mui/material';
-import { getAddress } from "ethers";
+import { WeaveABI } from "../../abis";
+import { useContractRead } from "wagmi";
 
 interface ConnectedUser {
     image?: string;
@@ -29,8 +30,33 @@ export const GetUsersPositions = () => {
     const [connectedUsers, setConnectedUsers] = useState<ConnectedUser[]>([]);
     const [userPosition, setUserPosition] = useState<LatLngExpression>([42, 18]);
     const [visiblePosition, setVisiblePosition] = useState<boolean>(false);
+    const [message, setMessage] = useState<string>("");
 
     const { address, isConnected } = useAccount();
+
+    const {
+      data: onboardingData,
+      error,
+      isLoading: contractReadLoading,
+    } = useContractRead({
+      abi: WeaveABI,
+      functionName: 'getUsername',
+      address: "0x5f856baB0F63a833b311fC9d853a14c8762d583d",
+      args: address && [address],
+    })
+    console.log('Read contract data and error', onboardingData)
+
+    const sendMessages = (messageContent: string, recipientAddress: `0x${string}`) => {
+        fetch("/api/chats", {
+          method: "POST",
+          body: JSON.stringify({
+            recipientAddress,
+            messageContent,
+          }),
+        })
+          .then((res) => res.json())
+          .catch((err) => console.log("error", err));
+    }
 
     const LocationMarker: React.FC<{isConnected: boolean}> = ({ isConnected }) => {
         const map = useMap();
@@ -97,7 +123,7 @@ export const GetUsersPositions = () => {
                 event: "connectedUser",
                 payload: {
                   image: `https://api.cloudnouns.com/v1/pfp?text=${address}`,
-                  username: "Anonymous", // TODO: get username from contract
+                  username: onboardingData ? onboardingData : 'Anonymous',
                   personWalletAddress: address,
                   coordinates: userPosition,
                   lastConnection: moment().format("MMMM Do YYYY, h:mm:ss a"),
@@ -132,13 +158,15 @@ export const GetUsersPositions = () => {
                     </div>
                     <div className="flex flex-row">
                     {isUserMarkerInsideMarkerRadius(userPosition, connectedUser.coordinates, USER_RADIUS) ? (
-                      <Button 
-                      variant="contained" 
-                      color="primary"
-                      onClick={() => console.log("Send message")}
-                    >
-                      Send Message
-                  </Button>): 
+                      <>
+                        <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} />
+                        <Button 
+                          variant="contained" 
+                        
+                          onClick={() => sendMessages(message, connectedUser.personWalletAddress)}
+                         /> 
+                      </>
+                  ) :
                   (
                     <Button 
                       variant="contained" 

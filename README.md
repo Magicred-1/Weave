@@ -30,6 +30,16 @@ To generate a random session secret, you can use openssl
 openssl rand -base64 32
 ```
 
+## Deployed Contracts
+
+| CONTRACTS              | ADDRESSES                                  |
+|------------------------|--------------------------------------------|
+| Weave Contract         | 0x5f856baB0F63a833b311fC9d853a14c8762d583d |
+| Leaderboard Contract   | 0x39545602B72Bd4a74FE1f4AF755c15C71C9780F0 |
+| Vault Contract         | 0x6a6C3b42e1af8BCd9adD11DFaDb9ab8445497914 |
+| Event Factory Contract | 0x815257a8A46F2dE5F812DC3232CC0C0c24A7252a |
+| Event Contract         | X                                          |
+
 ## Stack
 
 - [Next.js](https://nextjs.org/)
@@ -58,4 +68,3 @@ Weave is [MIT licensed](./LICENSE).
 
 - [Magicred-1](https://github.com/Magicred-1/)
 - [Sakshi](https://github.com/SakshiShah29)
-- [Madhav](https://github.com/Madhav-Gupta-28)

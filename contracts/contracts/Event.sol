@@ -4,50 +4,32 @@ pragma solidity ^0.8.9;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "./interfaces/IEvent.sol";
-import "./interfaces/IVault.sol";
 import "./interfaces/IWeave.sol";
 import "./interfaces/ILeaderboard.sol";
 
 contract Event is Ownable {
     using SafeMath for uint256;
 
-    struct EventDetails {
-        string eventName;
-        string eventDescription;
-    }
+    IWeave public weave;
+    ILeaderboard public leaderboard;
 
-    struct Location {
-        int256 latitude;
-        int256 longitude;
-    }
-
-    struct EventSettings {
-        uint256 eventStartDate;
-        uint256 eventEndDate;
-        string eventWebsite;
-        uint256 eventMaxParticipants;
-        uint256 eventRadius;
-        string eventRadiusColor;
-    }
-
-    address public weaveContractAddress;
-    address public leaderboardContractAddress;
-    address private vaultContractAddress;
-
-    IWeave public weave = IWeave(weaveContractAddress);
-    IVault public vault = IVault(vaultContractAddress);
-    ILeaderboard public leaderboard = ILeaderboard(leaderboardContractAddress);
-
-    EventDetails public eventDetails;
-    Location public location;
-    EventSettings public eventSettings;
-
-    address[] public eventManagers;
     address[] public registeredParticipants;
     address[] public attendedParticipants;
 
     mapping(address => bool) public hasAttended;
     mapping(address => bool) public hasClaimed;
+    mapping(address => bool) public isEventManager;
+
+    address[] public eventManagers;
+
+    string public eventName;
+    string public eventDescription;
+    uint256 public eventStartingDate;
+    uint256 public eventEndDate;
+    int256 public latitude;
+    int256 public longitude;
+    uint256 public eventRadius;
+    string public eventRadiusColor;
 
     // Event emitted when a participant attends an event
     event ParticipantAttended(address indexed participant);
@@ -70,55 +52,48 @@ contract Event is Ownable {
     // Event emitted when a participant claims points
     event PointsClaimed(address indexed participant);
 
-    modifier onlyManagers(){
-         require(isManager(msg.sender), "Caller is not a manager");
+    modifier onlyEventOwner() {
+        require(msg.sender == owner(), "Only the event owner can call this");
+        _;
+    }
+
+    modifier onlyEventManager() {
+        require(isEventManager[msg.sender], "Only event managers can call this");
         _;
     }
 
     constructor(
         string memory _eventName,
         string memory _eventDescription,
-        uint256 _eventStartDate,
+        uint256 _eventStartingDate,
         uint256 _eventEndDate,
-        string memory _eventWebsite,
-        uint256 _eventMaxParticipants,
         int256 _latitude,
         int256 _longitude,
         address[] memory _eventManagers,
         uint256 _eventRadius,
         string memory _eventRadiusColor,
         address _weaveContractAddress,
-        address _vaultContractAddress,
         address _leaderboardContractAddress
     ) Ownable(msg.sender) {
-        eventDetails = EventDetails(_eventName, _eventDescription);
-        location = Location(_latitude, _longitude);
-        eventSettings = EventSettings(
-            _eventStartDate,
-            _eventEndDate,
-            _eventWebsite,
-            _eventMaxParticipants,
-            _eventRadius,
-            _eventRadiusColor
-        );
-
+        eventName = _eventName;
+        eventDescription = _eventDescription;
+        eventStartingDate = _eventStartingDate;
+        eventEndDate = _eventEndDate;
+        latitude = _latitude;
+        longitude = _longitude;
+        eventRadius = _eventRadius;
+        eventRadiusColor = _eventRadiusColor;
         eventManagers = _eventManagers;
-        weaveContractAddress = _weaveContractAddress;
-        vaultContractAddress = _vaultContractAddress;
-        leaderboardContractAddress = _leaderboardContractAddress;
-    }
 
-    // Helper function to check if an address is a manager
-    function isManager(address _user) internal view returns (bool) {
-        for (uint256 i = 0; i < eventManagers.length; i++) {
-            if (eventManagers[i] == _user) {
-                return true;
-            }
+        weave = IWeave(_weaveContractAddress);
+        leaderboard = ILeaderboard(_leaderboardContractAddress);
+
+        for (uint256 i = 0; i < _eventManagers.length; i++) {
+            isEventManager[_eventManagers[i]] = true;
         }
-        return false;
     }
 
-    function createAttestation(address _participantAddress) external onlyManagers {
+    function createAttestation(address _participantAddress) external onlyEventManager {
         require(isParticipantOnboarded(_participantAddress), "Participant not onboarded");
         require(!hasAttended[_participantAddress], "Participant already attended");
         hasAttended[_participantAddress] = true;
@@ -126,16 +101,9 @@ contract Event is Ownable {
         emit ParticipantAttended(_participantAddress);
     }
 
-    function updateEventName(string memory _newEventName) public onlyManagers returns (bool) {
-        eventDetails.eventName = _newEventName;
+    function updateEventName(string memory _newEventName) public onlyEventOwner returns (bool) {
+        eventName = _newEventName;
         emit EventNameUpdated(_newEventName);
-        return true;
-    }
-
-    function updateManagers(address[] memory _newManagers) public onlyManagers returns (bool) {
-        require(_newManagers.length <= 5, "eventManagers must be less than or equal to 5");
-        eventManagers = _newManagers;
-        emit ManagersUpdated(_newManagers);
         return true;
     }
 
@@ -143,7 +111,7 @@ contract Event is Ownable {
         return weave.isParticipantOnboarded(participantAddress);
     }
 
-    function addManager(address newManager) public onlyOwner returns (bool) {
+    function addManager(address newManager) public onlyEventOwner returns (bool) {
         require(eventManagers.length < 5, "eventManagers must be less than or equal to 5");
 
         for (uint256 i = 0; i < eventManagers.length; i++) {
@@ -156,7 +124,11 @@ contract Event is Ownable {
         return true;
     }
 
-    function removeManagerOptimized(address _manager) public onlyOwner {
+    function getManagers() public view returns (address[] memory) {
+        return eventManagers;
+    }
+
+    function removeManagerOptimized(address _manager) public onlyEventOwner {
         bool managerFound = false;
         for (uint i = 0; i < eventManagers.length; i++) {
             if (eventManagers[i] == _manager) {

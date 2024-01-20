@@ -1,9 +1,14 @@
-import React from 'react';
+import { useState } from 'react';
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from '../ui/table';
 import { Button } from '../ui/button';
 import { useRouter } from "next/navigation";
 import EventsDashboardData from './EventsDashboardData';
 import { useAccount } from 'wagmi';
+import { Dialog } from '@mui/material';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import QRScannerReader from '../QRCode/reader/QRCodeReader';
 
 interface EventsDashboardTableProps {
   data: EventsDashboardData[];
@@ -15,6 +20,15 @@ const EventsDashboardTable: React.FC<EventsDashboardTableProps> = ({ data }) => 
         return `https://api.cloudnouns.com/v1/pfp?text=${address}`;
     };
     const { address, isConnected } = useAccount();
+    const [openDialog, setOpenDialog] = useState<boolean>(false);
+
+    const handleDialogOpen = () => {
+        setOpenDialog(true);
+    }
+
+    const handleDialogClose = () => {
+        setOpenDialog(false);
+    }
 
   return (
     <Table>
@@ -75,9 +89,26 @@ const EventsDashboardTable: React.FC<EventsDashboardTableProps> = ({ data }) => 
                 {
                     isConnected &&
                     (address === item.eventOwnerAddress || item.eventManagers.some(manager => address === manager.address)) ? (
-                        <Button className="mr-2">
+                        <>
+                        <Button onClick={handleDialogOpen} className="mr-2">
                             Generate Participation Attestation
                         </Button>
+
+                        <Dialog open={openDialog} onClose={handleDialogClose}>
+                        <DialogTitle>Generate Participation Attestation</DialogTitle>
+                        <DialogContent>
+                            <p>
+                                Scan the QR code of the participant to generate a participation attestation.
+                            </p>
+                        </DialogContent>
+                        <QRScannerReader eventContractAddress={item.contractAddress as `0x${string}`} />
+                        <DialogActions>
+                            <div className="flex flex-col items-center justify-center">
+                                <Button onClick={handleDialogClose}>Cancel</Button>
+                            </div>
+                        </DialogActions>
+                    </Dialog>
+                        </>
                     ) : null
                 }
                 <Button
