@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { QrScanner } from '@yudiel/react-qr-scanner';
+import { Button } from '../../ui/button';
 
 const QRScannerReader = ({ eventContractAddress }: { eventContractAddress: `0x${string}`}) => {
     const [scanResult, setScanResult] = useState('No result');
@@ -21,23 +22,37 @@ const QRScannerReader = ({ eventContractAddress }: { eventContractAddress: `0x${
             setCreateAttestationButton(true);
         }
 
+        // check if the result is a valid ethereum address
+        if (result && result.length === 42) {
+            setCreateAttestationButton(true);
+        }
+
+        if (result && result.length !== 42) {
+            setCreateAttestationButton(false);
+        }
+
+        if (result && result.length === 0) {
+            setCreateAttestationButton(false);
+        }
+        
         setScanResult(result);
     };
 
     return (
-        <div>
+        <div className="flex flex-col items-center justify-center gap-4">
             <QrScanner
                 onDecode={handleScan}
                 onError={handleError}
             />
             <p>{scanError}</p>
             {
-                createAttestationButton ? <button
+                createAttestationButton ? <Button
                     onClick={() => {
                         console.log('create attestation for: ', scanResult, eventContractAddress);
+                        // TODO: Trigger the attestation creation logic here on smart contract
                     }
                 }
-                >Create Attestation</button> : null
+                >Create Attestation</Button> : null
             }
         </div>
     );

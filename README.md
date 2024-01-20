@@ -68,4 +68,3 @@ Weave is [MIT licensed](./LICENSE).
 
 - [Magicred-1](https://github.com/Magicred-1/)
 - [Sakshi](https://github.com/SakshiShah29)
-- [Madhav](https://github.com/Madhav-Gupta-28)

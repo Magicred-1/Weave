@@ -10,7 +10,6 @@ import { Circle, useMap } from "react-leaflet";
 import { userIcon, visitorIcon } from "../../../../lib/markerIcons";
 import moment from "moment";
 import { Button } from '@mui/material';
-import { getAddress } from "ethers";
 
 interface ConnectedUser {
     image?: string;
@@ -29,8 +28,21 @@ export const GetUsersPositions = () => {
     const [connectedUsers, setConnectedUsers] = useState<ConnectedUser[]>([]);
     const [userPosition, setUserPosition] = useState<LatLngExpression>([42, 18]);
     const [visiblePosition, setVisiblePosition] = useState<boolean>(false);
+    const [message, setMessage] = useState<string>("");
 
     const { address, isConnected } = useAccount();
+
+    const sendMessages = (messageContent: string, recipientAddress: `0x${string}`) => {
+        fetch("/api/chats", {
+          method: "POST",
+          body: JSON.stringify({
+            recipientAddress,
+            messageContent,
+          }),
+        })
+          .then((res) => res.json())
+          .catch((err) => console.log("error", err));
+    }
 
     const LocationMarker: React.FC<{isConnected: boolean}> = ({ isConnected }) => {
         const map = useMap();
@@ -132,13 +144,15 @@ export const GetUsersPositions = () => {
                     </div>
                     <div className="flex flex-row">
                     {isUserMarkerInsideMarkerRadius(userPosition, connectedUser.coordinates, USER_RADIUS) ? (
-                      <Button 
-                      variant="contained" 
-                      color="primary"
-                      onClick={() => console.log("Send message")}
-                    >
-                      Send Message
-                  </Button>): 
+                      <>
+                        <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} />
+                        <Button 
+                          variant="contained" 
+                        
+                          onClick={() => sendMessages(message, connectedUser.personWalletAddress)}
+                         /> 
+                      </>
+                  ) :
                   (
                     <Button 
                       variant="contained" 
