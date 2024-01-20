@@ -127,6 +127,18 @@ contract Vault is Ownable {
         return IERC20(WETH_TOKEN_ADDRESS).balanceOf(address(this));
     }
 
+    function getUSDCBalance() external view returns (uint256) {
+        return IERC20(USDC_TOKEN_ADDRESS).balanceOf(address(this));
+    }
+
+    function getEURSBalance() external view returns (uint256) {
+        return IERC20(EURS_TOKEN_ADDRESS).balanceOf(address(this));
+    }
+
+    function getLINKBalance() external view returns (uint256) {
+        return IERC20(LINK_TOKEN_ADDRESS).balanceOf(address(this));
+    }
+
     function getGHOAddress() external view returns (address) {
         return GHO_TOKEN_ADDRESS;
     }

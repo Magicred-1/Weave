@@ -27,12 +27,12 @@ contract Weave {
     }
 
     function getUsername(address userAddress) external view returns (string memory) {
-        require(bytes(users[userAddress].nickname).length > 0, "User not registered");
         return users[userAddress].nickname;
     }
 
     function isUserOnboarded(address userAddress) external view returns (bool) {
-        return bytes(users[userAddress].nickname).length > 0;
+        require(bytes(users[userAddress].nickname).length > 0, "User not onboarded");
+        return true;
     }
 
     function getUsersDetails() external view returns (address[] memory, string[] memory) {

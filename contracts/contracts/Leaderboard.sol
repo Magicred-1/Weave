@@ -109,7 +109,7 @@ contract Leaderboard is ReentrancyGuard, Ownable {
     }
 
     function getUserNickname(address _userAddress) external view returns (string memory) {
-        return users[_userAddress].userNickname;
+        return weave.getUsername(_userAddress);
     }
 
     function getUserPoints(address _userAddress) external view returns (uint256) {

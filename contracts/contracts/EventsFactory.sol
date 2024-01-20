@@ -4,6 +4,7 @@ pragma solidity ^0.8.9;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./Event.sol";
 import "./interfaces/IEventsFactory.sol";
+import "./interfaces/ILeaderboard.sol";
 import "./interfaces/IVault.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
@@ -11,19 +12,26 @@ contract EventFactory is Ownable {
     event EventCreated(address indexed eventAddress);
 
     address[] public allEvents;
-    address public vaultContractAddress;
-    address public weaveContractAddress;
-    address public leaderboardContractAddress;
 
-    uint256 price = 0.001 ether;
+    IVault public vaultContractAddress;
+    IWeave public weaveContractAddress;
+    ILeaderboard public leaderboardContractAddress;
 
-    constructor(address _vaultAddress) Ownable(msg.sender) {
-        vaultContractAddress = _vaultAddress;
+    constructor(
+        address _vaultAddress,
+        address _weaveAddress,
+        address _leaderboardAddress
+    ) Ownable(msg.sender) {
+        vaultContractAddress = IVault(_vaultAddress);
+        weaveContractAddress = IWeave(_weaveAddress);
+        leaderboardContractAddress = ILeaderboard(_leaderboardAddress);
     }
 
     function createEvent(
         string memory _eventName,
         string memory _eventDescription,
+        uint256 _eventStartDate,
+        uint256 _eventEndDate,
         int256 _latitude,
         int256 _longitude,
         address[] memory _eventManagers,
@@ -34,52 +42,29 @@ contract EventFactory is Ownable {
     ) external {
         require(_eventRadius > 0, "Radius must be greater than 0");
         require(_eventManagers.length <= 5, "Max 5 managers");
+        require(_eventToken.allowance(msg.sender, address(this)) >= _amount, "Not enough allowance");
+        require(_eventToken.balanceOf(msg.sender) >= _amount, "Not enough balance");
 
+        // Deploy the Event contract
         Event newEvent = new Event(
             _eventName,
             _eventDescription,
+            _eventStartDate,
+            _eventEndDate,
             _latitude,
             _longitude,
             _eventManagers,
             _eventRadius,
             _eventRadiusColor,
-            weaveContractAddress,
-            leaderboardContractAddress
-            );
-
-        allEvents.push(address(newEvent));
-        _eventToken.transferFrom(msg.sender, vaultContractAddress, _amount);
-        emit EventCreated(address(newEvent));
-    }
-
-    function createEventWithNativeTokens(
-        string memory _eventName,
-        string memory _eventDescription,
-        int256 _latitude,
-        int256 _longitude,
-        address[] memory _eventManagers,
-        uint256 _eventRadius,
-        string memory _eventRadiusColor
-    ) external payable {
-        require(_eventRadius > 0, "Radius must be greater than 0");
-        require(_eventManagers.length <= 5, "Max 5 managers");
-
-        require(msg.value >= price, "Insufficient ETH sent");
-
-        Event newEvent = new Event(
-            _eventName,
-            _eventDescription,
-            _latitude,
-            _longitude,
-            _eventManagers,
-            _eventRadius,
-            _eventRadiusColor,
-            weaveContractAddress,
-            leaderboardContractAddress
+            address(weaveContractAddress),
+            address(leaderboardContractAddress)
         );
 
         allEvents.push(address(newEvent));
-        payable(vaultContractAddress).transfer(msg.value);
+
+        // Transfer tokens to vault
+        _eventToken.transferFrom(msg.sender, address(vaultContractAddress), _amount);
+
         emit EventCreated(address(newEvent));
     }
 
@@ -106,6 +91,14 @@ contract EventFactory is Ownable {
     }
 
     function setVaultAddress(address _vaultAddress) external onlyOwner {
-        vaultContractAddress = _vaultAddress;
+        vaultContractAddress = IVault(_vaultAddress);
+    }
+
+    function setWeaveAddress(address _weaveAddress) external onlyOwner {
+        weaveContractAddress = IWeave(_weaveAddress);
+    }
+
+    function setLeaderboardAddress(address _leaderboardAddress) external onlyOwner {
+        leaderboardContractAddress = ILeaderboard(_leaderboardAddress);
     }
 }
