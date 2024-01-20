@@ -86,25 +86,42 @@ contract EventFactory is Ownable {
         return allEvents;
     }
 
-    function getAllEventsDetails() external view returns (address[] memory, string[] memory, string[] memory, uint256[] memory, uint256[] memory, uint256[] memory, uint256[] memory) {
+    function getAllEventsDetails() external view returns (address[] memory, string[] memory, string[] memory, uint256[] memory, uint256[] memory, uint256[] memory, address[] memory) {
         string[] memory eventNames = new string[](allEvents.length);
         string[] memory eventDescriptions = new string[](allEvents.length);
+        address[] memory eventOwners = new address[](allEvents.length);
         uint256[] memory eventStartDates = new uint256[](allEvents.length);
+        address[] memory eventManagers = new address[](allEvents.length);
         uint256[] memory eventEndDates = new uint256[](allEvents.length);
         uint256[] memory eventRadiuses = new uint256[](allEvents.length);
-        uint256[] memory eventParticipants = new uint256[](allEvents.length);
 
         for (uint256 i = 0; i < allEvents.length; i++) {
             Event eventContract = Event(allEvents[i]);
             eventNames[i] = eventContract.eventName();
             eventDescriptions[i] = eventContract.eventDescription();
+            eventOwners[i] = eventContract.owner();
             eventStartDates[i] = eventContract.eventStartingDate();
+            eventManagers[i] = eventContract.eventManagers(i);
             eventEndDates[i] = eventContract.eventEndDate();
             eventRadiuses[i] = eventContract.eventRadius();
-            eventParticipants[i] = eventContract.participantsCount();
         }
 
-        return (allEvents, eventNames, eventDescriptions, eventStartDates, eventEndDates, eventRadiuses, eventParticipants);
+        return (allEvents, eventNames, eventDescriptions, eventStartDates, eventEndDates, eventRadiuses, eventManagers);
+    }
+
+    function getEventsCreatedByUserDetails(address _user) external view returns (address[] memory) {
+        address[] memory eventsCreatedByUser = new address[](allEvents.length);
+        uint256 eventsCreatedByUserCount = 0;
+
+        for (uint256 i = 0; i < allEvents.length; i++) {
+            Event eventContract = Event(allEvents[i]);
+            if (eventContract.owner() == _user) {
+                eventsCreatedByUser[eventsCreatedByUserCount] = allEvents[i];
+                eventsCreatedByUserCount++;
+            }
+        }
+
+        return eventsCreatedByUser;
     }
 
     // function calculatingPriceToCreate(uint256 _eventStartDate, uint256 _eventEndDate, uint256 _eventRadius) internal pure returns (uint256) {
