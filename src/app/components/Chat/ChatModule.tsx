@@ -27,6 +27,7 @@ const ChatModule: React.FC = () => {
 
     const { address } = useAccount();
 
+
   const profileIcon = (address: string) => `https://api.cloudnouns.com/v1/pfp?text=${address}`
 
   const fetchChatMessages = async () => {
@@ -102,9 +103,12 @@ const ChatModule: React.FC = () => {
         <DialogTitle>Chat Module</DialogTitle>
         <DialogContent>
           <div style={{ maxHeight: '300px', overflowY: 'auto', marginBottom: '16px' }}>
-            {filteredMessages.map((msg) => (
+            {chatMessages.map((msg) => (
               <div key={msg.id} style={{ marginBottom: '8px', wordWrap: 'break-word' }}>
-                <b>{msg.sender === address ? 'You' : msg.sender}</b>:
+                <b>
+                  <img src={profileIcon(msg.sender)} alt="avatar" width={24} />{msg.sender === address ? 'You' : msg.sender}
+                </b>
+                :
                 {msg.recipientAddress === address ? ' (to you)' : ''} {msg.message}
                 <div style={{ fontSize: '0.8em', color: '#888888' }}>{moment(msg.created_at).fromNow()}</div>
               </div>
@@ -128,7 +132,7 @@ const ChatModule: React.FC = () => {
                 </MenuItem>
               ))}
           </TextField>
-  
+          <span>Reminder: You can only send messages to users who you have interacted with in the past through the interactive map.</span>
           <TextField
             label="Type your message"
             variant="outlined"
@@ -144,7 +148,7 @@ const ChatModule: React.FC = () => {
           </Button>
           <Button
             variant="contained"
-            className='py-1 px-5 text-white bg-[#008790] rounded-full focus:bg-[#008770]'
+            className=''
             color="primary"
             endIcon={<SendIcon />}
             onClick={handleSendMessage}
