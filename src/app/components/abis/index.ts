@@ -1318,6 +1318,73 @@ export const EventsFactoryABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "eventDetails",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "eventName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "eventDescription",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "eventStartDate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "eventEndDate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "int256",
+				"name": "latitude",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "longitude",
+				"type": "int256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "eventRadius",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "eventRadiusColor",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAllEventManagers",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "getAllEvents",
 		"outputs": [
@@ -1335,39 +1402,56 @@ export const EventsFactoryABI = [
 		"name": "getAllEventsDetails",
 		"outputs": [
 			{
-				"internalType": "address[]",
+				"components": [
+					{
+						"internalType": "string",
+						"name": "eventName",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "eventDescription",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "eventStartDate",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "eventEndDate",
+						"type": "uint256"
+					},
+					{
+						"internalType": "int256",
+						"name": "latitude",
+						"type": "int256"
+					},
+					{
+						"internalType": "int256",
+						"name": "longitude",
+						"type": "int256"
+					},
+					{
+						"internalType": "address[]",
+						"name": "eventManagers",
+						"type": "address[]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "eventRadius",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "eventRadiusColor",
+						"type": "string"
+					}
+				],
+				"internalType": "struct EventFactory.EventDetails[]",
 				"name": "",
-				"type": "address[]"
-			},
-			{
-				"internalType": "string[]",
-				"name": "",
-				"type": "string[]"
-			},
-			{
-				"internalType": "string[]",
-				"name": "",
-				"type": "string[]"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "",
-				"type": "uint256[]"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "",
-				"type": "uint256[]"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "",
-				"type": "uint256[]"
-			},
-			{
-				"internalType": "address[]",
-				"name": "",
-				"type": "address[]"
+				"type": "tuple[]"
 			}
 		],
 		"stateMutability": "view",
@@ -1377,11 +1461,11 @@ export const EventsFactoryABI = [
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_user",
+				"name": "_eventAddress",
 				"type": "address"
 			}
 		],
-		"name": "getEventsCreatedByUserDetails",
+		"name": "getEventManagers",
 		"outputs": [
 			{
 				"internalType": "address[]",
