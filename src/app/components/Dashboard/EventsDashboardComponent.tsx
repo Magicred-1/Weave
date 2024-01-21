@@ -40,6 +40,7 @@ export const EventsDashboardComponent = () => {
   };
 
   const [eventsDatas, setEventsDatas] = useState<readonly EventData[] | undefined>(undefined);
+<<<<<<< HEAD
   
 
   const {
@@ -87,6 +88,66 @@ export const EventsDashboardComponent = () => {
       console.log(updatedEventsDatas);
     }
   });
+=======
+  const [eventManagers, setEventManagers] = useState<readonly ManagerData[] | undefined>(undefined);
+  
+
+  const sampleDashboardData = [
+    {
+      eventName: "Sample Event",
+      eventContractAddress: "0x2134044D7d6Ddb782D3eee355d7912f55508591b",
+      eventOwnerAddress: "0x2134044D7d6Ddb782D3eee355d7912f55508591b",
+      eventOwnerNickname: "Sample Owner",
+      eventManagers: [
+        {
+          address: "0x2134044D7d6Ddb782D3eee355d7912f55508591b",
+          nickname: "Sample Manager",
+        },
+      ],
+      contractAddress: "0x2134044D7d6Ddb782D3eee355d7912f55508591b",
+      actions: "Sample Actions",
+    },
+  ];
+>>>>>>> 63a6049 (EventFactory Abi fix)
+
+  const {
+    data: eventsInfos,
+    error,
+    isLoading: contractReadLoading,
+  } = useContractRead({
+    abi: EventsFactoryABI,
+    functionName: 'getAllEventsDetails',
+    address: "0x2134044D7d6Ddb782D3eee355d7912f55508591b"
+  });
+
+//   function getEventManagers(address _eventAddress) external view returns (address[] memory) {
+//     return IEvent(_eventAddress).getManagers();
+// }
+
+  const {
+    data: managers,
+    error: managersError,
+    isLoading: managersLoading,
+  } = useContractRead({
+    abi: EventsFactoryABI,
+    functionName: 'getAllEventManagers',
+    address: "0x2134044D7d6Ddb782D3eee355d7912f55508591b"
+  });
+
+  useEffect(() => {
+    if (eventsInfos && managers) {
+      // Update the data format to match the state types
+      const updatedEventsDatas: readonly EventData[] = eventsInfos as any;
+      const updatedEventManagers: readonly ManagerData[] = managers.map(manager => ({
+        address: manager,
+        nickname: "" // Provide a default value for the nickname property
+      }));
+
+      setEventsDatas(updatedEventsDatas);
+      setEventManagers(updatedEventManagers);
+      console.log(eventsInfos, managers);
+    }
+  }, [eventsInfos, managers]);
 
   const {
     data: eventsInfos,
