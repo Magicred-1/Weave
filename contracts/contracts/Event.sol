@@ -148,54 +148,6 @@ contract Event {
         return true;
     }
 
-    function setEventName(string memory _eventName) public onlyEventManager returns (bool) {
-        eventName = _eventName;
-        emit EventNameUpdated(_eventName);
-        return true;
-    }
-
-    function setManagers(address[] memory _eventManagers) public onlyEventManager returns (bool) {
-        require(_eventManagers.length <= 5, "Max 5 managers");
-        eventManagers = _eventManagers;
-        emit ManagersUpdated(_eventManagers);
-        return true;
-    }
-
-    function setEventDescription(string memory _eventDescription) public onlyEventManager returns (bool) {
-        eventDescription = _eventDescription;
-        return true;
-    }
-
-    function setEventStartingDate(uint256 _eventStartingDate) public onlyEventManager returns (bool) {
-        eventStartingDate = _eventStartingDate;
-        return true;
-    }
-
-    function setEventEndDate(uint256 _eventEndDate) public onlyEventManager returns (bool) {
-        eventEndDate = _eventEndDate;
-        return true;
-    }
-
-    function setLatitude(int256 _latitude) public onlyEventManager returns (bool) {
-        latitude = _latitude;
-        return true;
-    }
-
-    function setLongitude(int256 _longitude) public onlyEventManager returns (bool) {
-        longitude = _longitude;
-        return true;
-    }
-
-    function setEventRadius(uint256 _eventRadius) public onlyEventManager returns (bool) {
-        eventRadius = _eventRadius;
-        return true;
-    }
-
-    function setEventRadiusColor(string memory _eventRadiusColor) public onlyEventManager returns (bool) {
-        eventRadiusColor = _eventRadiusColor;
-        return true;
-    }
-
     function getEventName() public view returns (string memory) {
         return eventName;
     }

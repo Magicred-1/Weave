@@ -137,8 +137,18 @@ contract EventFactory is Ownable {
         return allEventDetails;
     }
 
-    function getEventManagers(address _eventAddress) external view returns (address[] memory) {
-        return IEvent(_eventAddress).getManagers();
+    function getEventsCreatedByUserDetails(address _user) external view returns (address[] memory) {
+        address[] memory eventsCreatedByUser = new address[](allEvents.length);
+        uint256 eventsCreatedByUserCount = 0;
+
+        for (uint256 i = 0; i < allEvents.length; i++) {
+            if (IEvent(allEvents[i]).isParticipantOnboarded(_user)) {
+                eventsCreatedByUser[eventsCreatedByUserCount] = allEvents[i];
+                eventsCreatedByUserCount++;
+            }
+        }
+
+        return eventsCreatedByUser;
     }
 
     function getAllEventManagers() external view returns (address[] memory) {
