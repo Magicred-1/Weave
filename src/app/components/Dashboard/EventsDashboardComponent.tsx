@@ -31,22 +31,6 @@ export const EventsDashboardComponent = () => {
   const [eventsDatas, setEventsDatas] = useState<readonly EventData[] | undefined>(undefined);
   
 
-  const sampleDashboardData = [
-    {
-      eventName: "Sample Event",
-      eventContractAddress: "0x2134044D7d6Ddb782D3eee355d7912f55508591b",
-      eventOwnerAddress: "0x2134044D7d6Ddb782D3eee355d7912f55508591b",
-      eventOwnerNickname: "Sample Owner",
-      eventManagers: [
-        {
-          address: "0x2134044D7d6Ddb782D3eee355d7912f55508591b"
-        },
-      ],
-      contractAddress: "0x2134044D7d6Ddb782D3eee355d7912f55508591b",
-      actions: "Sample Actions",
-    },
-  ];
-
   const {
     data: eventsInfos,
     error,
@@ -87,33 +71,34 @@ export const EventsDashboardComponent = () => {
           address: manager,
         })),
       }));
-      
+
       setEventsDatas(updatedEventsDatas);
       console.log(updatedEventsDatas);
     }
   });
 
   return (
-    <div className="flex flex-col h-screen bg-gray-900">
-      <Navbar />
-      <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-10">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4"></div>
-        <div>
-          {contractReadLoading ? (
-            <p>Loading...</p>
-          ) : (
-            <Card>
-              {error ? (
-                <EventsDashboardTable data={sampleDashboardData} />
-              ) : (
-                <EventsDashboardTable data={eventsDatas} />
-              )}
-            </Card>
-          )}
-        </div>
-      </main>
-      <Footer />
-    </div>
+    <></>
+    // <div className="flex flex-col h-screen bg-gray-900">
+    //   <Navbar />
+    //   <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-10">
+    //     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4"></div>
+    //     <div>
+    //       {contractReadLoading ? (
+    //         <p>Loading...</p>
+    //       ) : (
+    //         <Card>
+    //           {error ? (
+    //             <EventsDashboardTable data={sampleDashboardData} />
+    //           ) : (
+    //             <EventsDashboardTable data={eventsDatas} />
+    //           )}
+    //         </Card>
+    //       )}
+    //     </div>
+    //   </main>
+    //   <Footer />
+    // </div>
   );
 };
 

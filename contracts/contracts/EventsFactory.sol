@@ -115,26 +115,27 @@ contract EventFactory is Ownable {
         return allEvents;
     }
 
-    function getAllEventsDetails() external view returns (string[] memory) {
-        uint256 totalEvents = allEvents.length;
-        string[] memory allEventData = new string[](totalEvents * 8);
+    // club all the data in one array
+    function getAllEventsDetails() external view returns (EventDetails[] memory) {
+        EventDetails[] memory allEventDetails = new EventDetails[](allEvents.length);
 
-        for (uint256 i = 0; i < totalEvents; i++) {
-            uint256 index = i * 8;
-
-            allEventData[index] = IEvent(allEvents[i]).getEventName();
-            allEventData[index + 1] = IEvent(allEvents[i]).getEventDescription();
-            allEventData[index + 2] = uint256ToString(IEvent(allEvents[i]).getEventStartingDate());
-            allEventData[index + 3] = uint256ToString(IEvent(allEvents[i]).getEventEndDate());
-            allEventData[index + 4] = int256ToString(IEvent(allEvents[i]).getLatitude());
-            allEventData[index + 5] = int256ToString(IEvent(allEvents[i]).getLongitude());
-            allEventData[index + 6] = uint256ToString(IEvent(allEvents[i]).getEventRadius());
-            allEventData[index + 7] = IEvent(allEvents[i]).getEventRadiusColor();
+        for (uint256 i = 0; i < allEvents.length; i++) {
+            EventDetails storage details = eventDetails[allEvents[i]];
+            allEventDetails[i] = EventDetails({
+                eventName: details.eventName,
+                eventDescription: details.eventDescription,
+                eventStartDate: details.eventStartDate,
+                eventEndDate: details.eventEndDate,
+                latitude: details.latitude,
+                longitude: details.longitude,
+                eventManagers: details.eventManagers,
+                eventRadius: details.eventRadius,
+                eventRadiusColor: details.eventRadiusColor
+            });
         }
 
-        return allEventData;
+        return allEventDetails;
     }
-
 
     function getEventManagers(address _eventAddress) external view returns (address[] memory) {
         return IEvent(_eventAddress).getManagers();
