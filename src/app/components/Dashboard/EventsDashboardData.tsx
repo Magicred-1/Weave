@@ -1,16 +1,16 @@
-interface EventsDashboardData {
-    eventName: string;
-    eventContractAddress: `0x${string}`;
-    eventOwnerAddress: `0x${string}`,
-    eventOwnerNickname?: string,
-    eventManagers: eventManagers[];
-    contractAddress: string;
-    actions: string;
-}
+type EventData = {
+  eventName: string;
+  eventDescription: string;
+  eventStartDate: string;
+  eventEndDate: string;
+  eventLatitude: string;
+  eventLongitude: string;
+  eventRadius: number;
+  eventRadiusColor: string;
+  eventManagers: readonly ManagerData[];
+};
 
-interface eventManagers {
-    address: `0x${string}`,
-    nickname?: string,
-}
-  
-export default EventsDashboardData;
+type ManagerData = {
+  address: `0x${string}`;
+  nickname?: string;
+};

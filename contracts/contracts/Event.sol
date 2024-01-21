@@ -7,7 +7,7 @@ import "./interfaces/IEvent.sol";
 import "./interfaces/IWeave.sol";
 import "./interfaces/ILeaderboard.sol";
 
-contract Event is Ownable {
+contract Event {
     using SafeMath for uint256;
 
     IWeave public weave;
@@ -21,6 +21,8 @@ contract Event is Ownable {
     mapping(address => bool) public isEventManager;
 
     address[] public eventManagers;
+
+    address public owner;
 
     string public eventName;
     string public eventDescription;
@@ -37,9 +39,6 @@ contract Event is Ownable {
     // Event emitted when the event name is updated
     event EventNameUpdated(string newEventName);
 
-    // Event emitted when the reward pool is updated
-    event RewardPoolUpdated(uint256 newRewardPool);
-
     // Event emitted when eventManagers are updated
     event ManagersUpdated(address[] newManagers);
 
@@ -51,11 +50,6 @@ contract Event is Ownable {
 
     // Event emitted when a participant claims points
     event PointsClaimed(address indexed participant);
-
-    modifier onlyEventOwner() {
-        require(msg.sender == owner(), "Only the event owner can call this");
-        _;
-    }
 
     modifier onlyEventManager() {
         require(isEventManager[msg.sender], "Only event managers can call this");
@@ -74,7 +68,7 @@ contract Event is Ownable {
         string memory _eventRadiusColor,
         address _weaveContractAddress,
         address _leaderboardContractAddress
-    ) Ownable(msg.sender) {
+    ) {
         eventName = _eventName;
         eventDescription = _eventDescription;
         eventStartingDate = _eventStartingDate;
@@ -101,7 +95,7 @@ contract Event is Ownable {
         emit ParticipantAttended(_participantAddress);
     }
 
-    function updateEventName(string memory _newEventName) public onlyEventOwner returns (bool) {
+    function updateEventName(string memory _newEventName) public onlyEventManager returns (bool) {
         eventName = _newEventName;
         emit EventNameUpdated(_newEventName);
         return true;
@@ -111,7 +105,7 @@ contract Event is Ownable {
         return weave.isParticipantOnboarded(participantAddress);
     }
 
-    function addManager(address newManager) public onlyEventOwner returns (bool) {
+    function addManager(address newManager) public onlyEventManager returns (bool) {
         require(eventManagers.length < 5, "eventManagers must be less than or equal to 5");
 
         for (uint256 i = 0; i < eventManagers.length; i++) {
@@ -128,7 +122,7 @@ contract Event is Ownable {
         return eventManagers;
     }
 
-    function removeManagerOptimized(address _manager) public onlyEventOwner {
+    function removeManagerOptimized(address _manager) public onlyEventManager {
         bool managerFound = false;
         for (uint i = 0; i < eventManagers.length; i++) {
             if (eventManagers[i] == _manager) {
@@ -153,6 +147,92 @@ contract Event is Ownable {
 
         return true;
     }
+
+    function setEventName(string memory _eventName) public onlyEventManager returns (bool) {
+        eventName = _eventName;
+        emit EventNameUpdated(_eventName);
+        return true;
+    }
+
+    function setManagers(address[] memory _eventManagers) public onlyEventManager returns (bool) {
+        require(_eventManagers.length <= 5, "Max 5 managers");
+        eventManagers = _eventManagers;
+        emit ManagersUpdated(_eventManagers);
+        return true;
+    }
+
+    function setEventDescription(string memory _eventDescription) public onlyEventManager returns (bool) {
+        eventDescription = _eventDescription;
+        return true;
+    }
+
+    function setEventStartingDate(uint256 _eventStartingDate) public onlyEventManager returns (bool) {
+        eventStartingDate = _eventStartingDate;
+        return true;
+    }
+
+    function setEventEndDate(uint256 _eventEndDate) public onlyEventManager returns (bool) {
+        eventEndDate = _eventEndDate;
+        return true;
+    }
+
+    function setLatitude(int256 _latitude) public onlyEventManager returns (bool) {
+        latitude = _latitude;
+        return true;
+    }
+
+    function setLongitude(int256 _longitude) public onlyEventManager returns (bool) {
+        longitude = _longitude;
+        return true;
+    }
+
+    function setEventRadius(uint256 _eventRadius) public onlyEventManager returns (bool) {
+        eventRadius = _eventRadius;
+        return true;
+    }
+
+    function setEventRadiusColor(string memory _eventRadiusColor) public onlyEventManager returns (bool) {
+        eventRadiusColor = _eventRadiusColor;
+        return true;
+    }
+
+    function getEventName() public view returns (string memory) {
+        return eventName;
+    }
+
+
+    function getEventDescription() public view returns (string memory) {
+        return eventDescription;
+    }
+
+    function getEventStartingDate() public view returns (uint256) {
+        return eventStartingDate;
+    }
+
+    function getEventEndDate() public view returns (uint256) {
+        return eventEndDate;
+    }
+
+    function getLatitude() public view returns (int256) {
+        return latitude;
+    }
+
+    function getLongitude() public view returns (int256) {
+        return longitude;
+    }
+
+    function getEventRadius() public view returns (uint256) {
+        return eventRadius;
+    }
+
+    function getEventRadiusColor() public view returns (string memory) {
+        return eventRadiusColor;
+    }
+
+    function getAttendedParticipants() public view returns (address[] memory) {
+        return attendedParticipants;
+    }
+
 
     function getRegisteredParticipants() public view returns (address[] memory) {
         return registeredParticipants;
