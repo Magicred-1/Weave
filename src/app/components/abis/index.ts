@@ -1680,41 +1680,6 @@ export const EventsFactoryABI = [
 				"internalType": "string[]",
 				"name": "",
 				"type": "string[]"
-			},
-			{
-				"internalType": "string[]",
-				"name": "",
-				"type": "string[]"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "",
-				"type": "uint256[]"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "",
-				"type": "uint256[]"
-			},
-			{
-				"internalType": "int256[]",
-				"name": "",
-				"type": "int256[]"
-			},
-			{
-				"internalType": "int256[]",
-				"name": "",
-				"type": "int256[]"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "",
-				"type": "uint256[]"
-			},
-			{
-				"internalType": "string[]",
-				"name": "",
-				"type": "string[]"
 			}
 		],
 		"stateMutability": "view",

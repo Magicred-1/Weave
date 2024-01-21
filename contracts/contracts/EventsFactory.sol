@@ -115,49 +115,26 @@ contract EventFactory is Ownable {
         return allEvents;
     }
 
+    function getAllEventsDetails() external view returns (string[] memory) {
+        uint256 totalEvents = allEvents.length;
+        string[] memory allEventData = new string[](totalEvents * 8);
 
-    // Use the IEvent interface to call the functions of the Event contract
-    function getAllEventsDetails() external view returns (
-        string[] memory,
-        string[] memory,
-        uint256[] memory,
-        uint256[] memory,
-        int256[] memory,
-        int256[] memory,
-        uint256[] memory,
-        string[] memory
-    ) {
-        string[] memory eventNames = new string[](allEvents.length);
-        string[] memory eventDescriptions = new string[](allEvents.length);
-        uint256[] memory eventStartDates = new uint256[](allEvents.length);
-        uint256[] memory eventEndDates = new uint256[](allEvents.length);
-        int256[] memory latitudes = new int256[](allEvents.length);
-        int256[] memory longitudes = new int256[](allEvents.length);
-        uint256[] memory eventRadiuses = new uint256[](allEvents.length);
-        string[] memory eventRadiusColors = new string[](allEvents.length);
+        for (uint256 i = 0; i < totalEvents; i++) {
+            uint256 index = i * 8;
 
-        for (uint256 i = 0; i < allEvents.length; i++) {
-            eventNames[i] = IEvent(allEvents[i]).getEventName();
-            eventDescriptions[i] = IEvent(allEvents[i]).getEventDescription();
-            eventStartDates[i] = IEvent(allEvents[i]).getEventStartingDate();
-            eventEndDates[i] = IEvent(allEvents[i]).getEventEndDate();
-            latitudes[i] = IEvent(allEvents[i]).getLatitude();
-            longitudes[i] = IEvent(allEvents[i]).getLongitude();
-            eventRadiuses[i] = IEvent(allEvents[i]).getEventRadius();
-            eventRadiusColors[i] = IEvent(allEvents[i]).getEventRadiusColor();
+            allEventData[index] = IEvent(allEvents[i]).getEventName();
+            allEventData[index + 1] = IEvent(allEvents[i]).getEventDescription();
+            allEventData[index + 2] = uint256ToString(IEvent(allEvents[i]).getEventStartingDate());
+            allEventData[index + 3] = uint256ToString(IEvent(allEvents[i]).getEventEndDate());
+            allEventData[index + 4] = int256ToString(IEvent(allEvents[i]).getLatitude());
+            allEventData[index + 5] = int256ToString(IEvent(allEvents[i]).getLongitude());
+            allEventData[index + 6] = uint256ToString(IEvent(allEvents[i]).getEventRadius());
+            allEventData[index + 7] = IEvent(allEvents[i]).getEventRadiusColor();
         }
 
-        return (
-            eventNames,
-            eventDescriptions,
-            eventStartDates,
-            eventEndDates,
-            latitudes,
-            longitudes,
-            eventRadiuses,
-            eventRadiusColors
-        );
+        return allEventData;
     }
+
 
     function getEventManagers(address _eventAddress) external view returns (address[] memory) {
         return IEvent(_eventAddress).getManagers();
@@ -190,5 +167,64 @@ contract EventFactory is Ownable {
 
     function setLeaderboardAddress(address _leaderboardAddress) external onlyOwner {
         leaderboardContractAddress = ILeaderboard(_leaderboardAddress);
+    }
+
+    // Helper function to convert uint256 to string
+    function uint256ToString(uint256 value) internal pure returns (string memory) {
+        if (value == 0) {
+            return "0";
+        }
+
+        uint256 temp = value;
+        uint256 length;
+
+        while (temp != 0) {
+            length++;
+            temp /= 10;
+        }
+
+        bytes memory result = new bytes(length);
+        uint256 index = length;
+
+        while (value != 0) {
+            index--;
+            result[index] = bytes1(uint8(48 + value % 10));
+            value /= 10;
+        }
+
+        return string(result);
+    }
+
+    // Helper function to convert int256 to string
+    function int256ToString(int256 value) internal pure returns (string memory) {
+        if (value == 0) {
+            return "0";
+        }
+
+        bool isNegative = value < 0;
+        uint256 temp = isNegative ? uint256(-value) : uint256(value);
+        uint256 length;
+
+        while (temp != 0) {
+            length++;
+            temp /= 10;
+        }
+
+        bytes memory result = new bytes(isNegative ? length + 1 : length);
+        uint256 index = length;
+
+        temp = isNegative ? uint256(-value) : uint256(value);
+
+        while (temp != 0) {
+            index--;
+            result[index] = bytes1(uint8(48 + temp % 10));
+            temp /= 10;
+        }
+
+        if (isNegative) {
+            result[0] = '-';
+        }
+
+        return string(result);
     }
 }
