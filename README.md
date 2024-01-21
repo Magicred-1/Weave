@@ -37,7 +37,7 @@ openssl rand -base64 32
 | Weave Contract         | 0x5f856baB0F63a833b311fC9d853a14c8762d583d |
 | Leaderboard Contract   | 0x39545602B72Bd4a74FE1f4AF755c15C71C9780F0 |
 | Vault Contract         | 0x4BE0E8654e9879877e8A806B839fE122fa0F880C |
-| Event Factory Contract | 0xa90Db21B1B6008B4ad6710f093C026e04B0aa0A9 |
+| Event Factory Contract | 0x729D4b69401b651f6C868e169C42cb82d6C37F43 |
 | Event Contract         | 0xA225B8813a3D298b0fA5dD6357f4843B224A4678                               |
 
 ## Stack
