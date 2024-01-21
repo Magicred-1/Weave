@@ -40,7 +40,6 @@ export const EventsDashboardComponent = () => {
   };
 
   const [eventsDatas, setEventsDatas] = useState<readonly EventData[] | undefined>(undefined);
-<<<<<<< HEAD
   
 
   const {
@@ -88,27 +87,6 @@ export const EventsDashboardComponent = () => {
       console.log(updatedEventsDatas);
     }
   });
-=======
-  const [eventManagers, setEventManagers] = useState<readonly ManagerData[] | undefined>(undefined);
-  
-
-  const sampleDashboardData = [
-    {
-      eventName: "Sample Event",
-      eventContractAddress: "0x2134044D7d6Ddb782D3eee355d7912f55508591b",
-      eventOwnerAddress: "0x2134044D7d6Ddb782D3eee355d7912f55508591b",
-      eventOwnerNickname: "Sample Owner",
-      eventManagers: [
-        {
-          address: "0x2134044D7d6Ddb782D3eee355d7912f55508591b",
-          nickname: "Sample Manager",
-        },
-      ],
-      contractAddress: "0x2134044D7d6Ddb782D3eee355d7912f55508591b",
-      actions: "Sample Actions",
-    },
-  ];
->>>>>>> 63a6049 (EventFactory Abi fix)
 
   const {
     data: eventsInfos,
