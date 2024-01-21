@@ -20,7 +20,6 @@ contract Vault is Ownable {
     address public WETH_TOKEN_ADDRESS = 0xC558DBdd856501FCd9aaF1E62eae57A9F0629a3c;
     address public USDC_TOKEN_ADDRESS = 0x94a9D9AC8a22534E3FaCa9F4e7F2E2cf85d5E4C8;
     address public EURS_TOKEN_ADDRESS = 0x6d906e526a4e2Ca02097BA9d0caA3c382F52278E;
-    address public LINK_TOKEN_ADDRESS = 0xf8Fb3713D459D7C1018BD0A49D19b4C44290EBE5;
 
     address public leaderboardContractAddress;
 
@@ -133,10 +132,6 @@ contract Vault is Ownable {
 
     function getEURSBalance() external view returns (uint256) {
         return IERC20(EURS_TOKEN_ADDRESS).balanceOf(address(this));
-    }
-
-    function getLINKBalance() external view returns (uint256) {
-        return IERC20(LINK_TOKEN_ADDRESS).balanceOf(address(this));
     }
 
     function getGHOAddress() external view returns (address) {

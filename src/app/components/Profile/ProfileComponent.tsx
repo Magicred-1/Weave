@@ -19,10 +19,10 @@ export default function ProfileComponent({ address }: ProfileComponentProps) {
 	} = useContractRead({
 		abi: WeaveABI,
 		functionName: 'getUsername',
-		address: '0x5f856baB0F63a833b311fC9d853a14c8762d583d',
+		address: "0x5f856baB0F63a833b311fC9d853a14c8762d583d",
 		args: address && [address],
 	})
-	console.log('Read contract data and error', onboardingData, error?.message)
+	console.log('Read contract data and error', onboardingData)
 	const profileIcon = `https://api.cloudnouns.com/v1/pfp?text=${address}`
 
 	return (
@@ -63,7 +63,7 @@ export default function ProfileComponent({ address }: ProfileComponentProps) {
 					</Card>
 				</div>
 			) : (
-				<h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none   text-white text-center py-6">
+				<h1 className="mb-4 h-screen text-4xl font-extrabold tracking-tight leading-none   text-white text-center py-6">
 					Please Connect your wallet!
 				</h1>
 			)}

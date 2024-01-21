@@ -10,6 +10,8 @@ import { Circle, useMap } from "react-leaflet";
 import { userIcon, visitorIcon } from "../../../../lib/markerIcons";
 import moment from "moment";
 import { Button } from '@mui/material';
+import { WeaveABI } from "../../abis";
+import { useContractRead } from "wagmi";
 
 interface ConnectedUser {
     image?: string;
@@ -31,6 +33,18 @@ export const GetUsersPositions = () => {
     const [message, setMessage] = useState<string>("");
 
     const { address, isConnected } = useAccount();
+
+    const {
+      data: onboardingData,
+      error,
+      isLoading: contractReadLoading,
+    } = useContractRead({
+      abi: WeaveABI,
+      functionName: 'getUsername',
+      address: "0x5f856baB0F63a833b311fC9d853a14c8762d583d",
+      args: address && [address],
+    })
+    console.log('Read contract data and error', onboardingData)
 
     const sendMessages = (messageContent: string, recipientAddress: `0x${string}`) => {
         fetch("/api/chats", {
@@ -109,7 +123,7 @@ export const GetUsersPositions = () => {
                 event: "connectedUser",
                 payload: {
                   image: `https://api.cloudnouns.com/v1/pfp?text=${address}`,
-                  username: "Anonymous", // TODO: get username from contract
+                  username: onboardingData ? onboardingData : 'Anonymous',
                   personWalletAddress: address,
                   coordinates: userPosition,
                   lastConnection: moment().format("MMMM Do YYYY, h:mm:ss a"),
