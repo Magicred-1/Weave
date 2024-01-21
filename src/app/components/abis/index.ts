@@ -637,14 +637,14 @@ export const EventABI = [
 				type: 'string',
 			},
 			{
-				"internalType": "uint256",
-				"name": "_eventStartingDate",
-				"type": "uint256"
+				internalType: 'uint256',
+				name: '_eventStartingDate',
+				type: 'uint256',
 			},
 			{
-				"internalType": "uint256",
-				"name": "_eventEndDate",
-				"type": "uint256"
+				internalType: 'uint256',
+				name: '_eventEndDate',
+				type: 'uint256',
 			},
 			{
 				internalType: 'int256',
@@ -684,28 +684,6 @@ export const EventABI = [
 		],
 		stateMutability: 'nonpayable',
 		type: 'constructor',
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			}
-		],
-		"name": "OwnableInvalidOwner",
-		"type": "error"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			}
-		],
-		"name": "OwnableUnauthorizedAccount",
-		"type": "error"
 	},
 	{
 		anonymous: false,
@@ -760,25 +738,6 @@ export const EventABI = [
 		type: 'event',
 	},
 	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "previousOwner",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "newOwner",
-				"type": "address"
-			}
-		],
-		"name": "OwnershipTransferred",
-		"type": "event"
-	},
-	{
 		anonymous: false,
 		inputs: [
 			{
@@ -803,19 +762,6 @@ export const EventABI = [
 		],
 		name: 'PointsClaimed',
 		type: 'event',
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "newRewardPool",
-				"type": "uint256"
-			}
-		],
-		"name": "RewardPoolUpdated",
-		"type": "event"
 	},
 	{
 		inputs: [
@@ -895,17 +841,17 @@ export const EventABI = [
 		type: 'function',
 	},
 	{
-		"inputs": [],
-		"name": "eventEndDate",
-		"outputs": [
+		inputs: [],
+		name: 'eventEndDate',
+		outputs: [
 			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
+				internalType: 'uint256',
+				name: '',
+				type: 'uint256',
+			},
 		],
-		"stateMutability": "view",
-		"type": "function"
+		stateMutability: 'view',
+		type: 'function',
 	},
 	{
 		inputs: [
@@ -966,134 +912,134 @@ export const EventABI = [
 		type: 'function',
 	},
 	{
-		"inputs": [],
-		"name": "eventStartingDate",
-		"outputs": [
+		inputs: [],
+		name: 'eventStartingDate',
+		outputs: [
 			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
+				internalType: 'uint256',
+				name: '',
+				type: 'uint256',
+			},
 		],
-		"stateMutability": "view",
-		"type": "function"
+		stateMutability: 'view',
+		type: 'function',
 	},
 	{
-		"inputs": [],
-		"name": "getAttendedParticipants",
-		"outputs": [
+		inputs: [],
+		name: 'getAttendedParticipants',
+		outputs: [
 			{
-				"internalType": "address[]",
-				"name": "",
-				"type": "address[]"
-			}
+				internalType: 'address[]',
+				name: '',
+				type: 'address[]',
+			},
 		],
-		"stateMutability": "view",
-		"type": "function"
+		stateMutability: 'view',
+		type: 'function',
 	},
 	{
-		"inputs": [],
-		"name": "getEventDescription",
-		"outputs": [
+		inputs: [],
+		name: 'getEventDescription',
+		outputs: [
 			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
+				internalType: 'string',
+				name: '',
+				type: 'string',
+			},
 		],
-		"stateMutability": "view",
-		"type": "function"
+		stateMutability: 'view',
+		type: 'function',
 	},
 	{
-		"inputs": [],
-		"name": "getEventEndDate",
-		"outputs": [
+		inputs: [],
+		name: 'getEventEndDate',
+		outputs: [
 			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
+				internalType: 'uint256',
+				name: '',
+				type: 'uint256',
+			},
 		],
-		"stateMutability": "view",
-		"type": "function"
+		stateMutability: 'view',
+		type: 'function',
 	},
 	{
-		"inputs": [],
-		"name": "getEventName",
-		"outputs": [
+		inputs: [],
+		name: 'getEventName',
+		outputs: [
 			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
+				internalType: 'string',
+				name: '',
+				type: 'string',
+			},
 		],
-		"stateMutability": "view",
-		"type": "function"
+		stateMutability: 'view',
+		type: 'function',
 	},
 	{
-		"inputs": [],
-		"name": "getEventRadius",
-		"outputs": [
+		inputs: [],
+		name: 'getEventRadius',
+		outputs: [
 			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
+				internalType: 'uint256',
+				name: '',
+				type: 'uint256',
+			},
 		],
-		"stateMutability": "view",
-		"type": "function"
+		stateMutability: 'view',
+		type: 'function',
 	},
 	{
-		"inputs": [],
-		"name": "getEventRadiusColor",
-		"outputs": [
+		inputs: [],
+		name: 'getEventRadiusColor',
+		outputs: [
 			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
+				internalType: 'string',
+				name: '',
+				type: 'string',
+			},
 		],
-		"stateMutability": "view",
-		"type": "function"
+		stateMutability: 'view',
+		type: 'function',
 	},
 	{
-		"inputs": [],
-		"name": "getEventStartingDate",
-		"outputs": [
+		inputs: [],
+		name: 'getEventStartingDate',
+		outputs: [
 			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
+				internalType: 'uint256',
+				name: '',
+				type: 'uint256',
+			},
 		],
-		"stateMutability": "view",
-		"type": "function"
+		stateMutability: 'view',
+		type: 'function',
 	},
 	{
-		"inputs": [],
-		"name": "getLatitude",
-		"outputs": [
+		inputs: [],
+		name: 'getLatitude',
+		outputs: [
 			{
-				"internalType": "int256",
-				"name": "",
-				"type": "int256"
-			}
+				internalType: 'int256',
+				name: '',
+				type: 'int256',
+			},
 		],
-		"stateMutability": "view",
-		"type": "function"
+		stateMutability: 'view',
+		type: 'function',
 	},
 	{
-		"inputs": [],
-		"name": "getLongitude",
-		"outputs": [
+		inputs: [],
+		name: 'getLongitude',
+		outputs: [
 			{
-				"internalType": "int256",
-				"name": "",
-				"type": "int256"
-			}
+				internalType: 'int256',
+				name: '',
+				type: 'int256',
+			},
 		],
-		"stateMutability": "view",
-		"type": "function"
+		stateMutability: 'view',
+		type: 'function',
 	},
 	{
 		inputs: [],
@@ -1160,23 +1106,23 @@ export const EventABI = [
 		type: 'function',
 	},
 	{
-		"inputs": [
+		inputs: [
 			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
+				internalType: 'address',
+				name: '',
+				type: 'address',
+			},
 		],
-		"name": "isEventManager",
-		"outputs": [
+		name: 'isEventManager',
+		outputs: [
 			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
+				internalType: 'bool',
+				name: '',
+				type: 'bool',
+			},
 		],
-		"stateMutability": "view",
-		"type": "function"
+		stateMutability: 'view',
+		type: 'function',
 	},
 	{
 		inputs: [
@@ -1282,24 +1228,175 @@ export const EventABI = [
 		type: 'function',
 	},
 	{
-		"inputs": [],
-		"name": "renounceOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
+		inputs: [
+			{
+				internalType: 'string',
+				name: '_eventDescription',
+				type: 'string',
+			},
+		],
+		name: 'setEventDescription',
+		outputs: [
+			{
+				internalType: 'bool',
+				name: '',
+				type: 'bool',
+			},
+		],
+		stateMutability: 'nonpayable',
+		type: 'function',
 	},
 	{
 		inputs: [
 			{
-				"internalType": "address",
-				"name": "newOwner",
-				"type": "address"
-			}
+				internalType: 'uint256',
+				name: '_eventEndDate',
+				type: 'uint256',
+			},
 		],
-		"name": "transferOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
+		name: 'setEventEndDate',
+		outputs: [
+			{
+				internalType: 'bool',
+				name: '',
+				type: 'bool',
+			},
+		],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'string',
+				name: '_eventName',
+				type: 'string',
+			},
+		],
+		name: 'setEventName',
+		outputs: [
+			{
+				internalType: 'bool',
+				name: '',
+				type: 'bool',
+			},
+		],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'uint256',
+				name: '_eventRadius',
+				type: 'uint256',
+			},
+		],
+		name: 'setEventRadius',
+		outputs: [
+			{
+				internalType: 'bool',
+				name: '',
+				type: 'bool',
+			},
+		],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'string',
+				name: '_eventRadiusColor',
+				type: 'string',
+			},
+		],
+		name: 'setEventRadiusColor',
+		outputs: [
+			{
+				internalType: 'bool',
+				name: '',
+				type: 'bool',
+			},
+		],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'uint256',
+				name: '_eventStartingDate',
+				type: 'uint256',
+			},
+		],
+		name: 'setEventStartingDate',
+		outputs: [
+			{
+				internalType: 'bool',
+				name: '',
+				type: 'bool',
+			},
+		],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'int256',
+				name: '_latitude',
+				type: 'int256',
+			},
+		],
+		name: 'setLatitude',
+		outputs: [
+			{
+				internalType: 'bool',
+				name: '',
+				type: 'bool',
+			},
+		],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'int256',
+				name: '_longitude',
+				type: 'int256',
+			},
+		],
+		name: 'setLongitude',
+		outputs: [
+			{
+				internalType: 'bool',
+				name: '',
+				type: 'bool',
+			},
+		],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'address[]',
+				name: '_eventManagers',
+				type: 'address[]',
+			},
+		],
+		name: 'setManagers',
+		outputs: [
+			{
+				internalType: 'bool',
+				name: '',
+				type: 'bool',
+			},
+		],
+		stateMutability: 'nonpayable',
+		type: 'function',
 	},
 	{
 		inputs: [
@@ -1338,14 +1435,264 @@ export const EventABI = [
 export const EventsFactoryABI = [
 	{
 		inputs: [
-			{
-				"internalType": "address",
-				"name": "_vaultAddress",
-				"type": "address"
-			}
+			{ internalType: 'address', name: '_vaultAddress', type: 'address' },
+			{ internalType: 'address', name: '_weaveAddress', type: 'address' },
+			{ internalType: 'address', name: '_leaderboardAddress', type: 'address' },
 		],
 		stateMutability: 'nonpayable',
 		type: 'constructor',
+	},
+	{
+		inputs: [{ internalType: 'address', name: 'owner', type: 'address' }],
+		name: 'OwnableInvalidOwner',
+		type: 'error',
+	},
+	{
+		inputs: [{ internalType: 'address', name: 'account', type: 'address' }],
+		name: 'OwnableUnauthorizedAccount',
+		type: 'error',
+	},
+	{
+		anonymous: false,
+		inputs: [{ indexed: true, internalType: 'address', name: 'eventAddress', type: 'address' }],
+		name: 'EventCreated',
+		type: 'event',
+	},
+	{
+		anonymous: false,
+		inputs: [
+			{ indexed: true, internalType: 'address', name: 'previousOwner', type: 'address' },
+			{ indexed: true, internalType: 'address', name: 'newOwner', type: 'address' },
+		],
+		name: 'OwnershipTransferred',
+		type: 'event',
+	},
+	{
+		inputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+		name: 'allEvents',
+		outputs: [{ internalType: 'address', name: '', type: 'address' }],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{ internalType: 'string', name: '_eventName', type: 'string' },
+			{ internalType: 'string', name: '_eventDescription', type: 'string' },
+			{ internalType: 'uint256', name: '_eventStartDate', type: 'uint256' },
+			{ internalType: 'uint256', name: '_eventEndDate', type: 'uint256' },
+			{ internalType: 'int256', name: '_latitude', type: 'int256' },
+			{ internalType: 'int256', name: '_longitude', type: 'int256' },
+			{ internalType: 'address[]', name: '_eventManagers', type: 'address[]' },
+			{ internalType: 'uint256', name: '_eventRadius', type: 'uint256' },
+			{ internalType: 'string', name: '_eventRadiusColor', type: 'string' },
+			{ internalType: 'contract IERC20', name: '_eventToken', type: 'address' },
+			{ internalType: 'uint256', name: '_amount', type: 'uint256' },
+		],
+		name: 'createEvent',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [{ internalType: 'address', name: '', type: 'address' }],
+		name: 'eventDetails',
+		outputs: [
+			{ internalType: 'string', name: 'eventName', type: 'string' },
+			{ internalType: 'string', name: 'eventDescription', type: 'string' },
+			{ internalType: 'uint256', name: 'eventStartDate', type: 'uint256' },
+			{ internalType: 'uint256', name: 'eventEndDate', type: 'uint256' },
+			{ internalType: 'int256', name: 'latitude', type: 'int256' },
+			{ internalType: 'int256', name: 'longitude', type: 'int256' },
+			{ internalType: 'uint256', name: 'eventRadius', type: 'uint256' },
+			{ internalType: 'string', name: 'eventRadiusColor', type: 'string' },
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'getAllEventManagers',
+		outputs: [{ internalType: 'address[]', name: '', type: 'address[]' }],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'getAllEvents',
+		outputs: [{ internalType: 'address[]', name: '', type: 'address[]' }],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'getAllEventsDetails',
+		outputs: [
+			{
+				components: [
+					{ internalType: 'string', name: 'eventName', type: 'string' },
+					{ internalType: 'string', name: 'eventDescription', type: 'string' },
+					{ internalType: 'uint256', name: 'eventStartDate', type: 'uint256' },
+					{ internalType: 'uint256', name: 'eventEndDate', type: 'uint256' },
+					{ internalType: 'int256', name: 'latitude', type: 'int256' },
+					{ internalType: 'int256', name: 'longitude', type: 'int256' },
+					{ internalType: 'address[]', name: 'eventManagers', type: 'address[]' },
+					{ internalType: 'uint256', name: 'eventRadius', type: 'uint256' },
+					{ internalType: 'string', name: 'eventRadiusColor', type: 'string' },
+				],
+				internalType: 'struct EventFactory.EventDetails[]',
+				name: '',
+				type: 'tuple[]',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [{ internalType: 'address', name: '_eventAddress', type: 'address' }],
+		name: 'getEventManagers',
+		outputs: [{ internalType: 'address[]', name: '', type: 'address[]' }],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [{ internalType: 'address', name: '_eventAddress', type: 'address' }],
+		name: 'isContractAnEvent',
+		outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [{ internalType: 'address', name: '_user', type: 'address' }],
+		name: 'isUserHasAlreadyCreatedEvent',
+		outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'leaderboardContractAddress',
+		outputs: [{ internalType: 'contract ILeaderboard', name: '', type: 'address' }],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'owner',
+		outputs: [{ internalType: 'address', name: '', type: 'address' }],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{ inputs: [], name: 'renounceOwnership', outputs: [], stateMutability: 'nonpayable', type: 'function' },
+	{
+		inputs: [{ internalType: 'address', name: '_leaderboardAddress', type: 'address' }],
+		name: 'setLeaderboardAddress',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [{ internalType: 'address', name: '_vaultAddress', type: 'address' }],
+		name: 'setVaultAddress',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [{ internalType: 'address', name: '_weaveAddress', type: 'address' }],
+		name: 'setWeaveAddress',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [{ internalType: 'address', name: 'newOwner', type: 'address' }],
+		name: 'transferOwnership',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'vaultContractAddress',
+		outputs: [{ internalType: 'contract IVault', name: '', type: 'address' }],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'weaveContractAddress',
+		outputs: [{ internalType: 'contract IWeave', name: '', type: 'address' }],
+		stateMutability: 'view',
+		type: 'function',
+	},
+] as const
+
+export const ERC20ABI = [
+	{
+		inputs: [
+			{
+				internalType: 'string',
+				name: 'name',
+				type: 'string',
+			},
+			{
+				internalType: 'string',
+				name: 'symbol',
+				type: 'string',
+			},
+		],
+		stateMutability: 'nonpayable',
+		type: 'constructor',
+	},
+	{
+		anonymous: false,
+		inputs: [
+			{
+				indexed: true,
+				internalType: 'address',
+				name: 'owner',
+				type: 'address',
+			},
+			{
+				indexed: true,
+				internalType: 'address',
+				name: 'spender',
+				type: 'address',
+			},
+			{
+				indexed: false,
+				internalType: 'uint256',
+				name: 'value',
+				type: 'uint256',
+			},
+		],
+		name: 'Approval',
+		type: 'event',
+	},
+	{
+		anonymous: false,
+		inputs: [
+			{
+				indexed: true,
+				internalType: 'address',
+				name: 'from',
+				type: 'address',
+			},
+			{
+				indexed: true,
+				internalType: 'address',
+				name: 'to',
+				type: 'address',
+			},
+			{
+				indexed: false,
+				internalType: 'uint256',
+				name: 'value',
+				type: 'uint256',
+			},
+		],
+		name: 'Transfer',
+		type: 'event',
 	},
 	{
 		inputs: [
@@ -1354,9 +1701,46 @@ export const EventsFactoryABI = [
 				name: 'owner',
 				type: 'address',
 			},
+			{
+				internalType: 'address',
+				name: 'spender',
+				type: 'address',
+			},
 		],
-		name: 'OwnableInvalidOwner',
-		type: 'error',
+		name: 'allowance',
+		outputs: [
+			{
+				internalType: 'uint256',
+				name: '',
+				type: 'uint256',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'address',
+				name: 'spender',
+				type: 'address',
+			},
+			{
+				internalType: 'uint256',
+				name: 'amount',
+				type: 'uint256',
+			},
+		],
+		name: 'approve',
+		outputs: [
+			{
+				internalType: 'bool',
+				name: '',
+				type: 'bool',
+			},
+		],
+		stateMutability: 'nonpayable',
+		type: 'function',
 	},
 	{
 		inputs: [
@@ -1366,55 +1750,25 @@ export const EventsFactoryABI = [
 				type: 'address',
 			},
 		],
-		name: 'OwnableUnauthorizedAccount',
-		type: 'error',
-	},
-	{
-		anonymous: false,
-		inputs: [
-			{
-				indexed: true,
-				internalType: 'address',
-				name: 'eventAddress',
-				type: 'address',
-			},
-		],
-		name: 'EventCreated',
-		type: 'event',
-	},
-	{
-		anonymous: false,
-		inputs: [
-			{
-				indexed: true,
-				internalType: 'address',
-				name: 'previousOwner',
-				type: 'address',
-			},
-			{
-				indexed: true,
-				internalType: 'address',
-				name: 'newOwner',
-				type: 'address',
-			},
-		],
-		name: 'OwnershipTransferred',
-		type: 'event',
-	},
-	{
-		inputs: [
+		name: 'balanceOf',
+		outputs: [
 			{
 				internalType: 'uint256',
 				name: '',
 				type: 'uint256',
 			},
 		],
-		name: 'allEvents',
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'decimals',
 		outputs: [
 			{
-				internalType: 'address',
+				internalType: 'uint8',
 				name: '',
-				type: 'address',
+				type: 'uint8',
 			},
 		],
 		stateMutability: 'view',
@@ -1423,224 +1777,17 @@ export const EventsFactoryABI = [
 	{
 		inputs: [
 			{
-				internalType: 'string',
-				name: '_eventName',
-				type: 'string',
-			},
-			{
-				internalType: 'string',
-				name: '_eventDescription',
-				type: 'string',
-			},
-			{
-				"internalType": "uint256",
-				"name": "_eventStartDate",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_eventEndDate",
-				"type": "uint256"
-			},
-			{
-				internalType: 'uint256',
-				name: '_eventStartDate',
-				type: 'uint256',
-			},
-			{
-				internalType: 'uint256',
-				name: '_eventEndDate',
-				type: 'uint256',
-			},
-			{
-				internalType: 'int256',
-				name: '_latitude',
-				type: 'int256',
-			},
-			{
-				internalType: 'int256',
-				name: '_longitude',
-				type: 'int256',
-			},
-			{
-				internalType: 'address[]',
-				name: '_eventManagers',
-				type: 'address[]',
-			},
-			{
-				internalType: 'uint256',
-				name: '_eventRadius',
-				type: 'uint256',
-			},
-			{
-				internalType: 'string',
-				name: '_eventRadiusColor',
-				type: 'string',
-			},
-			{
-				internalType: 'contract IERC20',
-				name: '_eventToken',
-				type: 'address',
-			},
-			{
-				internalType: 'uint256',
-				name: '_amount',
-				type: 'uint256',
-			},
-		],
-		name: 'createEvent',
-		outputs: [],
-		stateMutability: 'nonpayable',
-		type: 'function',
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_eventName",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_eventDescription",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "eventStartDate",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "eventEndDate",
-				"type": "uint256"
-			},
-			{
-				"internalType": "int256",
-				"name": "_latitude",
-				"type": "int256"
-			},
-			{
-				"internalType": "int256",
-				"name": "_longitude",
-				"type": "int256"
-			},
-			{
-				"internalType": "address[]",
-				"name": "_eventManagers",
-				"type": "address[]"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_eventRadius",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "_eventRadiusColor",
-				"type": "string"
-			}
-		],
-		"name": "createEventWithNativeTokens",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		inputs: [
-			{
 				internalType: 'address',
-				name: '_user',
+				name: 'spender',
 				type: 'address',
 			},
-		],
-		name: 'getEventsCreatedByUserDetails',
-		outputs: [
 			{
-				internalType: 'address[]',
-				name: '',
-				type: 'address[]',
+				internalType: 'uint256',
+				name: 'subtractedValue',
+				type: 'uint256',
 			},
 		],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		"inputs": [],
-		"name": "getAllEventsDetails",
-		"outputs": [
-			{
-				"internalType": "string[]",
-				"name": "",
-				"type": "string[]"
-			},
-			{
-				"internalType": "string[]",
-				"name": "",
-				"type": "string[]"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "",
-				"type": "uint256[]"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "",
-				"type": "uint256[]"
-			},
-			{
-				"internalType": "int256[]",
-				"name": "",
-				"type": "int256[]"
-			},
-			{
-				"internalType": "int256[]",
-				"name": "",
-				"type": "int256[]"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "",
-				"type": "uint256[]"
-			},
-			{
-				"internalType": "string[]",
-				"name": "",
-				"type": "string[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_eventAddress",
-				"type": "address"
-			}
-		],
-		"name": "getEventManagers",
-		"outputs": [
-			{
-				"internalType": "address[]",
-				"name": "",
-				"type": "address[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		inputs: [
-			{
-				internalType: 'address',
-				name: '_eventAddress',
-				type: 'address',
-			},
-		],
-		name: 'isContractAnEvent',
+		name: 'decreaseAllowance',
 		outputs: [
 			{
 				internalType: 'bool',
@@ -1648,18 +1795,23 @@ export const EventsFactoryABI = [
 				type: 'bool',
 			},
 		],
-		stateMutability: 'view',
+		stateMutability: 'nonpayable',
 		type: 'function',
 	},
 	{
 		inputs: [
 			{
 				internalType: 'address',
-				name: '_user',
+				name: 'spender',
 				type: 'address',
 			},
+			{
+				internalType: 'uint256',
+				name: 'addedValue',
+				type: 'uint256',
+			},
 		],
-		name: 'isUserHasAlreadyCreatedEvent',
+		name: 'increaseAllowance',
 		outputs: [
 			{
 				internalType: 'bool',
@@ -1667,212 +1819,99 @@ export const EventsFactoryABI = [
 				type: 'bool',
 			},
 		],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [],
-		name: 'leaderboardContractAddress',
-		outputs: [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [],
-		name: 'owner',
-		outputs: [
-			{
-				internalType: 'address',
-				name: '',
-				type: 'address',
-			},
-		],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [],
-		name: 'renounceOwnership',
-		outputs: [],
 		stateMutability: 'nonpayable',
 		type: 'function',
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_leaderboardAddress",
-				"type": "address"
-			}
-		],
-		"name": "setLeaderboardAddress",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		inputs: [
-			{
-				internalType: 'address',
-				name: '_leaderboardAddress',
-				type: 'address',
-			},
-		],
-		name: 'setLeaderboardAddress',
-		outputs: [],
-		stateMutability: 'nonpayable',
-		type: 'function',
-	},
-	{
-		inputs: [
-			{
-				internalType: 'address',
-				name: '_vaultAddress',
-				type: 'address',
-			},
-		],
-		name: 'setVaultAddress',
-		outputs: [],
-		stateMutability: 'nonpayable',
-		type: 'function',
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_weaveAddress",
-				"type": "address"
-			}
-		],
-		"name": "setWeaveAddress",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		inputs: [
-			{
-				internalType: 'address',
-				name: '_weaveAddress',
-				type: 'address',
-			},
-		],
-		name: 'setWeaveAddress',
-		outputs: [],
-		stateMutability: 'nonpayable',
-		type: 'function',
-	},
-	{
-		inputs: [
-			{
-				internalType: 'address',
-				name: 'newOwner',
-				type: 'address',
-			},
-		],
-		name: 'transferOwnership',
-		outputs: [],
-		stateMutability: 'nonpayable',
-		type: 'function',
-	},
-	{
-		inputs: [],
-		name: 'vaultContractAddress',
-		outputs: [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		stateMutability: 'view',
-		type: 'function',
-	},
-] as const
-
-export const ERC20ABI = [
-	{
-		constant: true,
 		inputs: [],
 		name: 'name',
 		outputs: [
 			{
+				internalType: 'string',
 				name: '',
 				type: 'string',
 			},
 		],
-		payable: false,
 		stateMutability: 'view',
 		type: 'function',
 	},
 	{
-		constant: false,
-		inputs: [
-			{
-				name: '_spender',
-				type: 'address',
-			},
-			{
-				name: '_value',
-				type: 'uint256',
-			},
-		],
-		name: 'approve',
+		inputs: [],
+		name: 'symbol',
 		outputs: [
 			{
+				internalType: 'string',
 				name: '',
-				type: 'bool',
+				type: 'string',
 			},
 		],
-		payable: false,
-		stateMutability: 'nonpayable',
+		stateMutability: 'view',
 		type: 'function',
 	},
 	{
-		constant: true,
 		inputs: [],
 		name: 'totalSupply',
 		outputs: [
 			{
+				internalType: 'uint256',
 				name: '',
 				type: 'uint256',
 			},
 		],
-		payable: false,
 		stateMutability: 'view',
 		type: 'function',
 	},
 	{
-		constant: false,
 		inputs: [
 			{
-				name: '_from',
+				internalType: 'address',
+				name: 'recipient',
 				type: 'address',
 			},
 			{
-				name: '_to',
+				internalType: 'uint256',
+				name: 'amount',
+				type: 'uint256',
+			},
+		],
+		name: 'transfer',
+		outputs: [
+			{
+				internalType: 'bool',
+				name: '',
+				type: 'bool',
+			},
+		],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'address',
+				name: 'sender',
 				type: 'address',
 			},
 			{
-				name: '_value',
+				internalType: 'address',
+				name: 'recipient',
+				type: 'address',
+			},
+			{
+				internalType: 'uint256',
+				name: 'amount',
 				type: 'uint256',
 			},
 		],
 		name: 'transferFrom',
 		outputs: [
 			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
+				internalType: 'bool',
+				name: '',
+				type: 'bool',
+			},
 		],
-		"stateMutability": "view",
-		"type": "function"
-	}
-] as const;
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+] as const
