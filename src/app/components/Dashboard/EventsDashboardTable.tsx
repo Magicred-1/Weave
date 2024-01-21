@@ -10,33 +10,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import QRScannerReader from '../QRCode/reader/QRCodeReader';
 
-export interface EventsDashboardData {
-  eventName: string;
-  eventDescription: string;
-  eventStartDate: string;
-  eventEndDate: string;
-  eventLatitude: number; // Change to number
-  eventLongitude: number; // Change to number
-  eventRadius: number;
-  eventRadiusColor: string;
-  eventManagers: EventManagers[];
-}
 
-// EventsDashboardComponent
-const updatedEventsDatas: readonly EventData[] = (eventsInfos || []).map((eventInfo: any) => ({
-  eventName: eventInfo.eventName,
-  eventDescription: eventInfo.eventDescription,
-  eventStartDate: eventInfo.eventStartDate,
-  eventEndDate: eventInfo.eventEndDate,
-  eventLatitude: eventInfo.eventLatitude,
-  eventLongitude: eventInfo.eventLongitude,
-  eventRadius: eventInfo.eventRadius,
-  eventRadiusColor: eventInfo.eventRadiusColor,
-  eventManagers: (eventInfo.eventManagers || []).map((manager: any) => ({
-    address: manager.address,
-    nickname: manager.nickname || "", // Provide a default value for the nickname property
-  })),
-}));
 
 const EventsDashboardTable: React.FC<{ data: any }> = ({ data }) => {
     const router = useRouter();
@@ -56,63 +30,43 @@ const EventsDashboardTable: React.FC<{ data: any }> = ({ data }) => {
 
   return (
     <Table>
-      <TableHeader>
+    <TableHeader>
         <TableRow>
             <TableHead className="w-[100px]">Event Name</TableHead>
             <TableHead>Event Managers</TableHead>
             <TableHead>Actions</TableHead>
         </TableRow>
-      </TableHeader>
-      <TableBody>
+    </TableHeader>
+    <TableBody>
         {data.map((item: any) => (
-          <TableRow key={item.eventName}>
-            <TableCell className="font-medium">{item.eventName}</TableCell>
-            <TableCell className="font-medium">
-                <ul>
-                    {/* Add the key */}
-                    {item.eventManagers.map((manager: any) => (
-                        <li key={manager.address}>
-                            <a href={`/leaderboard/${manager.address}`}>
-                                <img
-                                    alt="Avatar"
-                                    className="rounded-full justify-center"
-                                    height="32"
-                                    src={profileIcon(manager.address)}
-                                    style={{
-                                    aspectRatio: "32/32",
-                                    objectFit: "cover",
-                                    }}
-                                    width="32"
-                                />
-                                {manager.address}
-                            </a>
-                        </li>
-                    ))}
-                </ul>
-            </TableCell>
-            <TableCell>
-                <ul>
-                    {/* Add the key */}
-                    {item.eventManagers.map((manager: any) => (
-                        <li key={manager.address}>
-                            <a href={`/leaderboard/${manager.address}`}>
-                                <img
-                                    alt="Avatar"
-                                    className="rounded-full justify-center"
-                                    height="32"
-                                    src={profileIcon(manager.address)}
-                                    style={{
-                                    aspectRatio: "32/32",
-                                    objectFit: "cover",
-                                    }}
-                                    width="32"
-                                />
-                                {manager.address}
-                            </a>
-                        </li>
-                    ))}
-                </ul>
-            </TableCell>
+            <TableRow key={item.eventName}>
+                <TableCell className="font-medium">{item.eventName}</TableCell>
+                <TableCell className="font-medium">
+                {item.eventManagers && item.eventManagers.length > 0 ? (
+                                <ul>
+                                    {item.eventManagers.map((manager: any) => (
+                                        <li key={manager.address}>
+                                            <a href={`/leaderboard/${manager.address}`}>
+                                                <img
+                                                    alt="Avatar"
+                                                    className="rounded-full justify-center"
+                                                    height="32"
+                                                    src={profileIcon(manager.address)}
+                                                    style={{
+                                                        aspectRatio: "32/32",
+                                                        objectFit: "cover",
+                                                    }}
+                                                    width="32"
+                                                />
+                                                {manager.nickname}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p>No event managers available</p>
+                            )}
+                </TableCell>
             {
                 <ul>
                     {/* Add the key */}

@@ -11,14 +11,6 @@ import { useEffect, useState } from "react";
 
 export const EventsDashboardComponent = () => {
 
-//   string[] memory eventNames = new string[](allEvents.length);
-//         string[] memory eventDescriptions = new string[](allEvents.length);
-//         uint256[] memory eventStartDates = new uint256[](allEvents.length);
-//         uint256[] memory eventEndDates = new uint256[](allEvents.length);
-//         int256[] memory latitudes = new int256[](allEvents.length);
-//         int256[] memory longitudes = new int256[](allEvents.length);
-//         uint256[] memory eventRadiuses = new uint256[](allEvents.length);
-//         string[] memory eventRadiusColors = new string[](allEvents.length);
   type EventData = {
     eventName: string;
     eventDescription: string;
@@ -37,7 +29,6 @@ export const EventsDashboardComponent = () => {
   };
 
   const [eventsDatas, setEventsDatas] = useState<readonly EventData[] | undefined>(undefined);
-  const [eventManagers, setEventManagers] = useState<readonly ManagerData[] | undefined>(undefined);
   
 
   const sampleDashboardData = [
@@ -48,8 +39,7 @@ export const EventsDashboardComponent = () => {
       eventOwnerNickname: "Sample Owner",
       eventManagers: [
         {
-          address: "0x2134044D7d6Ddb782D3eee355d7912f55508591b",
-          nickname: "Sample Manager",
+          address: "0x2134044D7d6Ddb782D3eee355d7912f55508591b"
         },
       ],
       contractAddress: "0x2134044D7d6Ddb782D3eee355d7912f55508591b",
@@ -84,17 +74,24 @@ export const EventsDashboardComponent = () => {
   useEffect(() => {
     if (eventsInfos && managers) {
       // Update the data format to match the state types
-      const updatedEventsDatas: readonly EventData[] = eventsInfos as any;
-      const updatedEventManagers: readonly ManagerData[] = managers.map(manager => ({
-        address: manager,
-        nickname: "" // Provide a default value for the nickname property
+      const updatedEventsDatas: readonly EventData[] = (eventsInfos || []).map((eventInfo: any) => ({
+        eventName: eventInfo.eventName,
+        eventDescription: eventInfo.eventDescription,
+        eventStartDate: eventInfo.eventStartDate,
+        eventEndDate: eventInfo.eventEndDate,
+        eventLatitude: eventInfo.eventLatitude,
+        eventLongitude: eventInfo.eventLongitude,
+        eventRadius: eventInfo.eventRadius,
+        eventRadiusColor: eventInfo.eventRadiusColor,
+        eventManagers: managers.map((manager: any) => ({
+          address: manager,
+        })),
       }));
-
+      
       setEventsDatas(updatedEventsDatas);
-      setEventManagers(updatedEventManagers);
-      console.log(eventsInfos, managers);
+      console.log(updatedEventsDatas);
     }
-  }, [eventsInfos, managers]);
+  });
 
   return (
     <div className="flex flex-col h-screen bg-gray-900">
@@ -107,9 +104,9 @@ export const EventsDashboardComponent = () => {
           ) : (
             <Card>
               {error ? (
-                <EventsDashboardTable data={sampleDashboardData} managers={eventManagers} />
+                <EventsDashboardTable data={sampleDashboardData} />
               ) : (
-                <EventsDashboardTable data={eventsDatas} managers={eventManagers} />
+                <EventsDashboardTable data={eventsDatas} />
               )}
             </Card>
           )}
