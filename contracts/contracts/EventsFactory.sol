@@ -115,52 +115,43 @@ contract EventFactory is Ownable {
         return allEvents;
     }
 
-
-    // Use the IEvent interface to call the functions of the Event contract
-    function getAllEventsDetails() external view returns (
-        string[] memory,
-        string[] memory,
-        uint256[] memory,
-        uint256[] memory,
-        int256[] memory,
-        int256[] memory,
-        uint256[] memory,
-        string[] memory
-    ) {
-        string[] memory eventNames = new string[](allEvents.length);
-        string[] memory eventDescriptions = new string[](allEvents.length);
-        uint256[] memory eventStartDates = new uint256[](allEvents.length);
-        uint256[] memory eventEndDates = new uint256[](allEvents.length);
-        int256[] memory latitudes = new int256[](allEvents.length);
-        int256[] memory longitudes = new int256[](allEvents.length);
-        uint256[] memory eventRadiuses = new uint256[](allEvents.length);
-        string[] memory eventRadiusColors = new string[](allEvents.length);
+    // club all the data in one array
+    function getAllEventsDetails() external view returns (EventDetails[] memory) {
+        EventDetails[] memory allEventDetails = new EventDetails[](allEvents.length);
 
         for (uint256 i = 0; i < allEvents.length; i++) {
-            eventNames[i] = IEvent(allEvents[i]).getEventName();
-            eventDescriptions[i] = IEvent(allEvents[i]).getEventDescription();
-            eventStartDates[i] = IEvent(allEvents[i]).getEventStartingDate();
-            eventEndDates[i] = IEvent(allEvents[i]).getEventEndDate();
-            latitudes[i] = IEvent(allEvents[i]).getLatitude();
-            longitudes[i] = IEvent(allEvents[i]).getLongitude();
-            eventRadiuses[i] = IEvent(allEvents[i]).getEventRadius();
-            eventRadiusColors[i] = IEvent(allEvents[i]).getEventRadiusColor();
+            EventDetails storage details = eventDetails[allEvents[i]];
+            allEventDetails[i] = EventDetails({
+                eventName: details.eventName,
+                eventDescription: details.eventDescription,
+                eventStartDate: details.eventStartDate,
+                eventEndDate: details.eventEndDate,
+                latitude: details.latitude,
+                longitude: details.longitude,
+                eventManagers: details.eventManagers,
+                eventRadius: details.eventRadius,
+                eventRadiusColor: details.eventRadiusColor
+            });
         }
 
-        return (
-            eventNames,
-            eventDescriptions,
-            eventStartDates,
-            eventEndDates,
-            latitudes,
-            longitudes,
-            eventRadiuses,
-            eventRadiusColors
-        );
+        return allEventDetails;
     }
 
     function getEventManagers(address _eventAddress) external view returns (address[] memory) {
         return IEvent(_eventAddress).getManagers();
+    }
+
+    function getAllEventManagers() external view returns (address[] memory) {
+        address[] memory allEventManagers = new address[](allEvents.length * 5);
+        uint256 counter = 0;
+        for (uint256 i = 0; i < allEvents.length; i++) {
+            address[] memory eventManagers = IEvent(allEvents[i]).getManagers();
+            for (uint256 j = 0; j < eventManagers.length; j++) {
+                allEventManagers[counter] = eventManagers[j];
+                counter++;
+            }
+        }
+        return allEventManagers;
     }
 
     function calculatingPriceToCreate(uint256 _eventStartDate, uint256 _eventEndDate, uint256 _eventRadius) internal pure returns (uint256) {
@@ -177,5 +168,64 @@ contract EventFactory is Ownable {
 
     function setLeaderboardAddress(address _leaderboardAddress) external onlyOwner {
         leaderboardContractAddress = ILeaderboard(_leaderboardAddress);
+    }
+
+    // Helper function to convert uint256 to string
+    function uint256ToString(uint256 value) internal pure returns (string memory) {
+        if (value == 0) {
+            return "0";
+        }
+
+        uint256 temp = value;
+        uint256 length;
+
+        while (temp != 0) {
+            length++;
+            temp /= 10;
+        }
+
+        bytes memory result = new bytes(length);
+        uint256 index = length;
+
+        while (value != 0) {
+            index--;
+            result[index] = bytes1(uint8(48 + value % 10));
+            value /= 10;
+        }
+
+        return string(result);
+    }
+
+    // Helper function to convert int256 to string
+    function int256ToString(int256 value) internal pure returns (string memory) {
+        if (value == 0) {
+            return "0";
+        }
+
+        bool isNegative = value < 0;
+        uint256 temp = isNegative ? uint256(-value) : uint256(value);
+        uint256 length;
+
+        while (temp != 0) {
+            length++;
+            temp /= 10;
+        }
+
+        bytes memory result = new bytes(isNegative ? length + 1 : length);
+        uint256 index = length;
+
+        temp = isNegative ? uint256(-value) : uint256(value);
+
+        while (temp != 0) {
+            index--;
+            result[index] = bytes1(uint8(48 + temp % 10));
+            temp /= 10;
+        }
+
+        if (isNegative) {
+            result[0] = '-';
+        }
+
+        return string(result);
     }
 }
