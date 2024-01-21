@@ -19,7 +19,7 @@ Install dependencies
 pnpm i
 ```
 
-Copy `.env.example` to `.env.local` and set the NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID, NEXT_PUBLIC_INFURA_ID, SESSION_SECRET, NEXT_PUBLIC_CONTRACT_ADDRESS, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_SECRET, NEXT_PUBLIC_PINATA_API_KEY.
+Copy `.env.example` to `.env.local` and set the NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID, NEXT_PUBLIC_INFURA_ID, SESSION_SECRET, NEXT_PUBLIC_CONTRACT_ADDRESS, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_SECRET, NEXT_PUBLIC_PINATA_API_KEY, NEXT_PUBLIC_PINATA_SECRET_API_KEY, NEXT_WEAVE_CONTRACT_ADDRESS, NEXT_WEAVE_LEADERBOARD_CONTRACT_ADDRESS, NEXT_WEAVE_EVENTS_FACTORY_CONTRACT_ADDRESS.
 
 To get a WalletConnect project ID, go to [https://cloud.walletconnect.com/sign-in](https://cloud.walletconnect.com/sign-in)
 Here also the link for Infura : [https://app.infura.io/](https://app.infura.io/)
@@ -36,9 +36,9 @@ openssl rand -base64 32
 |------------------------|--------------------------------------------|
 | Weave Contract         | 0x5f856baB0F63a833b311fC9d853a14c8762d583d |
 | Leaderboard Contract   | 0x39545602B72Bd4a74FE1f4AF755c15C71C9780F0 |
-| Vault Contract         | 0x6a6C3b42e1af8BCd9adD11DFaDb9ab8445497914 |
-| Event Factory Contract | 0x815257a8A46F2dE5F812DC3232CC0C0c24A7252a |
-| Event Contract         | X                                          |
+| Vault Contract         | 0x4BE0E8654e9879877e8A806B839fE122fa0F880C |
+| Event Factory Contract | 0x729D4b69401b651f6C868e169C42cb82d6C37F43 |
+| Event Contract         | 0xA225B8813a3D298b0fA5dD6357f4843B224A4678                               |
 
 ## Stack
 
