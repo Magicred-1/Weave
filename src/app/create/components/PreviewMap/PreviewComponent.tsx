@@ -59,7 +59,7 @@ const PreviewComponent = ({
       scrollWheelZoom={false}
       zoomControl={false}
       dragging={false}
-      style={{ height: '400px', width: '100%' }}
+      style={{ height: '400px', width: '500px' }}
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <Marker position={mapPosition} icon={defaultIcon}>
