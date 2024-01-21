@@ -39,9 +39,6 @@ contract Event {
     // Event emitted when the event name is updated
     event EventNameUpdated(string newEventName);
 
-    // Event emitted when the reward pool is updated
-    event RewardPoolUpdated(uint256 newRewardPool);
-
     // Event emitted when eventManagers are updated
     event ManagersUpdated(address[] newManagers);
 
@@ -150,6 +147,44 @@ contract Event {
 
         return true;
     }
+
+    function getEventName() public view returns (string memory) {
+        return eventName;
+    }
+
+
+    function getEventDescription() public view returns (string memory) {
+        return eventDescription;
+    }
+
+    function getEventStartingDate() public view returns (uint256) {
+        return eventStartingDate;
+    }
+
+    function getEventEndDate() public view returns (uint256) {
+        return eventEndDate;
+    }
+
+    function getLatitude() public view returns (int256) {
+        return latitude;
+    }
+
+    function getLongitude() public view returns (int256) {
+        return longitude;
+    }
+
+    function getEventRadius() public view returns (uint256) {
+        return eventRadius;
+    }
+
+    function getEventRadiusColor() public view returns (string memory) {
+        return eventRadiusColor;
+    }
+
+    function getAttendedParticipants() public view returns (address[] memory) {
+        return attendedParticipants;
+    }
+
 
     function getRegisteredParticipants() public view returns (address[] memory) {
         return registeredParticipants;

@@ -3,15 +3,32 @@ pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./Event.sol";
+import "./interfaces/IWeave.sol";
 import "./interfaces/IEventsFactory.sol";
 import "./interfaces/ILeaderboard.sol";
 import "./interfaces/IVault.sol";
+import "./interfaces/IEvent.sol";
+
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract EventFactory is Ownable {
     event EventCreated(address indexed eventAddress);
 
     address[] public allEvents;
+
+    struct EventDetails {
+        string eventName;
+        string eventDescription;
+        uint256 eventStartDate;
+        uint256 eventEndDate;
+        int256 latitude;
+        int256 longitude;
+        address[] eventManagers;
+        uint256 eventRadius;
+        string eventRadiusColor;
+    }
+
+    mapping(address => EventDetails) public eventDetails;
 
     IVault public vaultContractAddress;
     IWeave public weaveContractAddress;
@@ -65,6 +82,18 @@ contract EventFactory is Ownable {
         // Transfer tokens to vault
         _eventToken.transferFrom(msg.sender, address(vaultContractAddress), _amount);
 
+        eventDetails[address(newEvent)] = EventDetails(
+            _eventName,
+            _eventDescription,
+            _eventStartDate,
+            _eventEndDate,
+            _latitude,
+            _longitude,
+            _eventManagers,
+            _eventRadius,
+            _eventRadiusColor
+        );
+
         emit EventCreated(address(newEvent));
     }
 
@@ -86,27 +115,48 @@ contract EventFactory is Ownable {
         return allEvents;
     }
 
-    function getAllEventsDetails() external view returns (address[] memory, string[] memory, string[] memory, uint256[] memory, uint256[] memory, uint256[] memory, address[] memory) {
+
+    // Use the IEvent interface to call the functions of the Event contract
+    function getAllEventsDetails() external view returns (
+        string[] memory,
+        string[] memory,
+        uint256[] memory,
+        uint256[] memory,
+        int256[] memory,
+        int256[] memory,
+        uint256[] memory,
+        string[] memory
+    ) {
         string[] memory eventNames = new string[](allEvents.length);
         string[] memory eventDescriptions = new string[](allEvents.length);
-        address[] memory eventOwners = new address[](allEvents.length);
         uint256[] memory eventStartDates = new uint256[](allEvents.length);
-        address[] memory eventManagers = new address[](allEvents.length);
         uint256[] memory eventEndDates = new uint256[](allEvents.length);
+        int256[] memory latitudes = new int256[](allEvents.length);
+        int256[] memory longitudes = new int256[](allEvents.length);
         uint256[] memory eventRadiuses = new uint256[](allEvents.length);
+        string[] memory eventRadiusColors = new string[](allEvents.length);
 
         for (uint256 i = 0; i < allEvents.length; i++) {
-            Event eventContract = Event(allEvents[i]);
-            eventNames[i] = eventContract.eventName();
-            eventDescriptions[i] = eventContract.eventDescription();
-            eventOwners[i] = eventContract.owner();
-            eventStartDates[i] = eventContract.eventStartingDate();
-            eventManagers[i] = eventContract.eventManagers(i);
-            eventEndDates[i] = eventContract.eventEndDate();
-            eventRadiuses[i] = eventContract.eventRadius();
+            eventNames[i] = IEvent(allEvents[i]).getEventName();
+            eventDescriptions[i] = IEvent(allEvents[i]).getEventDescription();
+            eventStartDates[i] = IEvent(allEvents[i]).getEventStartingDate();
+            eventEndDates[i] = IEvent(allEvents[i]).getEventEndDate();
+            latitudes[i] = IEvent(allEvents[i]).getLatitude();
+            longitudes[i] = IEvent(allEvents[i]).getLongitude();
+            eventRadiuses[i] = IEvent(allEvents[i]).getEventRadius();
+            eventRadiusColors[i] = IEvent(allEvents[i]).getEventRadiusColor();
         }
 
-        return (allEvents, eventNames, eventDescriptions, eventStartDates, eventEndDates, eventRadiuses, eventManagers);
+        return (
+            eventNames,
+            eventDescriptions,
+            eventStartDates,
+            eventEndDates,
+            latitudes,
+            longitudes,
+            eventRadiuses,
+            eventRadiusColors
+        );
     }
 
     function getEventsCreatedByUserDetails(address _user) external view returns (address[] memory) {
@@ -114,8 +164,7 @@ contract EventFactory is Ownable {
         uint256 eventsCreatedByUserCount = 0;
 
         for (uint256 i = 0; i < allEvents.length; i++) {
-            Event eventContract = Event(allEvents[i]);
-            if (eventContract.owner() == _user) {
+            if (IEvent(allEvents[i]).isParticipantOnboarded(_user)) {
                 eventsCreatedByUser[eventsCreatedByUserCount] = allEvents[i];
                 eventsCreatedByUserCount++;
             }
@@ -124,9 +173,9 @@ contract EventFactory is Ownable {
         return eventsCreatedByUser;
     }
 
-    // function calculatingPriceToCreate(uint256 _eventStartDate, uint256 _eventEndDate, uint256 _eventRadius) internal pure returns (uint256) {
-    //     return ((_eventEndDate - _eventStartDate) / 86400 * 100) + (_eventRadius / 100);
-    // }
+    function calculatingPriceToCreate(uint256 _eventStartDate, uint256 _eventEndDate, uint256 _eventRadius) internal pure returns (uint256) {
+        return ((_eventEndDate - _eventStartDate) / 86400 * 100) + (_eventRadius / 100);
+    }
 
     function setVaultAddress(address _vaultAddress) external onlyOwner {
         vaultContractAddress = IVault(_vaultAddress);
