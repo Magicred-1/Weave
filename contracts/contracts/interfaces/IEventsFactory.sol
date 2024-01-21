@@ -49,7 +49,7 @@ interface IEventFactory {
         string[] memory
     );
 
-    function getEventsCreatedByUserDetails(address _user) external view returns (address[] memory);
+    function getEventManagers(address _eventAddress) external view returns (address[] memory);
 
     function calculatingPriceToCreate(uint256 _eventStartDate, uint256 _eventEndDate, uint256 _eventRadius) external pure returns (uint256);
 
