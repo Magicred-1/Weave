@@ -1,7 +1,9 @@
 <a href="https://weave-three.vercel.app"><img src ="./public/banner.png" alt="Weave Logo" width="100%"/></a>
 
-# [Weave](#) - Connecting Web3, One Thread at a Time. ! 
+# [Weave](#) - Connecting Web3, One Thread at a Time. !
 ## Powered by <img src="https://www.mtpelerin.com/images/rate-calculator/flag-gho.svg" alt="GHO Logo" width="35"/> GHO Token.
+
+🏆 🏊 Family Pool Prize Winner
 
 At Weave, we believe in the power of networking as a way create limitless amount of possibilities that WEB3 brings to the world.
 
