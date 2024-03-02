@@ -163,6 +163,19 @@ contract EventFactory is Ownable {
         return IEvent(_eventAddress).getManagers();
     }
 
+    function getAllEventManagers() external view returns (address[] memory) {
+        address[] memory allEventManagers = new address[](allEvents.length * 5);
+        uint256 counter = 0;
+        for (uint256 i = 0; i < allEvents.length; i++) {
+            address[] memory eventManagers = IEvent(allEvents[i]).getManagers();
+            for (uint256 j = 0; j < eventManagers.length; j++) {
+                allEventManagers[counter] = eventManagers[j];
+                counter++;
+            }
+        }
+        return allEventManagers;
+    }
+
     function calculatingPriceToCreate(uint256 _eventStartDate, uint256 _eventEndDate, uint256 _eventRadius) internal pure returns (uint256) {
         return ((_eventEndDate - _eventStartDate) / 86400 * 100) + (_eventRadius / 100);
     }

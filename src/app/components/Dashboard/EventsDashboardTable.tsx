@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from '../ui/table';
 import { Button } from '../ui/button';
 import { useRouter } from "next/navigation";
-import EventsDashboardData from './EventsDashboardData';
+
 import { useAccount } from 'wagmi';
 import { Dialog } from '@mui/material';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -10,11 +10,35 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import QRScannerReader from '../QRCode/reader/QRCodeReader';
 
-interface EventsDashboardTableProps {
-  data: EventsDashboardData[];
+export interface EventsDashboardData {
+  eventName: string;
+  eventDescription: string;
+  eventStartDate: string;
+  eventEndDate: string;
+  eventLatitude: number; // Change to number
+  eventLongitude: number; // Change to number
+  eventRadius: number;
+  eventRadiusColor: string;
+  eventManagers: EventManagers[];
 }
 
-const EventsDashboardTable: React.FC<EventsDashboardTableProps> = ({ data }) => {
+// EventsDashboardComponent
+const updatedEventsDatas: readonly EventData[] = (eventsInfos || []).map((eventInfo: any) => ({
+  eventName: eventInfo.eventName,
+  eventDescription: eventInfo.eventDescription,
+  eventStartDate: eventInfo.eventStartDate,
+  eventEndDate: eventInfo.eventEndDate,
+  eventLatitude: eventInfo.eventLatitude,
+  eventLongitude: eventInfo.eventLongitude,
+  eventRadius: eventInfo.eventRadius,
+  eventRadiusColor: eventInfo.eventRadiusColor,
+  eventManagers: (eventInfo.eventManagers || []).map((manager: any) => ({
+    address: manager.address,
+    nickname: manager.nickname || "", // Provide a default value for the nickname property
+  })),
+}));
+
+const EventsDashboardTable: React.FC<{ data: any }> = ({ data }) => {
     const router = useRouter();
     const profileIcon = (address: string) => {
         return `https://api.cloudnouns.com/v1/pfp?text=${address}`;
@@ -35,42 +59,69 @@ const EventsDashboardTable: React.FC<EventsDashboardTableProps> = ({ data }) => 
       <TableHeader>
         <TableRow>
             <TableHead className="w-[100px]">Event Name</TableHead>
-            <TableHead>Event Contract Address</TableHead>
-            <TableHead>Event Owner</TableHead>
             <TableHead>Event Managers</TableHead>
             <TableHead>Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.map((item) => (
+        {data.map((item: any) => (
           <TableRow key={item.eventName}>
             <TableCell className="font-medium">{item.eventName}</TableCell>
-            <TableCell className="font-medium">{item.contractAddress}</TableCell>
+            <TableCell className="font-medium">
+                <ul>
+                    {/* Add the key */}
+                    {item.eventManagers.map((manager: any) => (
+                        <li key={manager.address}>
+                            <a href={`/leaderboard/${manager.address}`}>
+                                <img
+                                    alt="Avatar"
+                                    className="rounded-full justify-center"
+                                    height="32"
+                                    src={profileIcon(manager.address)}
+                                    style={{
+                                    aspectRatio: "32/32",
+                                    objectFit: "cover",
+                                    }}
+                                    width="32"
+                                />
+                                {manager.address}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </TableCell>
             <TableCell>
-                <a href={`/leaderboard/${item.eventOwnerAddress}`}>
-                    <img
-                        alt="Avatar"
-                        className="rounded-full justify-center"
-                        height="32"
-                        src={profileIcon(item.eventOwnerAddress)}
-                        style={{
-                        aspectRatio: "32/32",
-                        objectFit: "cover",
-                        }}
-                        width="32"
-                    />
-                    {item.eventOwnerNickname}
-                </a>
+                <ul>
+                    {/* Add the key */}
+                    {item.eventManagers.map((manager: any) => (
+                        <li key={manager.address}>
+                            <a href={`/leaderboard/${manager.address}`}>
+                                <img
+                                    alt="Avatar"
+                                    className="rounded-full justify-center"
+                                    height="32"
+                                    src={profileIcon(manager.address)}
+                                    style={{
+                                    aspectRatio: "32/32",
+                                    objectFit: "cover",
+                                    }}
+                                    width="32"
+                                />
+                                {manager.address}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
             </TableCell>
             {
                 <ul>
                     {/* Add the key */}
-                    {item.eventManagers.map((manager) => (
-                        <a href={`/leaderboard/${manager.address}`} key={manager.address}>
-                            <li key={manager.address}>
+                    {item.eventManagers.map((manager: any) => (
+                        <li key={manager.address}>
+                            <a href={`/leaderboard/${manager.address}`}>
                                 <img
                                     alt="Avatar"
-                                    className="rounded-full"
+                                    className="rounded-full justify-center"
                                     height="32"
                                     src={profileIcon(manager.address)}
                                     style={{
@@ -80,15 +131,15 @@ const EventsDashboardTable: React.FC<EventsDashboardTableProps> = ({ data }) => 
                                     width="32"
                                 />
                                 {manager.nickname}
-                            </li>
-                        </a>
+                            </a>
+                        </li>
                     ))}
                 </ul>
             }
             <TableCell>
                 {
                     isConnected &&
-                    (address === item.eventOwnerAddress || item.eventManagers.some(manager => address === manager.address)) ? (
+                    (address === item.eventOwnerAddress || item.eventManagers.some((manager: any) => manager.address === address)) ? (
                         <>
                         <Button onClick={handleDialogOpen} className="mr-2">
                             Generate Participation Attestation

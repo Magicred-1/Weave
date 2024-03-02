@@ -1,16 +1,27 @@
-interface EventsDashboardData {
+export interface EventsDashboardData {
     eventName: string;
-    eventContractAddress: `0x${string}`;
-    eventOwnerAddress: `0x${string}`,
-    eventOwnerNickname?: string,
-    eventManagers: eventManagers[];
-    contractAddress: string;
-    actions: string;
-}
-
-interface eventManagers {
-    address: `0x${string}`,
-    nickname?: string,
-}
+    eventDescription: string;
+    eventStartDate: string;
+    eventEndDate: string;
+    eventLatitude: number; // Change to number
+    eventLongitude: number; // Change to number
+    eventRadius: number;
+    eventRadiusColor: string;
+    eventManagers: EventManagers[];
+  }
   
-export default EventsDashboardData;
+  // EventsDashboardComponent
+  const updatedEventsDatas: readonly EventData[] = (eventsInfos || []).map((eventInfo: any) => ({
+    eventName: eventInfo.eventName,
+    eventDescription: eventInfo.eventDescription,
+    eventStartDate: eventInfo.eventStartDate,
+    eventEndDate: eventInfo.eventEndDate,
+    eventLatitude: eventInfo.eventLatitude,
+    eventLongitude: eventInfo.eventLongitude,
+    eventRadius: eventInfo.eventRadius,
+    eventRadiusColor: eventInfo.eventRadiusColor,
+    eventManagers: (eventInfo.eventManagers || []).map((manager: any) => ({
+      address: manager.address,
+      nickname: manager.nickname || "", // Provide a default value for the nickname property
+    })),
+  }));
