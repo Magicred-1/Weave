@@ -63,7 +63,7 @@ export default function ProfileComponent({ address }: ProfileComponentProps) {
 					</Card>
 				</div>
 			) : (
-				<h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none   text-white text-center py-6">
+				<h1 className="mb-4 h-screen text-4xl font-extrabold tracking-tight leading-none   text-white text-center py-6">
 					Please Connect your wallet!
 				</h1>
 			)}

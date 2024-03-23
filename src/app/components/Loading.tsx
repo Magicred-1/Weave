@@ -2,8 +2,8 @@ import React from 'react'
 import { ThreeDots } from 'react-loading-icons'
 
 const Loading = () => {
-  return (
-		<div className="flex justify-center items-center h-[80vh]">
+return (
+		<div className="w-full flex justify-center items-center h-[80vh]">
 			<div className="bg-[rgba( 85, 85, 85, 0.45 )] p-6 rounded-lg shadow-md max-h-96">
 				<div className="spinner-border text-primary" role="status">
 					<span className="sr-only">Loading...</span>
@@ -14,7 +14,7 @@ const Loading = () => {
 				</p>
 			</div>
 		</div>
-  )
+	)
 }
 
 export default Loading
